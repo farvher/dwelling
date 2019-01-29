@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.ResponseBody
 import reactor.core.publisher.Mono
 import reactor.core.publisher.toMono
+import javax.sql.DataSource
 
 
 @Controller
@@ -19,10 +20,14 @@ class HomeController {
     @Autowired
     lateinit var visitorRepository: VisitorRepository
 
+    @Autowired
+    lateinit var dataSource : DataSource
+
     @ResponseBody
     @GetMapping(path = ["/", ""])
     fun getIndex(): Mono<List<ResponseEntity<Visitor>>> {
 
+        val schema  = dataSource.connection.schema
         return visitorRepository.findAll().map {
             ResponseEntity.ok().body(it) }
                 .toMono()
