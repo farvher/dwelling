@@ -1,0 +1,165 @@
+package com.dwelling.app.services
+
+
+import com.dwelling.app.domain.City
+import com.dwelling.app.domain.Property
+import io.searchbox.client.JestClient
+import io.searchbox.core.Bulk
+import io.searchbox.core.Index
+import io.searchbox.core.Search
+import io.searchbox.indices.CreateIndex
+import io.searchbox.indices.DeleteIndex
+import io.searchbox.indices.IndicesExists
+import org.elasticsearch.index.query.QueryBuilders
+import org.elasticsearch.search.builder.SearchSourceBuilder
+import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Component
+import reactor.core.publisher.Flux
+import reactor.kotlin.core.publisher.toFlux
+import java.io.IOException
+import java.text.MessageFormat
+
+@Component
+class SearchService {
+
+
+    val logger = LoggerFactory.getLogger(SearchService::class.java)
+
+    private val INDEX = "jobs"
+
+    private val INDEX_TYPE = "job"
+
+    private val MAX_SIZE_PAGE = 20
+
+    @Autowired
+    private lateinit var jestClient: JestClient;
+
+    private fun deleteIndexIfExists(index: String) {
+        logger.info("[deleteIndexIfExists]")
+        val deleteIndex = DeleteIndex.Builder(index).build()
+        try {
+            jestClient.execute(deleteIndex)
+        } catch (ex: IOException) {
+            logger.error("ERROR DELETING INDEX", ex)
+        }
+
+    }
+
+    private fun createIndexIfNotExists(index: String) {
+        logger.info("[createIndexIfNotExists]")
+        val indicesExists = IndicesExists.Builder(index).build()
+        try {
+            val result = jestClient.execute(indicesExists)
+            if (!result.isSucceeded) {
+                // Create articles index
+                val createIndex = CreateIndex.Builder(index).build()
+                val resultCreate = jestClient.execute(createIndex)
+                if (resultCreate.isSucceeded) {
+                    logger.info(MessageFormat.format("{0} INDEX CREATED", index))
+                } else {
+                    throw IllegalStateException("ERROR CREATING INDEX")
+                }
+
+            } else {
+                logger.info(MessageFormat.format("{0} ALREADY EXISTS", index))
+            }
+        } catch (ex: IOException) {
+            logger.error("ERROR CREATING INDEX", ex)
+        }
+
+    }
+
+    fun createProperty(property: Property) {
+
+        logger.info("[createProperty]")
+        try {
+
+            createIndexIfNotExists(INDEX)
+            val bulk = Bulk.Builder()
+                    .addAction(Index.Builder(property)
+                            .index(INDEX)
+                            .type(INDEX_TYPE).build())
+                    .build()
+
+            val result = jestClient.execute(bulk)
+            if (result.isSucceeded) {
+
+                logger.info("CREATED")
+            } else {
+                throw IllegalStateException("ERROR CREATING REGISTRY")
+            }
+
+            logger.info(result.jsonString)
+
+        } catch (e: IOException) {
+            logger.error("ERROR IO INDEXING", e)
+        } catch (e: Exception) {
+            logger.error("ERROR INDEXING", e)
+        }
+
+    }
+
+    fun createCity(city: City) {
+
+        logger.info("[createCity]")
+        try {
+
+            createIndexIfNotExists(INDEX)
+            val bulk = Bulk.Builder()
+                    .addAction(Index.Builder(city)
+                            .index(INDEX)
+                            .type(INDEX_TYPE).build())
+                    .build()
+
+            val result = jestClient.execute(bulk)
+            if (result.isSucceeded) {
+
+                logger.info("CREATED")
+            } else {
+                throw IllegalStateException("ERROR CREATING REGISTRY")
+            }
+
+            logger.info(result.jsonString)
+
+        } catch (e: IOException) {
+            logger.error("ERROR IO INDEXING", e)
+        } catch (e: Exception) {
+            logger.error("ERROR INDEXING", e)
+        }
+
+    }
+
+    fun searchByQueryString(param: String): Flux<City> {
+        logger.info("[searchArticles]")
+        logger.info(param)
+        try {
+            val searchSourceBuilder = SearchSourceBuilder()
+            searchSourceBuilder.query(QueryBuilders.queryStringQuery(param))
+            searchSourceBuilder.size(MAX_SIZE_PAGE)
+
+            logger.info(searchSourceBuilder.toString())
+            val search = Search.Builder(searchSourceBuilder.toString()).addIndex(INDEX).addType(INDEX_TYPE)
+                    .build()
+
+            val result = jestClient.execute(search)
+            if (result.isSucceeded) {
+                logger.info(result.sourceAsString)
+
+            } else {
+                throw IllegalStateException("ERROR SEARCHING BY QUERY STRING")
+            }
+
+            return result.getSourceAsObjectList(City::class.java, false).toFlux()
+
+        } catch (e: IOException) {
+            logger.error("SEARCH IO ERROR", e)
+        } catch (e: Exception) {
+            logger.error("SEARCH ERROR", e)
+        }
+
+        return Flux.empty()
+    }
+
+
+}
