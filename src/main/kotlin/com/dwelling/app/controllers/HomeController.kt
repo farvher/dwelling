@@ -33,7 +33,7 @@ class HomeController {
     lateinit var dataSource: DataSource
 
     @Autowired
-    lateinit var searchService: SearchService;
+    lateinit var searchService: SearchService
 
     @ResponseBody
     @GetMapping(path = ["/", ""])
