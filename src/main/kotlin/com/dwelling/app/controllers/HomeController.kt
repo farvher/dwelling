@@ -35,8 +35,8 @@ class HomeController {
     @Autowired
     lateinit var searchService: SearchService
 
-    @ResponseBody
-    @GetMapping(path = ["/", ""])
+//    @ResponseBody
+//    @GetMapping(path = ["/", ""])
     fun getIndex(): Flux<City> {
 
         val schema = dataSource.connection.schema
@@ -65,7 +65,7 @@ class HomeController {
     }
 
 
-    @GetMapping("/{delayMillis}")
+//    @GetMapping("/{delayMillis}")
     operator fun get(@PathVariable delayMillis: Long): Mono<String> {
         return Mono.just("OK")
                 .delayElement(Duration.ofMillis(delayMillis))

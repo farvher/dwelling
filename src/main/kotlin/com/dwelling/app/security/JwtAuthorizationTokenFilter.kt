@@ -43,7 +43,7 @@ class JwtAuthorizationTokenFilter(@param:Qualifier("jwtUserDetailsService") priv
             logger.warn("couldn't find bearer string, will ignore the header")
         }
 
-        if (username.isEmpty() && SecurityContextHolder.getContext().authentication == null) {
+        if (!username.isEmpty() && SecurityContextHolder.getContext().authentication == null) {
 
 
             // It is not compelling necessary to load the use details from the database. You could also store the information
