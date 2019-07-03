@@ -7,7 +7,7 @@ import javax.validation.constraints.Size
 
 
 @Entity
-@Table(name = "USER")
+@Table(name = "USER_APP")
 class User(@Id
            @Column(name = "ID")
            @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")

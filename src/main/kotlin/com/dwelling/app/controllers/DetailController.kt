@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.multipart.support.AbstractMultipartHttpServletRequest
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
+import com.oracle.*;
 
 @Controller
 class DetailController {
@@ -17,8 +18,6 @@ class DetailController {
                           @PathVariable url : String,
                           httpServletRequest: HttpServletRequest,
                           httpServletResponse: HttpServletResponse): String {
-
-
         return ""
     }
 }

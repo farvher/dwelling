@@ -16,7 +16,7 @@ class JwtUser(
         private val password: String?, private val authorities: Collection<GrantedAuthority>,
         private val enabled: Boolean,
         @get:JsonIgnore
-        val lastPasswordResetDate: Date
+        val lastPasswordResetDate: Date?
 ) : UserDetails {
 
     override fun getUsername(): String {
