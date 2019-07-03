@@ -1,6 +1,7 @@
 package com.dwelling.app
 
 
+import com.dwelling.app.constants.URLConstants
 import com.dwelling.app.security.JwtAuthenticationEntryPoint
 import com.dwelling.app.security.JwtAuthorizationTokenFilter
 import com.dwelling.app.security.services.JwtUserDetailsService
@@ -25,7 +26,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(
+        prePostEnabled = true,
+        jsr250Enabled = true ,
+        securedEnabled = true)
 class SecurityConfiguration : WebSecurityConfigurerAdapter(false) {
 
     @Autowired
@@ -109,6 +113,7 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter(false) {
                 .antMatchers("/h2-console/**/**").permitAll()
 
                 .antMatchers("/auth/**").permitAll()
+                .antMatchers(URLConstants.DETAIL_URL).permitAll()
                 .anyRequest().authenticated()
 
         httpSecurity

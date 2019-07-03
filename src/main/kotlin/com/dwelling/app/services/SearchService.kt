@@ -33,7 +33,7 @@ class SearchService {
     private val MAX_SIZE_PAGE = 20
 
     @Autowired
-    private lateinit var jestClient: JestClient;
+    private lateinit var jestClient: JestClient
 
     private fun deleteIndexIfExists(index: String) {
         logger.info("[deleteIndexIfExists]")

@@ -27,7 +27,7 @@ class UserRestController {
     @RequestMapping(value = ["user"], method = [RequestMethod.GET])
     fun getAuthenticatedUser(request: HttpServletRequest): JwtUser {
         val token = request.getHeader(tokenHeader).substring(7)
-        val username = jwtTokenUtil!!.getUsernameFromToken(token)
+        val username = jwtTokenUtil.getUsernameFromToken(token)
         return userDetailsService!!.loadUserByUsername(username) as JwtUser
     }
 

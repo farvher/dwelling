@@ -7,7 +7,7 @@ class JwtAuthenticationRequest : Serializable {
     var username: String? = null
     var password: String? = null
 
-    constructor() : super() {}
+    constructor() : super()
 
     constructor(username: String, password: String) {
         this.username = username

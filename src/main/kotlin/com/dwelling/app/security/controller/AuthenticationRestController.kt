@@ -42,7 +42,7 @@ class AuthenticationRestController {
 
         // Reload password post-security so we can generate the token
         val userDetails = userDetailsService!!.loadUserByUsername(authenticationRequest.username)
-        val token = jwtTokenUtil!!.generateToken(userDetails)
+        val token = jwtTokenUtil.generateToken(userDetails)
 
         // Return the token
         return ResponseEntity.ok<Any>(JwtAuthenticationResponse(token))
@@ -52,11 +52,11 @@ class AuthenticationRestController {
     fun refreshAndGetAuthenticationToken(request: HttpServletRequest): ResponseEntity<*> {
         val authToken = request.getHeader(tokenHeader)
         val token = authToken.substring(7)
-        val username = jwtTokenUtil!!.getUsernameFromToken(token)
+        val username = jwtTokenUtil.getUsernameFromToken(token)
         val user = userDetailsService!!.loadUserByUsername(username) as JwtUser
 
-        if (jwtTokenUtil!!.canTokenBeRefreshed(token, user.lastPasswordResetDate)!!) {
-            val refreshedToken = jwtTokenUtil!!.refreshToken(token)
+        if (jwtTokenUtil.canTokenBeRefreshed(token, user.lastPasswordResetDate)!!) {
+            val refreshedToken = jwtTokenUtil.refreshToken(token)
             return ResponseEntity.ok<Any>(JwtAuthenticationResponse(refreshedToken))
         } else {
             return ResponseEntity.badRequest().body<Any>(null)
@@ -76,7 +76,7 @@ class AuthenticationRestController {
         Objects.requireNonNull(password)
 
         try {
-            authenticationManager!!.authenticate(UsernamePasswordAuthenticationToken(username, password))
+            authenticationManager.authenticate(UsernamePasswordAuthenticationToken(username, password))
         } catch (e: DisabledException) {
             throw AuthenticationException("User is disabled!", e)
         } catch (e: BadCredentialsException) {

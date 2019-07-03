@@ -51,7 +51,7 @@ class JwtTokenUtil : Serializable {
         return Jwts.parser()
                 .setSigningKey(secret)
                 .parseClaimsJws(token)
-                .getBody()
+                .body
     }
 
     private fun isTokenExpired(token: String): Boolean {
@@ -96,8 +96,8 @@ class JwtTokenUtil : Serializable {
         val expirationDate = calculateExpirationDate(createdDate)
 
         val claims = getAllClaimsFromToken(token)
-        claims.setIssuedAt(createdDate)
-        claims.setExpiration(expirationDate)
+        claims.issuedAt = createdDate
+        claims.expiration = expirationDate
 
         return Jwts.builder()
                 .setClaims(claims)

@@ -5,9 +5,9 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 
-import io.searchbox.client.JestClient;
-import io.searchbox.client.JestClientFactory;
-import io.searchbox.client.config.HttpClientConfig;
+import io.searchbox.client.JestClient
+import io.searchbox.client.JestClientFactory
+import io.searchbox.client.config.HttpClientConfig
 
 @Configuration
 class JestClientConfiguration {

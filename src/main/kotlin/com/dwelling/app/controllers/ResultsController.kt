@@ -4,5 +4,4 @@ import org.springframework.stereotype.Controller
 
 
 @Controller
-class ResultsController {
-}
+class ResultsController

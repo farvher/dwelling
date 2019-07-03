@@ -17,6 +17,4 @@ class Authority(@Id
                 var name: AuthorityName,
 
                 @ManyToMany(mappedBy = "authorities", fetch = FetchType.LAZY)
-                var users: List<User>) {
-
-}
+                var users: List<User>)

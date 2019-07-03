@@ -1,23 +1,43 @@
 package com.dwelling.app.controllers
 
+import com.dwelling.app.constants.Constants
+import com.dwelling.app.domain.Property
+import com.dwelling.app.services.PropertyService
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.ResponseEntity
+import org.springframework.security.access.annotation.Secured
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.multipart.support.AbstractMultipartHttpServletRequest
+import org.springframework.web.bind.annotation.*
+import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.toMono
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
-import com.oracle.*;
 
-@Controller
+@RestController
 class DetailController {
 
 
-    @GetMapping(path = ["/detail/{ url : .* }"])
-    fun getPropertyDetail(model: Model,
-                          @PathVariable url : String,
-                          httpServletRequest: HttpServletRequest,
-                          httpServletResponse: HttpServletResponse): String {
-        return ""
+    @Autowired
+    private lateinit var propertyService: PropertyService
+
+
+    @GetMapping(path = ["/detail/{id}"])
+    fun propertyDetail(@PathVariable id: Long,
+                       httpServletRequest: HttpServletRequest,
+                       httpServletResponse: HttpServletResponse): Mono<ResponseEntity<Property>> {
+        val property = propertyService.findPropertyById(id)
+
+        return ResponseEntity.ok().body(property).toMono()
+    }
+
+    @PostMapping(path = ["/detail/save-property"])
+    @Secured("ROLE_USER")
+    fun saveProperty(@RequestBody property: Property,
+                     httpServletRequest: HttpServletRequest,
+                     httpServletResponse: HttpServletResponse): Mono<ResponseEntity<String>> {
+        propertyService.saveProperty(property)
+        return ResponseEntity.ok().body("OK").toMono()
     }
 }

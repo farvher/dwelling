@@ -50,7 +50,4 @@ class User(@Id
 
            @ManyToMany(fetch = FetchType.EAGER)
            @JoinTable(name = "USER_AUTHORITY", joinColumns = [JoinColumn(name = "USER_ID", referencedColumnName = "ID")], inverseJoinColumns = [JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID")])
-           var authorities: List<Authority>) {
-
-
-}
+           var authorities: List<Authority>)
