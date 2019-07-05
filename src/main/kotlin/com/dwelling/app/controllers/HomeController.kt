@@ -35,41 +35,6 @@ class HomeController {
     @Autowired
     lateinit var searchService: SearchService
 
-//    @ResponseBody
-//    @GetMapping(path = ["/", ""])
-    fun getIndex(): Flux<City> {
-
-        val schema = dataSource.connection.schema
-
-        var cities = searchService.searchByQueryString("BOGOTA")
-
-        searchService.createCity(City(1, "BOGOTA", "Colombia"))
-        val fluxList = searchService.searchByQueryString("BOGOTA")
-
-
-        return fluxList
-
-
-    }
-
-    @GetMapping(path = ["/test1"])
-    @ResponseBody
-    fun test1( ) : String? {
-       return  get(5000).block()
-    }
-
-    @GetMapping(path = ["/test2"])
-    @ResponseBody
-    fun test2() : Mono<String>{
-        return  get(5000)
-    }
-
-
-//    @GetMapping("/{delayMillis}")
-    operator fun get(@PathVariable delayMillis: Long): Mono<String> {
-        return Mono.just("OK")
-                .delayElement(Duration.ofMillis(delayMillis))
-    }
 
 
 

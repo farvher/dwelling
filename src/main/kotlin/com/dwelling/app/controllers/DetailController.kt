@@ -14,6 +14,7 @@ import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.toMono
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
+import javax.sql.DataSource
 
 @RestController
 class DetailController {
@@ -22,11 +23,17 @@ class DetailController {
     @Autowired
     private lateinit var propertyService: PropertyService
 
+    @Autowired
+    lateinit var dataSource: DataSource
+
+
 
     @GetMapping(path = ["/detail/{id}"])
     fun propertyDetail(@PathVariable id: Long,
                        httpServletRequest: HttpServletRequest,
                        httpServletResponse: HttpServletResponse): Mono<ResponseEntity<Property>> {
+
+        val schema = dataSource.connection.schema
         val property = propertyService.findPropertyById(id)
 
         return ResponseEntity.ok().body(property).toMono()

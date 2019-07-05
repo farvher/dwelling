@@ -1,5 +1,6 @@
 package com.dwelling.app.domain
 
+import jdk.nashorn.internal.runtime.PropertyMap
 import sun.security.util.Length
 import java.time.LocalDate
 import javax.persistence.*
@@ -115,7 +116,7 @@ data class Contact(@Id @GeneratedValue val id: Long,
                    var realState: RealState)
 
 @Entity
-data class Additional(@Id @GeneratedValue val id: Long,
+data class Additional(@Id @GeneratedValue(strategy =  GenerationType.IDENTITY) val id: Long,
                      var name: String,
                      var value: String,
                      @ManyToOne
@@ -131,10 +132,8 @@ data class Role(@Id @GeneratedValue val id: Long,
 )
 
 @Entity
-data class PropertyType(@Id @GeneratedValue val id: Long,
-                        val name: String,
-                        @OneToOne
-                        val propertyType: PropertyType)
+data class PropertyType(@Id @GeneratedValue(strategy =  GenerationType.IDENTITY) val id: Long,
+                        val name: String)
 
 @Entity
 data class Image(@Id @GeneratedValue val id: Long,
@@ -143,21 +142,35 @@ data class Image(@Id @GeneratedValue val id: Long,
                  var available: Boolean)
 
 @Entity
-data class City(@Id @GeneratedValue val id: Long,
-                val name: String,
-                var country: String)
+data class City(@Id @GeneratedValue(strategy =  GenerationType.IDENTITY) val id: Long,
+                var name: String,
+                @OneToOne
+                var country: Country)
 
 @Entity
-data class Zone(@Id @GeneratedValue val id: Long,
+data class Country(@Id @GeneratedValue val id:Long,
+                   var name: String)
+
+@Entity
+data class Zone(@Id @GeneratedValue(strategy =  GenerationType.IDENTITY)  val id: Long,
                 var name: String,
                 @OneToOne
                 var city: City)
 
 @Entity
-data class Neighborhood(@Id @GeneratedValue val id: Long,
+data class Neighborhood(@Id @GeneratedValue(strategy =  GenerationType.IDENTITY) val id: Long,
                         var name: String,
                         @OneToOne
                         var zone: Zone)
 
 
 
+@Entity
+data class Audit(@Id @GeneratedValue(strategy =  GenerationType.IDENTITY) val id: Long,
+                 @OneToOne
+                 var property: Property,
+                 var operation: String,
+                 var dateModification: LocalDate,
+                 @OneToOne
+                 var visitor: Visitor
+                 )
