@@ -116,7 +116,7 @@ data class Contact(@Id @GeneratedValue val id: Long,
                    var realState: RealState)
 
 @Entity
-data class Additional(@Id @GeneratedValue(strategy =  GenerationType.IDENTITY) val id: Long,
+data class Additional(@Id @GeneratedValue(strategy =  GenerationType.SEQUENCE) val id: Long,
                      var name: String,
                      var value: String,
                      @ManyToOne
@@ -132,7 +132,7 @@ data class Role(@Id @GeneratedValue val id: Long,
 )
 
 @Entity
-data class PropertyType(@Id @GeneratedValue(strategy =  GenerationType.IDENTITY) val id: Long,
+data class PropertyType(@Id @GeneratedValue(strategy =  GenerationType.SEQUENCE) val id: Long,
                         val name: String)
 
 @Entity
@@ -142,7 +142,7 @@ data class Image(@Id @GeneratedValue val id: Long,
                  var available: Boolean)
 
 @Entity
-data class City(@Id @GeneratedValue(strategy =  GenerationType.IDENTITY) val id: Long,
+data class City(@Id @GeneratedValue(strategy =  GenerationType.SEQUENCE) val id: Long,
                 var name: String,
                 @OneToOne
                 var country: Country)
@@ -152,13 +152,13 @@ data class Country(@Id @GeneratedValue val id:Long,
                    var name: String)
 
 @Entity
-data class Zone(@Id @GeneratedValue(strategy =  GenerationType.IDENTITY)  val id: Long,
+data class Zone(@Id @GeneratedValue(strategy =  GenerationType.SEQUENCE)  val id: Long,
                 var name: String,
                 @OneToOne
                 var city: City)
 
 @Entity
-data class Neighborhood(@Id @GeneratedValue(strategy =  GenerationType.IDENTITY) val id: Long,
+data class Neighborhood(@Id @GeneratedValue(strategy =  GenerationType.SEQUENCE) val id: Long,
                         var name: String,
                         @OneToOne
                         var zone: Zone)
@@ -166,7 +166,7 @@ data class Neighborhood(@Id @GeneratedValue(strategy =  GenerationType.IDENTITY)
 
 
 @Entity
-data class Audit(@Id @GeneratedValue(strategy =  GenerationType.IDENTITY) val id: Long,
+data class Auditoria(@Id @GeneratedValue(strategy =  GenerationType.SEQUENCE) val id: Long,
                  @OneToOne
                  var property: Property,
                  var operation: String,
