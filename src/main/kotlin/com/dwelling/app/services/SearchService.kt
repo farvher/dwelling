@@ -21,14 +21,14 @@ import java.io.IOException
 import java.text.MessageFormat
 
 @Component
-class SearchService {
+class SearchService<T>{
 
 
     val logger = LoggerFactory.getLogger(SearchService::class.java)
 
-    private val INDEX = "jobs"
+    private val INDEX = "property"
 
-    private val INDEX_TYPE = "job"
+    private val INDEX_TYPE = "property"
 
     private val MAX_SIZE_PAGE = 20
 
@@ -100,14 +100,14 @@ class SearchService {
 
     }
 
-    fun createCity(city: City) {
+    fun create(element: T) {
 
         logger.info("[createCity]")
         try {
 
             createIndexIfNotExists(INDEX)
             val bulk = Bulk.Builder()
-                    .addAction(Index.Builder(city)
+                    .addAction(Index.Builder(element)
                             .index(INDEX)
                             .type(INDEX_TYPE).build())
                     .build()
@@ -130,7 +130,7 @@ class SearchService {
 
     }
 
-    fun searchByQueryString(param: String): Flux<City> {
+    fun searchByQueryString(param: String): List<String> {
         logger.info("[searchArticles]")
         logger.info(param)
         try {
@@ -150,7 +150,7 @@ class SearchService {
                 throw IllegalStateException("ERROR SEARCHING BY QUERY STRING")
             }
 
-            return result.getSourceAsObjectList(City::class.java, false).toFlux()
+            return  result.sourceAsStringList
 
         } catch (e: IOException) {
             logger.error("SEARCH IO ERROR", e)
@@ -158,7 +158,7 @@ class SearchService {
             logger.error("SEARCH ERROR", e)
         }
 
-        return Flux.empty()
+        return mutableListOf()
     }
 
 

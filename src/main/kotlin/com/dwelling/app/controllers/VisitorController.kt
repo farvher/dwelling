@@ -53,8 +53,9 @@ class VisitorController {
     @GetMapping(path = ["/get-visitor/{id}"])
     fun getVisitor(@PathVariable id: Long?): Visitor? {
         return visitorRepository.findByIdOrNull(id)
-
     }
+
+
 
 
 }

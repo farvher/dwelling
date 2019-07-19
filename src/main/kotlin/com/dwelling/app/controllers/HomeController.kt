@@ -32,8 +32,7 @@ class HomeController {
     @Autowired
     lateinit var dataSource: DataSource
 
-    @Autowired
-    lateinit var searchService: SearchService
+
 
 
 

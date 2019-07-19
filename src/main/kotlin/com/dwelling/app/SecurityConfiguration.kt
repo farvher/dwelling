@@ -114,6 +114,7 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter(false) {
 
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers(URLConstants.DETAIL_URL).permitAll()
+                .antMatchers(URLConstants.RESULT_URL).permitAll()
                 .anyRequest().authenticated()
 
         httpSecurity
