@@ -149,7 +149,7 @@ $(function () {
 
     $("#exampleServiceBtn").click(function () {
         $.ajax({
-            url: "/persons",
+            url: "/get",
             type: "GET",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
