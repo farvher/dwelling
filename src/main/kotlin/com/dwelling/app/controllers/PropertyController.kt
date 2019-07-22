@@ -51,10 +51,11 @@ class PropertyController {
     fun persintInElastic(){
         for (property in propertyRepository.findAll()) {
             searchService.create(property)
-
         }
 
     }
 
+    @GetMapping("/get")
+    fun getElastic() = searchService.searchByQueryString("Lorem")
 
 }
