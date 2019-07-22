@@ -102,7 +102,7 @@ class SearchService<T>{
 
     fun create(element: T) {
 
-        logger.info("[createCity]")
+        logger.info("[createElement]")
         try {
 
             createIndexIfNotExists(INDEX)

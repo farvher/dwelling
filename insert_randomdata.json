@@ -1,0 +1,72 @@
+[
+  '{{repeat(20, 50)}}',
+{
+    "id": '{{integer(100, 999)}}',
+    "visitor": {
+        "id": '{{integer(100, 999)}}',
+        "username": '{{firstName()}}',
+        "name": '{{firstName()}}',
+        "lastname": '{{surname()}}',
+        "email": '{{email()}}',
+        "age": '{{integer(21, 60)}}',
+        "creationDate": "2019-07-22",
+        "phone": '+1 {{phone()}}',
+        "cellPhone": '+1 {{phone()}}',
+        "urlSite": "www.site.com",
+        "enable": true,
+        "password": "123456",
+        "role": null,
+        "builder": null,
+        "realState": null
+    },
+    "propertyType": {
+        "id": '{{integer(100, 999)}}',
+        "name": '{{random("APARTAMENTO", "CASA", "OFICINA")}}'
+    },
+    "title": '{{lorem(2, "words")}}',
+    "neighborhood": {
+        "id": '{{integer(100, 999)}}',
+        "name":'{{street()}}',
+        "zone": {
+            "id": '{{integer(100, 999)}}',
+            "name": '{{random("NORTE", "SUR", "ORIENTE","OCCIDENTE")}}',
+            "city": {
+                "id": '{{integer(100, 999)}}',
+                "name": '{{city()}}',
+                "country": {
+                    "id": '{{integer(100, 999)}}',
+                    "name": '{{state()}}'
+                }
+            }
+        }
+    },
+    "description": '{{lorem(5, "words")}}',
+    "images": [
+        {
+            "id": '{{integer(100, 999)}}',
+            "title": "IMG1",
+            "url": "url_imagen",
+            "available": true,
+            "property": null
+        }
+    ],
+    "contact": {
+        "id": '{{integer(100, 999)}}',
+        "builder": null,
+        "realState": null
+    },
+    "antiquitiy": '{{integer(1, 20)}}',
+    "rentPrice": 1000000,
+    "sellPrince": 100000000000,
+    "area": '{{integer(10, 50)}}',
+    "rooms": '{{integer(1, 4)}}',
+    "stratum": '{{integer(2, 6)}}',
+    "buildTime": '{{integer(1, 20)}}',
+    "bathroom": '{{integer(1, 3)}}',
+    "aditional": null,
+    "builder": null,
+    "realState": null,
+    "latitude": '{{floating(-180.000001, 180)}}',
+    "length": '{{floating(-90.000001, 90)}}'
+}
+  ]
