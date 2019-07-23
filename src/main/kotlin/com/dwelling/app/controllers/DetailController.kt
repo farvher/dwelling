@@ -28,12 +28,11 @@ class DetailController {
 
 
 
-    @GetMapping(path = ["/detail/{id}"])
+        @GetMapping(path = ["/property/detail/{id}"])
     fun propertyDetail(@PathVariable id: Long,
                        httpServletRequest: HttpServletRequest,
                        httpServletResponse: HttpServletResponse): Mono<ResponseEntity<Property>> {
 
-        val schema = dataSource.connection.schema
         val property = propertyService.findPropertyById(id)
 
         return ResponseEntity.ok().body(property).toMono()

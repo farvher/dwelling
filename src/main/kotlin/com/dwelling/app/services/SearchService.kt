@@ -130,7 +130,7 @@ class SearchService<T>{
 
     }
 
-    fun searchByQueryString(param: String): List<String> {
+    fun searchByQueryString(param: String): List<Property> {
         logger.info("[searchArticles]")
         logger.info(param)
         try {
@@ -150,7 +150,7 @@ class SearchService<T>{
                 throw IllegalStateException("ERROR SEARCHING BY QUERY STRING")
             }
 
-            return  result.sourceAsStringList
+            return  result.getSourceAsObjectList(Property::class.java,false)
 
         } catch (e: IOException) {
             logger.error("SEARCH IO ERROR", e)

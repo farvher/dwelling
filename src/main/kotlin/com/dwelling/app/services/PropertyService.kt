@@ -17,8 +17,8 @@ class PropertyService {
     private lateinit var propertyRepository: PropertyRepository
 
 
-    fun findPropertyById(id: Long): Property {
-        return propertyRepository.findById(id).get()
+    fun findPropertyById(id: Long): Property? {
+        return propertyRepository.findById(id).orElse(null)
     }
 
     fun saveProperty(property: Property) {

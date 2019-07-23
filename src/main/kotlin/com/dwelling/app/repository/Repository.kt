@@ -23,3 +23,8 @@ interface BuilderRepository : JpaRepository<Builder,Long>
 
 @Repository
 interface AdditionalRepository : JpaRepository<Additional,Long>
+
+@Repository
+interface CityRepository : JpaRepository<City,Long>
+
+

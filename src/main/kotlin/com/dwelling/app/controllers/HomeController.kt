@@ -1,7 +1,9 @@
 package com.dwelling.app.controllers
 
 import com.dwelling.app.domain.City
+import com.dwelling.app.domain.PropertyType
 import com.dwelling.app.domain.Visitor
+import com.dwelling.app.repository.CityRepository
 import com.dwelling.app.repository.VisitorRepository
 import com.dwelling.app.services.SearchService
 import org.springframework.beans.factory.annotation.Autowired
@@ -31,6 +33,12 @@ class HomeController {
 
     @Autowired
     lateinit var dataSource: DataSource
+
+
+    @Autowired
+    lateinit var cityRepository: CityRepository
+
+
 
 
 

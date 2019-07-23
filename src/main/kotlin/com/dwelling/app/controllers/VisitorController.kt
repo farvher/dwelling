@@ -37,9 +37,8 @@ class VisitorController {
                 phone = phone,
                 urlSite = urlSite,
                 enable = false,
-                password = password,
-                realState = null,
-                role = null)
+                realState = null
+                )
         if (!visitorRepository.findVisitorByUsername(username).isPresent) {
             visitorRepository.save(visitor)
         } else {
