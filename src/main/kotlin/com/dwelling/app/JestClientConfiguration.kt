@@ -21,10 +21,10 @@ class JestClientConfiguration {
 
         val connectionUrl: String
 
-        if (System.getenv("SEARCHBOX_URL") != null) {
+        if (System.getenv("SEARCHBOX_URL") != null && false) {
             // Heroku
             logger.info("[HEROKU AUTHENTICATION]")
-            connectionUrl = System.getenv("SEARCHBOX_URL")
+                connectionUrl = System.getenv("SEARCHBOX_URL")
         } else {
             logger.info("[SOURCE UNSAFE AUTHENTICATION]")
             // generic, check your dashboard
