@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
 
-@RestController
+@RestController()
 class PropertyController {
 
     @Autowired
@@ -19,7 +19,7 @@ class PropertyController {
     @Autowired
     private lateinit var searchService: SearchService<Property>
 
-    @GetMapping(path = ["/create-property"])
+    @GetMapping("/test/dummy")
     @ResponseBody
     fun createProperty(
     ): List<Property> {
@@ -44,13 +44,13 @@ class PropertyController {
         return listOf(property)
     }
 
-    @PostMapping(path = ["/load"], consumes = [MediaType.APPLICATION_JSON_VALUE])
+    @PostMapping(path = ["/test/load"], consumes = [MediaType.APPLICATION_JSON_VALUE])
     fun bulkLoad(@RequestBody properties : List<Property> ) = propertyRepository.saveAll(properties)
 
-    @GetMapping("/obtener")
+    @GetMapping("/test/all")
     fun queryAll() =  propertyRepository.findAll()
 
-    @PostMapping("/persist")
+    @PostMapping("/test/persist")
     fun persintInElastic(){
         for (property in propertyRepository.findAll()) {
             searchService.create(property)
@@ -58,7 +58,13 @@ class PropertyController {
 
     }
 
-    @GetMapping("/get")
+    @GetMapping("/test/search")
     fun getElastic() = searchService.searchByQueryString("Lorem")
+
+    @GetMapping("/test/search/{word}")
+    fun getElastic2(@PathVariable word:String) = searchService.searchByQueryString(word)
+
+    @GetMapping("/test/detail/{id}")
+    fun getOne(@PathVariable id:Long) = propertyRepository.findById(id).get()
 
 }

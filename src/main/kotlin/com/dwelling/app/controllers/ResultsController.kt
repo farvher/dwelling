@@ -18,7 +18,7 @@ class ResultsController {
     private lateinit var searchService: SearchService<Property>
 
     @PostMapping("/search")
-    fun searchByFilter(@RequestBody filters : Map<String,Object>): Mono<ResponseEntity<List<Property>>>{
+    fun searchByFilter(@RequestBody filters : Map<String,Any>): Mono<ResponseEntity<List<Property>>>{
 
         val results = searchService.searchByQueryString("lorem")
 
@@ -26,7 +26,7 @@ class ResultsController {
     }
 
     @PostMapping("/search/{keyword}")
-    fun searchByKeyword(@RequestBody filters : Map<String,Object>,@PathVariable keyword: String): Mono<ResponseEntity<List<Property>>>{
+    fun searchByKeyword(@RequestBody filters : Map<String,Any>,@PathVariable keyword: String): Mono<ResponseEntity<List<Property>>>{
         val results = searchService.searchByQueryString(keyword)
         return ResponseEntity.ok().body(results).toMono()
     }

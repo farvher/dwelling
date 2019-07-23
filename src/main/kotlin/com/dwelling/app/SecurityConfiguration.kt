@@ -113,7 +113,7 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter(false) {
                 .antMatchers("/h2-console/**/**").permitAll()
 
                 .antMatchers("/auth/**").permitAll()
-                .antMatchers(URLConstants.DETAIL_URL).permitAll()
+                .antMatchers(URLConstants.TEST).permitAll()
                 .antMatchers(URLConstants.RESULT_URL).permitAll()
                 .anyRequest().authenticated()
 

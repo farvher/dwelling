@@ -4,6 +4,7 @@ package com.dwelling.app.domain
 import com.fasterxml.jackson.annotation.JsonIgnore
 import java.time.LocalDate
 import javax.persistence.*
+import kotlin.jvm.Transient
 
 
 @Entity
@@ -112,14 +113,14 @@ data class Additional(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) va
                       var value: String,
                       @ManyToMany(mappedBy = "additional", cascade = [CascadeType.ALL], targetEntity = Property::class)
                       @JsonIgnore
-                      val property: List<Property>?=null)
-
-
+                      @Transient
+                      var  property: List<Property>?=null)
 @Entity
 data class PropertyType(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long,
                         val name: String,
                         @ManyToMany(mappedBy = "propertyTypes", cascade = [CascadeType.ALL], targetEntity = Property::class)
                         @JsonIgnore
+                        @Transient
                         val properties: List<Property>? = null)
 
 @Entity
