@@ -2,6 +2,7 @@ package com.dwelling.app
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient
 
 /**
  * MINIMO PRODUCTO VIABLE
@@ -17,6 +18,7 @@ import org.springframework.boot.runApplication
  *
  * */
 @SpringBootApplication
+@EnableEurekaClient
 class AppApplication
 
     fun main(args: Array<String>) {
