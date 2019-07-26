@@ -34,7 +34,7 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
+	//implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 	implementation ("io.searchbox:jest")
 	implementation ("io.jsonwebtoken:jjwt:0.9.1")
 	implementation ("io.projectreactor.kotlin:reactor-kotlin-extensions:1.0.0.M1")
