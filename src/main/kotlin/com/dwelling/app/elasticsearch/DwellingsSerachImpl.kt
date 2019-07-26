@@ -15,17 +15,13 @@ class DwellingsSerachImpl : IDwellingsSeach {
     private lateinit var  jestClient: JestClient
 
     override fun findByFilters(filters: Map<String, Any>): String {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
 
-        val size = filters.get("SIZE")
-
-
-
+       // val size = filters.get("SIZE")
         //build query by filte
 
        // val searchSourceBuilder = SearchSourceBuilder(QueryBuilders.boolQuery().must)
-       // searchSourceBuilder.size()
-
-
+       // searchSourceBuilder.siz
     }
 
     override fun findByKeyword(keyword: String): String {
