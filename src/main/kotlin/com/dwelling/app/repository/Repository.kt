@@ -13,6 +13,10 @@ interface VisitorRepository : JpaRepository<Visitor,Long> {
 }
 
 @Repository
+interface  VisitorPreferencesRepository : JpaRepository<VisitorPreferences,Long>
+
+
+@Repository
 interface PropertyRepository : JpaRepository<Property,Long>
 
 @Repository

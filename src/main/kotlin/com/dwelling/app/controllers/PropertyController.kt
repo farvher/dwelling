@@ -2,6 +2,7 @@ package com.dwelling.app.controllers
 
 import com.dwelling.app.domain.*
 import com.dwelling.app.repository.PropertyRepository
+import com.dwelling.app.security.controller.UserRestController
 import com.dwelling.app.services.SearchService
 import org.apache.http.entity.ContentType
 import org.springframework.beans.factory.annotation.Autowired
@@ -12,6 +13,9 @@ import java.time.LocalDate
 
 @RestController()
 class PropertyController {
+
+    @Autowired
+    private lateinit var userRestController:UserRestController
 
     @Autowired
     private lateinit var propertyRepository: PropertyRepository

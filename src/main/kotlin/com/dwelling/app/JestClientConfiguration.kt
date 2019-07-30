@@ -18,9 +18,7 @@ class JestClientConfiguration {
     @Bean
     @Throws(Exception::class)
     fun jestClient(): JestClient {
-
         val connectionUrl: String
-
         if (System.getenv("SEARCHBOX_URL") != null && false) {
             // Heroku
             logger.info("[HEROKU AUTHENTICATION]")
@@ -29,7 +27,7 @@ class JestClientConfiguration {
             logger.info("[SOURCE UNSAFE AUTHENTICATION]")
             // generic, check your dashboard
             connectionUrl = "http://paas:6cc483b3e97f3292963bd0f2a84208ed@thorin-us-east-1.searchly.com"
-            // connectionUrl = "http://localhost:9200"
+            //connectionUrl = "http://localhost:9200"
         }
         // Configuration
         val factory = JestClientFactory()

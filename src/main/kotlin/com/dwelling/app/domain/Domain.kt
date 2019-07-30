@@ -27,20 +27,25 @@ data class Visitor(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) val i
 
 @Entity
 data class VisitorPreferences(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long = -1,
-                              var incomeValue: Long,
-                              var outcomeValue: Long,
+                              var incomeValue: Double,
+                              var outcomeValue: Double,
+                              @OneToOne(cascade = [CascadeType.ALL])
+                              var visitor: Visitor,
+                              var withParkings : Boolean,
+                              var withPets : Boolean,
+                              var withKids : Boolean,
                               @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
                               @JoinColumn(name = "locations_visitor_fk")
                               var visitorLocations: List<VisitorLocation>? = null,
-                              var partners: Long
+                              var countPartners: Long
 )
 
 @Entity
 data class VisitorLocation(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long = -1,
                            var locationType: String,
                            var locationTitle: String,
-                           var latitude: Long,
-                           var length: Long
+                           var latitude: Double,
+                           var longitude: Double
 )
 
 

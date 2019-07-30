@@ -1,60 +1,44 @@
 package com.dwelling.app.controllers
 
 import com.dwelling.app.domain.Visitor
+import com.dwelling.app.domain.VisitorPreferences
+import com.dwelling.app.repository.VisitorPreferencesRepository
 import com.dwelling.app.repository.VisitorRepository
+import com.dwelling.app.security.controller.UserRestController
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.repository.findByIdOrNull
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
+import javax.servlet.http.HttpServletRequest
 
 @RestController
 class VisitorController {
 
     @Autowired
+    private lateinit var visitorPreferencesRepository: VisitorPreferencesRepository
+
+    @Autowired
+    private lateinit var userRestController: UserRestController
+    @Autowired
     private lateinit var visitorRepository: VisitorRepository
 
-    @PostMapping(path = ["/create-visitor"])
-    fun createVisitor(email: String?,
-                      name: String?,
-                      username: String?,
-                      lastname: String?,
-                      age: Int?,
-                      cellphone: String?,
-                      phone: String?,
-                      urlSite: String?,
-                      password: String?
-    ): Visitor? {
-        val visitor = Visitor(email = email,
-                name = name,
-                id = -1,
-                username = username,
-                lastname = lastname,
-                age = age, builder = null,
-                cellPhone = cellphone,
-                creationDate = null,
-                phone = phone,
-                urlSite = urlSite,
-                enable = false,
-                realState = null
-                )
-        if (!visitorRepository.findVisitorByUsername(username).isPresent) {
-            visitorRepository.save(visitor)
-        } else {
-            throw  IllegalStateException("Username ${username} already exist!!")
+
+    @PostMapping("/visitor/update-preferences")
+    fun updatePreferences(@RequestBody visitorPreferences: VisitorPreferences, request: HttpServletRequest): String {
+        val user = userRestController.getAuthenticatedUser(request)
+        if (user.username == visitorPreferences.visitor.username) {
+            visitorPreferencesRepository.save(visitorPreferences)
+            return "success"
         }
-
-
-        return visitorRepository.findVisitorByUsername(username).orElse(visitor)
+        throw UsernameNotFoundException("No se puede actualizar el usuario  ${visitorPreferences.visitor.username} ")
     }
 
-    @GetMapping(path = ["/get-visitor/{id}"])
-    fun getVisitor(@PathVariable id: Long?): Visitor? {
-        return visitorRepository.findByIdOrNull(id)
+    @PostMapping("/visitor/get-user")
+    fun testUser(request: HttpServletRequest): Visitor {
+        val user = userRestController.getAuthenticatedUser(request)
+        return visitorRepository.findVisitorByUsername(user.username).orElseThrow(::Exception)
     }
-
-
 
 
 }

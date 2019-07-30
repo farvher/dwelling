@@ -1,5 +1,6 @@
 package com.dwelling.app.security.model
 
+import java.time.LocalDate
 import java.util.*
 import javax.persistence.*
 import javax.validation.constraints.NotNull
@@ -10,8 +11,7 @@ import javax.validation.constraints.Size
 @Table(name = "USER_APP")
 class User(@Id
            @Column(name = "ID")
-           @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
-           @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
+           @GeneratedValue(strategy = GenerationType.IDENTITY)
            var id: Long,
 
            @Column(name = "USERNAME", length = 50, unique = true)
