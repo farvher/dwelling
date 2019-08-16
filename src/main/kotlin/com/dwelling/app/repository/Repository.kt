@@ -13,7 +13,9 @@ interface VisitorRepository : JpaRepository<Visitor,Long> {
 }
 
 @Repository
-interface  VisitorPreferencesRepository : JpaRepository<VisitorPreferences,Long>
+interface  VisitorPreferencesRepository : JpaRepository<VisitorPreferences,Long>{
+    fun findByVisitor(idVisitor : Long) : Optional<VisitorPreferences>
+}
 
 
 @Repository
@@ -28,14 +30,32 @@ interface BuilderRepository : JpaRepository<Builder,Long>
 @Repository
 interface AdditionalRepository : JpaRepository<Additional,Long>
 
-@Repository
-interface CityRepository : JpaRepository<City,Long>
 
 @Repository
-interface FavoritesRepository : JpaRepository<VisitorFavorites,Long>{
-
-    fun findByVisitor(idVisitor :Long) : List<VisitorFavorites>
-
+interface FavoritesRepository : JpaRepository<VisitorFavorite,Long>{
+    fun findByVisitor(idVisitor :Long) : List<VisitorFavorite>
 }
+
+@Repository
+interface CityRepository : JpaRepository<City,Long>{
+    fun findByName(name: String) : Optional<City>
+}
+
+@Repository
+interface ZoneRepository : JpaRepository<Zone,Long>{
+    fun findByName(name : String) : Optional<Zone>
+}
+
+@Repository
+interface NeighborhoodRepository : JpaRepository<Neighborhood,Long>{
+    fun findByName(name:String) : Optional<Neighborhood>
+}
+
+@Repository
+interface CountryRepository : JpaRepository<Country,Long>{
+    fun findByName(name:String) : Optional<Country>
+}
+
+
 
 

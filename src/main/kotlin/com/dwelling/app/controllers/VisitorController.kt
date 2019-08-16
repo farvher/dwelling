@@ -37,7 +37,7 @@ class VisitorController {
     @PostMapping("/visitor/get-user")
     fun testUser(request: HttpServletRequest): Visitor {
         val user = userRestController.getAuthenticatedUser(request)
-        return visitorRepository.findVisitorByUsername(user.username).orElseThrow(::Exception)
+        return visitorRepository.findVisitorByUsername(user.username).orElseThrow{UsernameNotFoundException("User not found!")}
     }
 
 

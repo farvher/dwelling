@@ -25,7 +25,7 @@ data class Visitor(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) val i
                    var realState: RealState? = null
 )
 @Entity
-data class  VisitorFavorites(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long = -1,
+data class  VisitorFavorite(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long = -1,
                              @OneToOne(cascade = [CascadeType.ALL],fetch = FetchType.LAZY)
                              var property: Property,
                              @OneToOne(cascade = [CascadeType.ALL],fetch = FetchType.LAZY)
@@ -34,8 +34,7 @@ data class  VisitorFavorites(@Id @GeneratedValue(strategy = GenerationType.IDENT
 
 @Entity
 data class VisitorPreferences(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long = -1,
-                              @OneToOne(cascade = [CascadeType.ALL],fetch = FetchType.LAZY)
-                              var favoritePropertyType: PropertyType,
+                              var favoritePropertyType: PropertyTypeEnum,
                               var favoriteBusinessType: BusinessTypeEnum,
                               @OneToOne(cascade = [CascadeType.ALL],fetch = FetchType.LAZY)
                               var favoriteCity : City,
