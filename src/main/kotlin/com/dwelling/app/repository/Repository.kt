@@ -31,4 +31,11 @@ interface AdditionalRepository : JpaRepository<Additional,Long>
 @Repository
 interface CityRepository : JpaRepository<City,Long>
 
+@Repository
+interface FavoritesRepository : JpaRepository<VisitorFavorites,Long>{
+
+    fun findByVisitor(idVisitor :Long) : List<VisitorFavorites>
+
+}
+
 

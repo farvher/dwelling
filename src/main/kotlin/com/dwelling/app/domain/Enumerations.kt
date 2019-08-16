@@ -1,7 +1,7 @@
 package com.dwelling.app.domain
 
 
-enum class PropertyTypes(single: String, plural: String) {
+enum class PropertyTypeEnum(single: String, plural: String) {
     APARTAMENTO("APARTAMENTO", "APARTAMENTOS"),
     CASA("CASA", "CASAS"),
     LOTE("LOTE", "LOTES"),
@@ -11,14 +11,14 @@ enum class PropertyTypes(single: String, plural: String) {
     APARTAESTUDIO("APARTAESTUDIO", "APARTAESTUDIOS")
 }
 
-enum class BusinessType(single: String) {
+enum class BusinessTypeEnum(single: String) {
     VENTA("VENTA"),
     ARRIENDO("ARRIENDO"),
     VENTA_Y_ARRIENDO("VENTA Y ARRIENDO"),
     VACACIONAL("VACACIONAL")
 }
 
-enum class Gender(name: String) {
+enum class GenderEnum(name: String) {
     MALE("MASCULINO"),
     FEMALE("FEMENINO")
 }
