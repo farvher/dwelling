@@ -12,6 +12,7 @@ Aplicacion para busqueda y publicacion de inmuebles
 - Busqueda por palabra en ElasticSearch
 - Creacion de usuario
 - Servicio rest para guardar, consultar y eliminar favoritos en BD
+- Servicio rest para guardar, consultar preferencias de busqueda
 
 ## Pendientes
 
