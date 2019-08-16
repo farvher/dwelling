@@ -1,13 +1,13 @@
 
 
-#Backend for Dwelling
+# Backend for Dwelling
 
-Aplicacion de
+Aplicacion para busqueda y publicacion de inmuebles
 ```
 ./gradlew bootRun
 ```
 
-##Completado
+## Completado
 - Autenticacion por token
 - Busqueda por palabra en ElasticSearch
 - Creacion de usuario
