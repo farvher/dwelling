@@ -7,6 +7,7 @@ data class LocationDto(
         var neighborhood: String,
         var zone: String,
         var city: String,
+        var category : Int,
         @Value("Colombia")
         var country: String)
 
