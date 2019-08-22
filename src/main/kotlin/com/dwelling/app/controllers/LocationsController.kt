@@ -1,7 +1,7 @@
 package com.dwelling.app.controllers
 
 import com.dwelling.app.dto.LocationsDto
-import com.dwelling.app.services.LocationService
+import com.dwelling.app.services.LocationsService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -12,11 +12,11 @@ import reactor.kotlin.core.publisher.toMono
 
 
 @RestController
-class LocationController {
+class LocationsController {
 
 
     @Autowired
-    private lateinit var locationService: LocationService
+    private lateinit var locationService: LocationsService
 
     @GetMapping("/locations.js")
     fun getLocations(): Mono<ResponseEntity<LocationsDto>> {

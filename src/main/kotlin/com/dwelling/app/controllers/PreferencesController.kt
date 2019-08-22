@@ -2,7 +2,7 @@ package com.dwelling.app.controllers
 
 import com.dwelling.app.domain.VisitorPreferences
 import com.dwelling.app.dto.VisitorPreferencesDto
-import com.dwelling.app.services.LocationService
+import com.dwelling.app.services.LocationsService
 import com.dwelling.app.services.PreferencesService
 import com.dwelling.app.services.PropertyService
 import com.dwelling.app.services.VisitorService
@@ -25,7 +25,7 @@ class PreferencesController {
     @Autowired
     private lateinit var preferencesService: PreferencesService
     @Autowired
-    private lateinit var locationService: LocationService
+    private lateinit var locationService: LocationsService
     @Autowired
     private lateinit var propertyService: PropertyService
     @Autowired

@@ -1,6 +1,10 @@
 package com.dwelling.app.controllers
 
 import com.dwelling.app.domain.*
+import com.dwelling.app.dto.FilterDto
+import com.dwelling.app.dto.FilterType
+import com.dwelling.app.elasticsearch.DwellingsSearchImpl
+import com.dwelling.app.elasticsearch.IDwellingsSeach
 import com.dwelling.app.repository.PropertyRepository
 import com.dwelling.app.security.controller.UserRestController
 import com.dwelling.app.services.SearchService
@@ -15,6 +19,8 @@ import java.time.LocalDate
 class PropertyController {
 
     @Autowired
+    private lateinit var dwellingsSearch: IDwellingsSeach
+    @Autowired
     private lateinit var userRestController:UserRestController
 
     @Autowired
@@ -22,6 +28,8 @@ class PropertyController {
 
     @Autowired
     private lateinit var searchService: SearchService<Property>
+
+
 
     @GetMapping("/test/dummy")
     @ResponseBody
@@ -70,5 +78,13 @@ class PropertyController {
 
     @GetMapping("/test/detail/{id}")
     fun getOne(@PathVariable id:Long) = propertyRepository.findById(id).get()
+
+    @GetMapping("/test/api")
+    fun getFromApi():String{
+        val filterDto = FilterDto("propertyTypes.name","BODEGA", filterType = FilterType.KEYWORD)
+        //val filterDto2 = FilterDto("rooms",1, filterType = FilterType.KEYWORD);
+        return dwellingsSearch.findByFilters(listOf(filterDto))
+
+    }
 
 }

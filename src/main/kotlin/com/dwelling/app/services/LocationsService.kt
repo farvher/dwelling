@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service
  * @author fsanmiguel
  * */
 @Service
-class LocationService {
+class LocationsService {
 
 
     @Autowired
