@@ -1,8 +1,15 @@
 package com.dwelling.app.dto
 
-class LocationDto(
+import org.springframework.beans.factory.annotation.Value
+
+data class LocationDto(
         var location: String,
         var neighborhood: String,
         var zone: String,
         var city: String,
+        @Value("Colombia")
         var country: String)
+
+data class LocationsDto(
+        var locations : List<LocationDto>
+)
