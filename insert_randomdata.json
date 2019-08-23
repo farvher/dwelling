@@ -96,7 +96,8 @@
                 }
             }
         },
-        "latitude": '{{floating(-180.000001, 180)}}',
-	"longitude": '{{floating(-90.000001, 90)}}'
+        "location": { "lat": '{{floating(-180.000001, 180)}}',
+            "lon": '{{floating(-90.000001, 90)}}'}
+
     }
 ]

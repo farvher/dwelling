@@ -39,24 +39,17 @@ class DwellingsSearchImpl : IDwellingsSeach {
                 FilterType.ORDER -> print("ORDER")
             }
         }
-
-
-        filters.filter {
-            it.filterType == FilterType.KEYWORD
-        }.forEach {
-            queryBuilder.filter(QueryBuilders.termQuery(it.filterKey, it.filterValue))
-        }
         searchSourceBuilder.query(queryBuilder)
 
         logger.info(searchSourceBuilder.toString())
         val search = Search.Builder(searchSourceBuilder.toString()).addIndex("property").addType("property")
                 .build()
         val result = jestClient.execute(search)
-        if (result.isSucceeded) {
-            return result.sourceAsString
+        return if (result.isSucceeded) {
+            result.sourceAsString
         } else {
             logger.error(result.errorMessage)
-            return "empty"
+            "empty"
         }
 
     }
@@ -72,7 +65,7 @@ class DwellingsSearchImpl : IDwellingsSeach {
     }
 
     private fun addTextMatchQuery(queryBuilder: BoolQueryBuilder, filter: FilterDto) {
-        queryBuilder.should(QueryBuilders.matchQuery(filter.filterKey, filter.filterValue))
+        queryBuilder.must(QueryBuilders.matchQuery(filter.filterKey, filter.filterValue))
     }
 
     private fun addKeywordFilters(filter: FilterDto, queryBuilder: BoolQueryBuilder) {

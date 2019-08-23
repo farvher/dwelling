@@ -1,7 +1,8 @@
 package com.dwelling.app.domain
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.*
+import com.google.gson.annotations.Expose
 import java.time.LocalDate
 import javax.persistence.*
 import kotlin.jvm.Transient
@@ -98,12 +99,18 @@ data class Property(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) val 
                     var additional: List<Additional>? = null,
                     @OneToOne(cascade = [CascadeType.ALL])
                     var visitor: Visitor,
-                    var longitude: Double = 0.0,
-                    var latitude: Double = 0.0
+                    @OneToOne(cascade = [CascadeType.ALL])
+                    var location : Location
+
 ) {
     override fun hashCode(): Int = super.hashCode()
     override fun equals(other: Any?): Boolean = super.equals(other)
 }
+
+@Entity
+data class Location(@Id @GeneratedValue(strategy = GenerationType.IDENTITY)@JsonIgnore var id : Long = -1,
+                    var lat : Double,
+                    var lon: Double)
 
 @Entity
 data class RealState(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long,

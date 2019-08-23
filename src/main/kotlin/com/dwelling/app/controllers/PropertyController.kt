@@ -50,7 +50,7 @@ class PropertyController {
         val image2 = Image(2, "IMG2", "url_imagen2", true)
         val additional = Additional(1,"Cancha de futbol")
         val additional2 = Additional(2,"Gimnasio")
-        val property = Property(1, listOf(propertyType,propertyType2), "Apartamento prueba", neighborhood, "Descripcion prueba",4, listOf(image,image2), "4 a 5 años",  1_000_000.0, 100_000_000_000.0, 23, "m2", 2, 2, 1, 1,1, 50_000.0, 2, listOf(additional,additional2), visitor, 0.0, 0.0)
+        val property = Property(1, listOf(propertyType,propertyType2), "Apartamento prueba", neighborhood, "Descripcion prueba",4, listOf(image,image2), "4 a 5 años",  1_000_000.0, 100_000_000_000.0, 23, "m2", 2, 2, 1, 1,1, 50_000.0, 2, listOf(additional,additional2), visitor, Location(1,1.0,2.0))
 
 
         return listOf(property)
@@ -81,9 +81,11 @@ class PropertyController {
 
     @GetMapping("/test/api")
     fun getFromApi():String{
-        val filterDto = FilterDto("propertyTypes.name","BODEGA", filterType = FilterType.KEYWORD)
+        val filterDto = FilterDto("propertyTypes.id",1, filterType = FilterType.KEYWORD)
+        val filterDto2 = FilterDto("title","commodo", filterType = FilterType.TEXT)
+        val filterDto3 = FilterDto("bathroom",2,filterRange = listOf(1,3), filterType = FilterType.RANGE)
         //val filterDto2 = FilterDto("rooms",1, filterType = FilterType.KEYWORD);
-        return dwellingsSearch.findByFilters(listOf(filterDto))
+        return dwellingsSearch.findByFilters(listOf(filterDto,filterDto2,filterDto3))
 
     }
 

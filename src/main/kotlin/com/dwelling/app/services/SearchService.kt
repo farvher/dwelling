@@ -2,7 +2,9 @@ package com.dwelling.app.services
 
 
 import com.dwelling.app.domain.City
+import com.dwelling.app.domain.Location
 import com.dwelling.app.domain.Property
+import com.google.gson.*
 import io.searchbox.client.JestClient
 import io.searchbox.core.Bulk
 import io.searchbox.core.Index
@@ -19,6 +21,12 @@ import reactor.core.publisher.Flux
 import reactor.kotlin.core.publisher.toFlux
 import java.io.IOException
 import java.text.MessageFormat
+import com.google.gson.FieldAttributes
+import com.google.gson.ExclusionStrategy
+import io.searchbox.core.search.aggregation.GeoDistanceAggregation
+import org.elasticsearch.common.geo.GeoDistance
+import org.elasticsearch.search.aggregations.bucket.range.GeoDistanceAggregationBuilder
+
 
 @Component
 class SearchService<T>{
@@ -82,6 +90,7 @@ class SearchService<T>{
                             .type(INDEX_TYPE).build())
                     .build()
 
+
             val result = jestClient.execute(bulk)
             if (result.isSucceeded) {
 
@@ -105,9 +114,23 @@ class SearchService<T>{
         logger.info("[createElement]")
         try {
 
+            val strategy = object : ExclusionStrategy {
+                override fun shouldSkipField(field: FieldAttributes): Boolean {
+                    if (field.declaringClass == Location::class.java && field.name == "id") {
+                        return true
+                    }
+                   return false
+                }
+                override fun shouldSkipClass(clazz: Class<*>): Boolean {
+                    return false
+                }
+            }
+
+            val json =  GsonBuilder().addSerializationExclusionStrategy(strategy).create().toJson(element)
+            val gson =  JsonParser().parse(json)
             createIndexIfNotExists(INDEX)
             val bulk = Bulk.Builder()
-                    .addAction(Index.Builder(element)
+                    .addAction(Index.Builder(gson)
                             .index(INDEX)
                             .type(INDEX_TYPE).build())
                     .build()
