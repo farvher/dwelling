@@ -11,20 +11,5 @@ import javax.sql.DataSource
 @RestController
 class HomeController {
 
-    @Autowired
-    lateinit var visitorRepository: VisitorRepository
-
-
-
-    @Autowired
-    lateinit var cityRepository: CityRepository
-
-
-
-
-
-
-
-
 
 }

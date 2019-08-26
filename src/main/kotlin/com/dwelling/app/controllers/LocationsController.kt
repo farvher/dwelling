@@ -11,6 +11,11 @@ import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.toMono
 
 
+/**
+ * RestController for commons locations
+ *
+ * @author FSanmiguel
+ * */
 @RestController
 class LocationsController {
 

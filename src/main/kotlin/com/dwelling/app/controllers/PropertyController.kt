@@ -1,6 +1,7 @@
 package com.dwelling.app.controllers
 
 import com.dwelling.app.domain.*
+import com.dwelling.app.dto.EFilter
 import com.dwelling.app.dto.FilterDto
 import com.dwelling.app.dto.FilterType
 import com.dwelling.app.elasticsearch.DwellingsSearchImpl
@@ -79,14 +80,14 @@ class PropertyController {
     @GetMapping("/test/detail/{id}")
     fun getOne(@PathVariable id:Long) = propertyRepository.findById(id).get()
 
-    @GetMapping("/test/api")
-    fun getFromApi():String{
-        val filterDto = FilterDto("propertyTypes.id",1, filterType = FilterType.KEYWORD)
-        val filterDto2 = FilterDto("title","commodo", filterType = FilterType.TEXT)
-        val filterDto3 = FilterDto("bathroom",2,filterRange = listOf(1,3), filterType = FilterType.RANGE)
-        //val filterDto2 = FilterDto("rooms",1, filterType = FilterType.KEYWORD);
-        return dwellingsSearch.findByFilters(listOf(filterDto,filterDto2,filterDto3))
-
+    @GetMapping("/test/filter")
+    fun getSampleFilter() : FilterDto{
+        return  FilterDto(EFilter.BATHROOMS,2,filterRange = listOf(1,3), filterType = FilterType.RANGE)
     }
+    @GetMapping("/test/filters")
+    fun getSampleFilters() : List<FilterDto>{
+        return  listOf(FilterDto(EFilter.BATHROOMS,2,filterRange = listOf(1,3), filterType = FilterType.RANGE))
+    }
+
 
 }
