@@ -7,7 +7,10 @@ import com.dwelling.app.dto.FilterType
 import com.dwelling.app.elasticsearch.DwellingsSearchImpl
 import com.dwelling.app.elasticsearch.IDwellingsSeach
 import com.dwelling.app.repository.PropertyRepository
+import com.dwelling.app.repository.VisitorRepository
 import com.dwelling.app.security.controller.UserRestController
+import com.dwelling.app.security.model.User
+import com.dwelling.app.security.repository.UserRepository
 import com.dwelling.app.services.SearchService
 import org.apache.http.entity.ContentType
 import org.springframework.beans.factory.annotation.Autowired
@@ -29,6 +32,13 @@ class PropertyController {
 
     @Autowired
     private lateinit var searchService: SearchService<Property>
+
+    @Autowired
+    private lateinit var visitorRepository: VisitorRepository
+
+    @Autowired
+    private lateinit var userRepository: UserRepository
+
 
 
 
@@ -88,6 +98,14 @@ class PropertyController {
     fun getSampleFilters() : List<FilterDto>{
         return  listOf(FilterDto(EFilter.BATHROOMS,2,filterRange = listOf(1,3), filterType = FilterType.RANGE))
     }
+
+    @GetMapping("/test/visitors")
+    fun getVisitors() : List<Visitor> = visitorRepository.findAll()
+    @GetMapping("/test/users")
+    fun getUsers() : List<User> = userRepository.findAll()
+
+
+
 
 
 }

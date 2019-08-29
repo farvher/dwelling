@@ -1,5 +1,6 @@
 package com.dwelling.app.security.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import java.time.LocalDate
 import java.util.*
 import javax.persistence.*
@@ -22,6 +23,7 @@ class User(@Id
            @Column(name = "PASSWORD", length = 100)
            @NotNull
            @Size(min = 4, max = 100)
+           @JsonIgnore
            var password: String,
 
            @Column(name = "FIRSTNAME", length = 50)

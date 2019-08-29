@@ -42,7 +42,7 @@ class PropertyService {
     }
 
     fun getFavorites(idVisitor: Long): List<PropertyDto> {
-        return favoritesRepository.findByVisitor(idVisitor).map { p -> PropertyDto.toDto(p.property) }.toList()
+        return favoritesRepository.findByVisitor(visitorRepository.getOne(idVisitor)).orElse(emptyList()).map { p -> PropertyDto.toDto(p.property) }.toList()
     }
 
     fun saveFavorite(idVisitor: Long, idProperty: Long) {
