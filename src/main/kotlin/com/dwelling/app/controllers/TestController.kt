@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
 
 @RestController()
-class PropertyController {
+class TestController {
 
     @Autowired
     private lateinit var dwellingsSearch: IDwellingsSeach

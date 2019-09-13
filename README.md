@@ -19,7 +19,9 @@ Aplicacion para busqueda y publicacion de inmuebles
 
 
 ## Pendientes
-
+- 
+- Pasarela de pago
+- Servicio rest para proceso de publicacion
 - Batch para indexar datos a ElasticSearch de BD
 - Servicio rest para cargar imagenes 
-- Servicio rest para proceso de publicacion
+

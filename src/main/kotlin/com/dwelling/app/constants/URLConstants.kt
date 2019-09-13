@@ -4,9 +4,9 @@ interface URLConstants {
 
     companion object{
 
-        val DETAIL_URL = "/detail/**"
-        val RESULT_URL = "/result/**"
-        val TEST = "/test/**"
+        const val RESULT_URL = "/property/**"
+        const val SEARCH = "/search/**";
+        const val TEST = "/test/**"
 
     }
 }
