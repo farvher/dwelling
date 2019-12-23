@@ -78,7 +78,13 @@ class TestController {
         for (property in propertyRepository.findAll()) {
             searchService.create(property)
         }
-
+    }
+    @PostMapping("/test/extract")
+    fun persistFromElastic(){
+        val properties = searchService.searchByQueryString("Lorem")
+        for( p in properties){
+            propertyRepository.save(p)
+        }
     }
 
     @GetMapping("/test/search")

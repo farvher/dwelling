@@ -17,7 +17,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Mono
-import reactor.kotlin.core.publisher.toMono
+import reactor.core.publisher.toMono
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import javax.sql.DataSource

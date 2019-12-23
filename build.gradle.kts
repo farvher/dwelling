@@ -2,10 +2,11 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
 	kotlin("plugin.jpa") version "1.3.30"
-	id("org.springframework.boot") version "2.2.0.BUILD-SNAPSHOT"
-	id("io.spring.dependency-management") version "1.0.7.RELEASE"
-	kotlin("jvm") version "1.3.31"
-	kotlin("plugin.spring") version "1.3.31"
+	id("org.springframework.boot") version "2.2.3.BUILD-SNAPSHOT"
+	id("io.spring.dependency-management") version "1.0.8.RELEASE"
+	kotlin("jvm") version "1.3.61"
+	kotlin("plugin.spring") version "1.3.61"
+
 }
 
 group = "com.dwelling"
@@ -18,6 +19,10 @@ repositories {
 	mavenCentral()
 	maven { url = uri("https://repo.spring.io/snapshot") }
 	maven { url = uri("https://repo.spring.io/milestone") }
+	maven { url  = uri("http://oss.jfrog.org/artifactory/oss-snapshot-local/") }//swagger
+	jcenter()
+	mavenCentral()
+	gradlePluginPortal()
 }
 
 extra["springCloudVersion"] = "Hoxton.BUILD-SNAPSHOT"
@@ -37,7 +42,7 @@ dependencies {
 	//implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 	implementation ("io.searchbox:jest")
 	implementation ("io.jsonwebtoken:jjwt:0.9.1")
-	implementation ("io.projectreactor.kotlin:reactor-kotlin-extensions:1.0.0.M1")
+	//implementation ("io.projectreactor.kotlin:reactor-kotlin-extensions:1.0.0.M1")
 
 	implementation("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("com.h2database:h2")
@@ -45,6 +50,9 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.projectreactor:reactor-test")
 	testImplementation("org.springframework.security:spring-security-test")
+	implementation("io.springfox:springfox-swagger-ui:2.9.0")
+	implementation("io.springfox:springfox-swagger2:2.9.0")
+	implementation("io.springfox:springfox-data-rest:2.9.0")
 }
 
 dependencyManagement {
