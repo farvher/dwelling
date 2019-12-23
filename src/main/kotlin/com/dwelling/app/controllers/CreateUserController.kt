@@ -23,9 +23,6 @@ class CreateUserController {
     @Autowired
     private lateinit var visitorPreferencesRepository: VisitorPreferencesRepository
 
-
-
-
     @PostMapping("/auth/create-user")
     fun createUser(@RequestParam username: String, @RequestParam password: String, @RequestParam firstName: String, @RequestParam lastName: String, @RequestParam email: String) {
         var authority = Authority(1, AuthorityName.ROLE_USER,null)
