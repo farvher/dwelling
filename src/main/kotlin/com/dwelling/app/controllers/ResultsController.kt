@@ -35,7 +35,7 @@ class ResultsController {
         filters.forEach { logger.info("${it.filterKey} => ${it.filterValue} - ${it.filterRange} | ${it.filterType}") }
         val results = dwellingsSearch.findByFilters(filters)
         logger.info("${results.size} properties found")
-        return ResponseEntity.ok().body(results).toMono()
+        return Mono.fromCallable { ResponseEntity.ok().body(results)}
     }
 
 

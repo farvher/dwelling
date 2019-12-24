@@ -65,6 +65,7 @@ class JwtTokenUtil : Serializable {
 
     private fun ignoreTokenExpiration(token: String): Boolean {
         // here you specify tokens, for that the expiration is ignored
+        print(token)
         return false
     }
 

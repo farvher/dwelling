@@ -126,7 +126,7 @@ class SearchService<T>{
             }
 
             val json =  GsonBuilder().addSerializationExclusionStrategy(strategy).create().toJson(element)
-            val gson =  JsonParser().parse(json)
+            val gson =  JsonParser.parseString(json)
             createIndexIfNotExists(INDEX)
             val bulk = Bulk.Builder()
                     .addAction(Index.Builder(gson)

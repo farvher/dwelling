@@ -47,7 +47,7 @@ class DetailController {
         logger.info("[propertyDetail] detail by id $id")
         val property = propertyService.findPropertyById(id)
         logger.info("[propertyDetail] found $property")
-        return ResponseEntity.ok().body(property).toMono()
+        return Mono.fromCallable { (ResponseEntity.ok().body(property))}
     }
 
     @GetMapping(path = ["/property/index/{id}"])
@@ -61,6 +61,6 @@ class DetailController {
             else -> null
         }
         logger.info("[propertyDetailInIndex] found $property")
-        return ResponseEntity.ok().body(property).toMono()
+        return Mono.fromCallable { ResponseEntity.ok().body(property)}
     }
 }

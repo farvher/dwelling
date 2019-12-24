@@ -32,9 +32,9 @@ class FavoritesController {
             : Mono<ResponseEntity<String>> {
         if (visitorService.canIDoThatOperationOnMyUser(idVisitor, request)) {
             propertyService.saveFavorite(idVisitor,idProperty)
-            return ResponseEntity.ok().body("Ok").toMono()
+            return Mono.fromCallable { ResponseEntity.ok().body("Ok")}
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No Authorized!").toMono()
+        return Mono.fromCallable { ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No Authorized!")}
     }
 
     @GetMapping("/favorites/getAll/{idVisitor}")
@@ -42,18 +42,18 @@ class FavoritesController {
         var properties : List<PropertyDto> = emptyList();
         if(visitorService.canIDoThatOperationOnMyUser(idVisitor, request)){
             var properties = propertyService.getFavorites(idVisitor)
-            return ResponseEntity.ok().body(properties).toMono()
+            return Mono.fromCallable { ResponseEntity.ok().body(properties)}
         }
-        return ResponseEntity.ok().body(properties).toMono()
+        return Mono.fromCallable { ResponseEntity.ok().body(properties)}
     }
     @PostMapping("/favorites/delete/{idVisitor}/{idFavorite}")
     fun deleteFavorite(@PathVariable idFavorite: Long, @PathVariable idVisitor: Long, request: HttpServletRequest)
             : Mono<ResponseEntity<String>> {
         if (visitorService.canIDoThatOperationOnMyUser(idVisitor, request)) {
             propertyService.deleteFavorite(idFavorite = idFavorite)
-            return ResponseEntity.ok().body("Ok").toMono()
+            return Mono.fromCallable { ResponseEntity.ok().body("Ok")}
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No Authorized!").toMono()
+        return Mono.fromCallable { ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No Authorized!")}
     }
 
 

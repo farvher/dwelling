@@ -25,7 +25,7 @@ class LocationsController {
 
     @GetMapping("/locations.js")
     fun getLocations(): Mono<ResponseEntity<LocationsDto>> {
-        return ResponseEntity.ok().body(locationService.locations()).toMono()
+        return Mono.fromCallable { ResponseEntity.ok().body(locationService.locations())}
     }
 
     @GetMapping("/locations-{keyword}.js")
@@ -34,7 +34,7 @@ class LocationsController {
         locations.locations = locations.locations.filter {
             it.location.contains(keyword, true) || it.zone.contains(keyword, true) || it.city.contains(keyword, true)
         }
-        return ResponseEntity.ok().body(locations).toMono()
+        return Mono.fromCallable { ResponseEntity.ok().body(locations)}
     }
 
     @GetMapping("/cities-{keyword}.js")
@@ -43,7 +43,7 @@ class LocationsController {
         locations.locations = locations.locations.filter {
            it.city.contains(keyword, true) && it.category==1
         }
-        return ResponseEntity.ok().body(locations).toMono()
+        return Mono.fromCallable { ResponseEntity.ok().body(locations)}
     }
 
 

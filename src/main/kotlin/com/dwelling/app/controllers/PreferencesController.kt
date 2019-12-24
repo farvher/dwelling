@@ -60,10 +60,10 @@ class PreferencesController {
             )
 
             preferencesService.savePreferences(visitorPreferences)
-            return ResponseEntity.ok().body("Ok").toMono()
+            return Mono.fromCallable { ResponseEntity.ok().body("Ok")}
 
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No Authorized!").toMono()
+        return Mono.fromCallable { ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No Authorized!")}
 
     }
 
@@ -75,7 +75,7 @@ class PreferencesController {
 
             TODO("obtener preferencias del visitor")
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(visitorPreferencesDto).toMono()
+        return Mono.fromCallable { ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(visitorPreferencesDto)}
     }
 
 

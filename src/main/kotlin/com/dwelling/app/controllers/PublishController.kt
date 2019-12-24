@@ -16,6 +16,7 @@ class PublishController {
 
         val neighborhood = property.neighborhood
         val visitor = property.visitor
+        print("$visitor $neighborhood")
 
 
 

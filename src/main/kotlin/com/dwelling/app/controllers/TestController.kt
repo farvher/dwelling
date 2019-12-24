@@ -48,7 +48,6 @@ class TestController {
     ): List<Property> {
 
         var contact = Contact(1,"wendy mantilla","emantilla@gmail.com","www.site.com","calle 123",null,null,"1234556",null,null)
-        var builder = Builder(1,"Constructoraa",contact)
         var realState = RealState(1,"inmobiliaria",contact)
         val visitor = Visitor(1, "FARITH", "FARITH", "SANMIGUEL", "FESANMIGUEL@MISENA.EDU.CO", 24, LocalDate.now(), "1123456", "123123123", "www.site.com", true, null, realState )
         val country = Country(1, "Colombia")
