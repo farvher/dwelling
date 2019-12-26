@@ -1,16 +1,8 @@
 ['{{repeat(60, 70)}}',
     {
         "id": '{{integer(100, 999)}}',
-        "propertyTypes": [
-            {
-                "id": 1,
-                "name": '{{random("APARTAMENTO", "CASA", "OFICINA","LOTE","LOCAL","BODEGA","APARTAESTUDIO","CONSULTORIO")}}'
-            },
-            {
-                "id": 2,
-                "name": '{{random("APARTAMENTO", "CASA", "OFICINA","LOTE","LOCAL","BODEGA","APARTAESTUDIO","CONSULTORIO")}}'
-            }
-        ],
+        "propertyType": '{{random("APARTAMENTO", "CASA", "OFICINA","LOTE","LOCAL","BODEGA","APARTAESTUDIO","CONSULTORIO")}}',
+        "businessType" : '{{random("ARRIENDO","VENTA")}}',
         "title": '{{lorem(4, "words")}}',
         "neighborhood": {
             "id": '{{integer(100, 999)}}',
@@ -56,7 +48,7 @@
         "parking": '{{integer(1, 3)}}',
         "admon": '{{floating(20000.0, 500000.0)}}',
         "floor": '{{integer(1, 30)}}',
-         "additional": [
+        "additional": [
             {
                 "id": '{{integer(100, 999)}}',
                 "value": '{{random("Cancha de futbol", "Gimnasio", "porteria","piscina","Parque")}}'
@@ -84,7 +76,7 @@
                 "name": '{{company().toUpperCase()}}',
                 "contact": {
                     "id": '{{integer(100, 999)}}',
-                  "contactName": '{{firstName()}} {{surname()}}',
+                    "contactName": '{{firstName()}} {{surname()}}',
                     "contactEmail": '{{email()}}',
                     "contactWebSite": "www.site.com",
                     "address1": '{{street()}}',

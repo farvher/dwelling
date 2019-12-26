@@ -69,10 +69,8 @@ data class VisitorLocation(@Id @GeneratedValue(strategy = GenerationType.IDENTIT
 
 @Entity
 data class Property(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long = -1,
-                    @ManyToMany(cascade = [CascadeType.ALL], targetEntity = PropertyType::class)
-                    @JoinTable(name = "PROPERTY_TYPES_PROPERTIES", joinColumns = [JoinColumn(name = "property_id")]
-                            , inverseJoinColumns = [JoinColumn(name = "property_type_id")])
-                    var propertyTypes: List<PropertyType>?,
+                    var propertyType: PropertyTypeEnum,
+                    var businessType : BusinessTypeEnum,
                     var title: String,
                     @OneToOne(cascade = [CascadeType.ALL])
                     var neighborhood: Neighborhood,
@@ -144,13 +142,7 @@ data class Additional(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) va
                       @JsonIgnore
                       @Transient
                       var  property: List<Property>?=null)
-@Entity
-data class PropertyType(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long,
-                        val name: String,
-                        @ManyToMany(mappedBy = "propertyTypes", cascade = [CascadeType.ALL], targetEntity = Property::class)
-                        @JsonIgnore
-                        @Transient
-                        val properties: List<Property>? = null)
+
 
 @Entity
 data class Image(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long,

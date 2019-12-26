@@ -41,7 +41,7 @@ class FavoritesController {
     fun getFavorites(@PathVariable idVisitor: Long, request: HttpServletRequest): Mono<ResponseEntity<List<PropertyDto>>> {
         var properties : List<PropertyDto> = emptyList();
         if(visitorService.canIDoThatOperationOnMyUser(idVisitor, request)){
-            var properties = propertyService.getFavorites(idVisitor)
+            properties = propertyService.getFavorites(idVisitor)
             return Mono.fromCallable { ResponseEntity.ok().body(properties)}
         }
         return Mono.fromCallable { ResponseEntity.ok().body(properties)}

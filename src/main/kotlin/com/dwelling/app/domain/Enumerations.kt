@@ -8,7 +8,8 @@ enum class PropertyTypeEnum(single: String, plural: String) {
     OFICINA("OFICINA", "OFICINAS"),
     BODEGA("BODEGA", "BODEGAS"),
     LOCAL("LOCAL", "LOCALES"),
-    APARTAESTUDIO("APARTAESTUDIO", "APARTAESTUDIOS")
+    APARTAESTUDIO("APARTAESTUDIO", "APARTAESTUDIOS"),
+    CONSULTORIO("CONSULTORIO","CONSULTORIOS")
 }
 
 enum class BusinessTypeEnum(single: String) {
