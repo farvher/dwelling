@@ -4,6 +4,8 @@ import com.dwelling.app.dto.PropertyDto
 import com.dwelling.app.services.PropertyService
 import com.dwelling.app.services.VisitorService
 import org.apache.coyote.Response
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -21,6 +23,9 @@ import javax.servlet.http.HttpServletRequest
  * */
 @RestController
 class FavoritesController {
+
+    val logger: Logger = LoggerFactory.getLogger(FavoritesController::class.java)
+
     @Autowired
     private lateinit var visitorService: VisitorService
     @Autowired

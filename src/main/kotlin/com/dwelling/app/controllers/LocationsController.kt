@@ -2,6 +2,8 @@ package com.dwelling.app.controllers
 
 import com.dwelling.app.dto.LocationsDto
 import com.dwelling.app.services.LocationsService
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -19,7 +21,7 @@ import reactor.core.publisher.toMono
 @RestController
 class LocationsController {
 
-
+    val logger: Logger = LoggerFactory.getLogger(LocationsController::class.java)
     @Autowired
     private lateinit var locationService: LocationsService
 

@@ -5,6 +5,8 @@ import com.dwelling.app.domain.VisitorPreferences
 import com.dwelling.app.repository.VisitorPreferencesRepository
 import com.dwelling.app.repository.VisitorRepository
 import com.dwelling.app.security.controller.UserRestController
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.web.bind.annotation.PostMapping
@@ -14,6 +16,8 @@ import javax.servlet.http.HttpServletRequest
 
 @RestController
 class VisitorController {
+
+    val logger: Logger = LoggerFactory.getLogger(VisitorController::class.java)
 
     @Autowired
     private lateinit var visitorPreferencesRepository: VisitorPreferencesRepository

@@ -5,6 +5,8 @@ import com.dwelling.app.security.model.Authority
 import com.dwelling.app.security.model.AuthorityName
 import com.dwelling.app.security.model.User
 import com.dwelling.app.security.repository.UserRepository
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.PostMapping
@@ -16,6 +18,9 @@ import java.util.*
 
 @RestController
 class CreateUserController {
+
+    val logger: Logger = LoggerFactory.getLogger(CreateUserController::class.java)
+
     @Autowired
     private lateinit var encoder: PasswordEncoder
     @Autowired
