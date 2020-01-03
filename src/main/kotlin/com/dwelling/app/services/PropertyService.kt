@@ -7,6 +7,8 @@ import com.dwelling.app.dto.PropertyDto
 import com.dwelling.app.repository.FavoritesRepository
 import com.dwelling.app.repository.PropertyRepository
 import com.dwelling.app.repository.VisitorRepository
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -16,6 +18,8 @@ import org.springframework.stereotype.Service
  * */
 @Service
 class PropertyService {
+
+    val logger: Logger = LoggerFactory.getLogger(PropertyService::class.java)
 
     @Autowired
     private lateinit var visitorRepository: VisitorRepository

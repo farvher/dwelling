@@ -6,7 +6,9 @@ import com.dwelling.app.dto.FilterDto
 import com.dwelling.app.dto.FilterType
 import com.dwelling.app.elasticsearch.DwellingsSearchImpl
 import com.dwelling.app.elasticsearch.IDwellingsSeach
+import com.dwelling.app.repository.FavoritesRepository
 import com.dwelling.app.repository.PropertyRepository
+import com.dwelling.app.repository.VisitorPreferencesRepository
 import com.dwelling.app.repository.VisitorRepository
 import com.dwelling.app.security.controller.UserRestController
 import com.dwelling.app.security.model.User
@@ -18,9 +20,19 @@ import org.springframework.http.MediaType
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
+import javax.sql.DataSource
 
 @RestController()
 class TestController {
+    private var H2_CONSOLE = "jdbc:h2:mem:testdb"
+    @Autowired
+    private lateinit var  dataSource: DataSource
+
+    @Autowired
+    private lateinit var visitorPreferencesRepository: VisitorPreferencesRepository
+    @Autowired
+    private lateinit var favoritesRepository: FavoritesRepository
+
 
     @Autowired
     private lateinit var dwellingsSearch: IDwellingsSeach
@@ -38,6 +50,7 @@ class TestController {
 
     @Autowired
     private lateinit var userRepository: UserRepository
+
 
 
 
@@ -108,9 +121,17 @@ class TestController {
     fun getVisitors() : List<Visitor> = visitorRepository.findAll()
     @GetMapping("/test/users")
     fun getUsers() : List<User> = userRepository.findAll()
+    @GetMapping("/test/favorites")
+    fun getFavorites() : List<VisitorFavorite>{
+        return favoritesRepository.findAll();
+    }
+    @GetMapping("/test/preferences")
+    fun getPreferences() : List<VisitorPreferences> {
 
 
+        return visitorPreferencesRepository.findAll();
 
+    }
 
 
 }

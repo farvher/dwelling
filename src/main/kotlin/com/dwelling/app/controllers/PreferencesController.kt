@@ -36,13 +36,11 @@ class PreferencesController {
     private lateinit var visitorService: VisitorService
 
 
-
-
     @PostMapping("/preferences/save")
     fun savePreferences(@RequestBody preferences: VisitorPreferencesDto, request: HttpServletRequest)
-    : Mono<ResponseEntity<String>>{
-        if (visitorService.canIDoThatOperationOnMyUser(preferences.idVisitor, request)) {
-            var visitor = visitorService.getVisitor(idVisitor = preferences.idVisitor )
+            : Mono<ResponseEntity<String>> {
+            var visitorjWt = visitorService.getVisitor(request)
+            var visitor = visitorService.getVisitor(visitorjWt.id!!)
 
             var visitorPreferences = VisitorPreferences(
                     id = preferences.id,
@@ -64,22 +62,22 @@ class PreferencesController {
             )
 
             preferencesService.savePreferences(visitorPreferences)
-            return Mono.fromCallable { ResponseEntity.ok().body("Ok")}
+            return Mono.fromCallable { ResponseEntity.ok().body("Ok") }
 
-        }
-        return Mono.fromCallable { ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No Authorized!")}
+
+        return Mono.fromCallable { ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No Authorized!") }
 
     }
 
-    @GetMapping("/preferences/get/{idVisitor}")
-    fun getPreferences(@PathVariable idVisitor: Long, request: HttpServletRequest)
-    : Mono<ResponseEntity<VisitorPreferencesDto?>>{
+    @GetMapping("/preferences")
+    fun getPreferences( request: HttpServletRequest)
+            : Mono<ResponseEntity<VisitorPreferencesDto?>> {
         var visitorPreferencesDto: VisitorPreferencesDto? = null
-        if (visitorService.canIDoThatOperationOnMyUser(idVisitor, request)) {
+        val visitor = visitorService.getVisitor(request)
 
-            TODO("obtener preferencias del visitor")
-        }
-        return Mono.fromCallable { ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(visitorPreferencesDto)}
+        TODO("obtener preferencias del visitor")
+
+        return Mono.fromCallable { ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(visitorPreferencesDto) }
     }
 
 

@@ -1,11 +1,14 @@
 package com.dwelling.app.services
 
+import com.dwelling.app.controllers.DetailController
 import com.dwelling.app.domain.City
 import com.dwelling.app.domain.Country
 import com.dwelling.app.domain.Neighborhood
 import com.dwelling.app.domain.Zone
 import com.dwelling.app.dto.LocationsDto
 import com.dwelling.app.repository.*
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
@@ -16,6 +19,8 @@ import org.springframework.stereotype.Service
  * */
 @Service
 class LocationsService {
+
+    val logger: Logger = LoggerFactory.getLogger(LocationsService::class.java)
 
 
     @Autowired

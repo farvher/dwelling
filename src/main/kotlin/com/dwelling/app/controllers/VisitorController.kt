@@ -4,6 +4,7 @@ import com.dwelling.app.domain.Visitor
 import com.dwelling.app.domain.VisitorPreferences
 import com.dwelling.app.repository.VisitorPreferencesRepository
 import com.dwelling.app.repository.VisitorRepository
+import com.dwelling.app.security.JwtUser
 import com.dwelling.app.security.controller.UserRestController
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -39,9 +40,8 @@ class VisitorController {
     }
 
     @PostMapping("/visitor/get-user")
-    fun testUser(request: HttpServletRequest): Visitor {
-        val user = userRestController.getAuthenticatedUser(request)
-        return visitorRepository.findVisitorByUsername(user.username).orElseThrow{UsernameNotFoundException("User not found!")}
+    fun getUser(request: HttpServletRequest): JwtUser {
+        return userRestController.getAuthenticatedUser(request)
     }
 
 
