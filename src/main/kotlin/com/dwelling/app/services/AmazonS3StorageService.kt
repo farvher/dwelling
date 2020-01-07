@@ -6,13 +6,13 @@ import org.springframework.web.multipart.MultipartFile
 import java.nio.file.Path
 import java.util.stream.Stream
 
-import com.amazonaws.AmazonServiceException
-import com.amazonaws.SdkClientException
-import com.amazonaws.auth.profile.ProfileCredentialsProvider
-import com.amazonaws.regions.Regions
-import com.amazonaws.services.s3.AmazonS3
-import com.amazonaws.services.s3.AmazonS3ClientBuilder
-import com.amazonaws.services.s3.model.*
+//import com.amazonaws.AmazonServiceException
+//import com.amazonaws.SdkClientException
+//import com.amazonaws.auth.profile.ProfileCredentialsProvider
+//import com.amazonaws.regions.Regions
+//import com.amazonaws.services.s3.AmazonS3
+//import com.amazonaws.services.s3.AmazonS3ClientBuilder
+//import com.amazonaws.services.s3.model.*
 
 @Service
 class AmazonS3StorageService : StorageService {
