@@ -9,7 +9,11 @@ interface StorageService {
 
     fun init()
 
-    fun storage(file: MultipartFile)
+    fun storage(file: MultipartFile, path : String)
+
+    fun count(filename: String) : Int
+
+    fun delete(filename: String)
 
     fun loadAll() : Stream<Path>
 

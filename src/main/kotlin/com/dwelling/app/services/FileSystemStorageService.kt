@@ -23,9 +23,17 @@ import javax.annotation.PostConstruct
 @Service
 class FileSystemStorageService : StorageService {
 
+    override fun count(filename: String): Int {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun delete(filename: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     val logger: Logger = LoggerFactory.getLogger(FileSystemStorageService::class.java)
 
-    @Value("\${filesystem.root.path}")
+    @Value("\${filesystem.image.tmp}")
     private lateinit var rootPath: String
 
     private lateinit var rootLocation: Path
@@ -37,7 +45,7 @@ class FileSystemStorageService : StorageService {
 
     }
 
-    override fun storage(file: MultipartFile) {
+    override fun storage(file: MultipartFile, path: String) {
         val filename: String = StringUtils.cleanPath(file.originalFilename!!)
         logger.info("[saving file  $filename]")
         try {

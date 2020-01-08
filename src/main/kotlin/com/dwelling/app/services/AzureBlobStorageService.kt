@@ -10,11 +10,21 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.Resource
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
+import java.io.File
+import java.nio.file.Files
 import java.nio.file.Path
+import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
 import java.util.stream.Stream
+import javax.activation.MimetypesFileTypeMap
 import javax.annotation.PostConstruct
 
-
+/**
+ * Maneja la carga y descarga de archivos al contenedor de Azure
+ *
+ * @author fsanmiguel
+ *
+ * */
 @Service
 class AzureBlobStorageService : StorageService {
 
@@ -30,6 +40,9 @@ class AzureBlobStorageService : StorageService {
     @Value("\${azure.container}")
     private lateinit var azureContainer: String
 
+    @Value("\${filesystem.image.tmp}")
+    private lateinit var localTmpFolder : String
+
     private lateinit var blobContainerClient: BlobContainerClient
 
     private lateinit var blobServiceClient: BlobServiceClient
@@ -37,30 +50,37 @@ class AzureBlobStorageService : StorageService {
     private lateinit var blobClient: BlobClient
 
     @PostConstruct
-    override fun init()  {
-
+    override fun init() {
         val azureSecret = System.getenv(azureConnectionString)
-
         blobServiceClient = BlobServiceClientBuilder().connectionString(azureSecret)
                 .buildClient()
-
         blobContainerClient = blobServiceClient.getBlobContainerClient(azureContainer)
 
-        logger.info("!!!!!!!!!!!!!!!!")
-        for (blobItem in blobContainerClient.listBlobs()) {
-            logger.info("\t" + blobItem.name)
+        if (!Files.exists(Paths.get(localTmpFolder))){
+            Files.createDirectory(Paths.get(localTmpFolder))
         }
-
-
 
     }
 
-    override fun storage(file: MultipartFile) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun storage(file: MultipartFile, path : String) {
+        val absolutePath = Paths.get(localTmpFolder).resolve(path)
+        logger.info("[storage] $absolutePath")
+        Files.copy(file.inputStream,absolutePath,StandardCopyOption.REPLACE_EXISTING)
+        var blobClient =  blobContainerClient.getBlobClient(path)
+        blobClient.uploadFromFile(absolutePath.toString(),true)
+    }
+
+    override fun count(filename: String): Int {
+        val folder = "$azureContainer/$filename"
+        return blobServiceClient.getBlobContainerClient(folder).listBlobs().count()
+    }
+
+    override fun delete(filename: String) {
+        blobContainerClient.getBlobClient(filename).delete()
     }
 
     override fun loadAll(): Stream<Path> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return blobContainerClient.listBlobs().mapPage { b -> Path.of(b.name) }.stream()
     }
 
     override fun load(filename: String): Path {
@@ -74,4 +94,5 @@ class AzureBlobStorageService : StorageService {
     override fun deleteAll() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
 }
