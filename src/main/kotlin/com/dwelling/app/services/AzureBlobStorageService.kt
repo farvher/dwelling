@@ -41,7 +41,7 @@ class AzureBlobStorageService : StorageService {
     private lateinit var azureContainer: String
 
     @Value("\${filesystem.image.tmp}")
-    private lateinit var localTmpFolder : String
+    private lateinit var localTmpFolder: String
 
     private lateinit var blobContainerClient: BlobContainerClient
 
@@ -56,18 +56,22 @@ class AzureBlobStorageService : StorageService {
                 .buildClient()
         blobContainerClient = blobServiceClient.getBlobContainerClient(azureContainer)
 
-        if (!Files.exists(Paths.get(localTmpFolder))){
+        if (!Files.exists(Paths.get(localTmpFolder))) {
             Files.createDirectory(Paths.get(localTmpFolder))
         }
 
     }
 
-    override fun storage(file: MultipartFile, path : String) {
+    override fun storage(file: MultipartFile, path: String) {
         val absolutePath = Paths.get(localTmpFolder).resolve(path)
         logger.info("[storage] $absolutePath")
-        Files.copy(file.inputStream,absolutePath,StandardCopyOption.REPLACE_EXISTING)
-        var blobClient =  blobContainerClient.getBlobClient(path)
-        blobClient.uploadFromFile(absolutePath.toString(),true)
+        if (!Files.exists(absolutePath.parent)) {
+            Files.createDirectories(absolutePath.parent)
+        }
+        Files.copy(file.inputStream, absolutePath, StandardCopyOption.REPLACE_EXISTING)
+        var blobClient = blobContainerClient.getBlobClient(path)
+        blobClient.uploadFromFile(absolutePath.toString(), true)
+        Files.deleteIfExists(absolutePath)
     }
 
     override fun count(filename: String): Int {

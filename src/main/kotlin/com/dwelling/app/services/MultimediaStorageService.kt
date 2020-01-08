@@ -2,8 +2,6 @@ package com.dwelling.app.services
 
 import org.springframework.core.io.Resource
 import org.springframework.web.multipart.MultipartFile
-import org.synchronoss.cloud.nio.multipart.Multipart
-import java.nio.file.Paths
 import java.util.stream.Stream
 
 interface MultimediaStorageService {

@@ -5,18 +5,21 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.Resource
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
-import org.synchronoss.cloud.nio.multipart.Multipart
-import java.io.File
 import java.util.stream.Stream
-import javax.activation.MimetypesFileTypeMap
+import javax.imageio.ImageIO
 
 @Service
 class ImageMultimediaStorageService : MultimediaStorageService {
 
     val logger: Logger = LoggerFactory.getLogger(ImageMultimediaStorageService::class.java)
+
+    @Value("\${image.ext}")
+    private lateinit var imgExt : String
+
 
     @Autowired
     @Qualifier("azureBlobStorageService")
@@ -24,10 +27,10 @@ class ImageMultimediaStorageService : MultimediaStorageService {
 
     override fun store(userId: Long, folder: String, filename: String, file: MultipartFile) {
 
-        if(!isImage(file.originalFilename!!))
+        if(!isImage(file)) {
             throw IsNotImageException("${file.originalFilename} is not a image!")
-
-        var filename : String = "$userId/$folder/$filename"
+        }
+        var filename : String = "$userId/$folder/$filename$imgExt"
         azureBlobStorageService.storage(file,filename)
     }
 
@@ -55,8 +58,7 @@ class ImageMultimediaStorageService : MultimediaStorageService {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    fun isImage(file: String) : Boolean{
-        val mimetypesFileTypeMap = MimetypesFileTypeMap().getContentType(file)
-        return mimetypesFileTypeMap.contains("image")
+    fun isImage(file: MultipartFile): Boolean {
+        return ImageIO.read(file.inputStream) != null
     }
 }

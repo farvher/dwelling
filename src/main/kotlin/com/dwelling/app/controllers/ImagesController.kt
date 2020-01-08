@@ -24,7 +24,7 @@ class ImagesController {
     @PostMapping("/images/upload")
     fun uploadImage(@RequestParam image : MultipartFile, request: HttpServletRequest) {
         var user = visitorService.getVisitor(request)
-        imageMultimediaStorageService.store(user.id!!,"inmueble123","imagen_123.jpg",image)
+        imageMultimediaStorageService.store(user.id!!,"inmueble123","imagen_123",image)
     }
 
 }
