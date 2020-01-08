@@ -76,7 +76,8 @@ class AzureBlobStorageService : StorageService {
 
     override fun count(filename: String): Int {
         val folder = "$azureContainer/$filename"
-        return blobServiceClient.getBlobContainerClient(folder).listBlobs().count()
+        if(!blobContainerClient.getBlobClient(folder).exists()) return 0
+        return blobContainerClient.listBlobs().count()
     }
 
     override fun delete(filename: String) {

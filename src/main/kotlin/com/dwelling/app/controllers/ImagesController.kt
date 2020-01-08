@@ -22,9 +22,11 @@ class ImagesController {
     private lateinit var visitorService: VisitorService
 
     @PostMapping("/images/upload")
-    fun uploadImage(@RequestParam image : MultipartFile, request: HttpServletRequest) {
+    fun uploadImage(@RequestParam image : MultipartFile, @RequestParam property : String , request: HttpServletRequest) {
         var user = visitorService.getVisitor(request)
-        imageMultimediaStorageService.store(user.id!!,"inmueble123","imagen_123",image)
+        val count = imageMultimediaStorageService.count(user.id!!,property)
+
+        imageMultimediaStorageService.store(user.id!!,property,"imagen_123",image)
     }
 
 }

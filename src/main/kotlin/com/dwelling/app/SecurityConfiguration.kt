@@ -53,12 +53,8 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter(false) {
     * configuracion global que ignora paths de recursos y el login path post
     * */
     override fun configure(web: WebSecurity) {
-        web
-                .ignoring()
-                .antMatchers(
-                        HttpMethod.POST,
-                        authenticationPath
-                )
+        web.ignoring()
+                .antMatchers(HttpMethod.POST,authenticationPath)
                 // allow anonymous resource requests
                 .and()
                 .ignoring()
@@ -103,15 +99,11 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter(false) {
                 .csrf().disable()
                 //entry point
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
-
                 // don't create session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-
                 .authorizeRequests()
-
                 // Un-secure H2 Database
                 .antMatchers("/h2-console/**/**").permitAll()
-
                 .antMatchers("auth/**/**").permitAll()
                 .antMatchers("/actuator/**").permitAll()
                 .antMatchers(URLConstants.TEST).permitAll()

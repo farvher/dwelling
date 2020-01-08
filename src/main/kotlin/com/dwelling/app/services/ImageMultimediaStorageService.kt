@@ -35,7 +35,8 @@ class ImageMultimediaStorageService : MultimediaStorageService {
     }
 
     override fun count(userId: Long, folder: String): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        var folder : String = "$userId/$folder"
+        return azureBlobStorageService.count(folder)
     }
 
     override fun listAll(userId: Long, folder: String): Stream<String> {
