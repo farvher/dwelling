@@ -3,45 +3,50 @@ package com.dwelling.app.dto
 import com.dwelling.app.domain.*
 import java.time.LocalDate
 import javax.persistence.*
+import javax.validation.constraints.NotNull
 
 class PropertyDto(
         val id: Long?,
-        var propertyTypes: List<PropertyTypeEnum>? = null,
-        var title: String = "",
-        var neighborhood: String = "",
-        var city: String = "",
+        var propertyType: PropertyTypeEnum,
+        var businessType: BusinessTypeEnum,
+        var title: String,
+        //location
+        var neighborhood: String,
+        var city: String,
         var zone: String = "",
         var country: String = "",
-        var description: String = "",
+        var description: String,
         var imageCount: Int? = 0,
-        var images: List<String>? = null,
+        var images: List<String>,
         var antiquitiy: String = "",
-        var rentPrice: Double? = 0.0,
-        var sellPrince: Double? = 0.0,
-        var area: Int? = 0,
+        var rentPrice: Double?,
+        var sellPrince: Double?,
+        var area: Int,
         var areaUnit: String = "m2",
         var rooms: Int = 0,
-        var stratum: Int = 0,
+        var stratum: Int,
         var buildTime: Int = 0,
         var bathroom: Int = 0,
         var parking: Int = 0,
-        var admin: Double? = 0.0,
+        var admin: Double = 0.0,
         var floor: Int? = 0,
         var additional: List<Additional>? = null,
         var visitorId: Long,
-        var longitude: Double = 0.0,
-        var latitude: Double = 0.0
+        @NotNull
+        var longitude: Double,
+        @NotNull
+        var latitude: Double
 
 
 ) {
 
 
     companion object {
-        // TODO("faltan propiedades")
         fun toDto(p: Property): PropertyDto = PropertyDto(
-
                 id = p.id,
                 title = p.title,
+                propertyType = p.propertyType,
+                businessType = p.businessType,
                 neighborhood = p.neighborhood.name,
                 zone = p.neighborhood.zone.name,
                 city = p.neighborhood.zone.city.name,
@@ -63,7 +68,38 @@ class PropertyDto(
                 sellPrince = p.sellPrince,
                 rooms = p.rooms,
                 stratum = p.stratum,
-                images = p.images.map { i -> i.url }
+                images = p.images!!.map { i -> i.url }
+        )
+
+        fun toDomain(p: PropertyDto,v :Visitor) = Property(
+                id = p.id!!,
+                propertyType = p.propertyType,
+                businessType = p.businessType,
+                title = p.title,
+                neighborhood = Neighborhood(-1, p.neighborhood,
+                        Zone(-1, p.zone,
+                                City(-1, p.city,
+                                        Country(-1, p.country)))),
+
+                description = p.description,
+                imageCount = p.imageCount,
+                images = null,
+                antiquitiy = p.antiquitiy,
+                rentPrice = p.rentPrice,
+                sellPrince = p.sellPrince,
+                area = p.area,
+                areaUnit = p.areaUnit,
+                rooms = p.rooms,
+                stratum = p.stratum,
+                buildTime = p.buildTime,
+                bathroom = p.bathroom,
+                parking = p.parking,
+                admon = p.admin,
+                floor = p.floor,
+                additional = p.additional,
+                visitor = v,
+                location = Location (-1, p.longitude,p.latitude)
+
         )
 
 

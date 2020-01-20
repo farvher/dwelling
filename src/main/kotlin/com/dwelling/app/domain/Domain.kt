@@ -78,7 +78,7 @@ data class Property(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) val 
                     var imageCount: Int?,
                     @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
                     @JoinColumn(name = "img_fk")
-                    var images: List<Image>,
+                    var images: List<Image>?,
                     var antiquitiy: String,
                     var rentPrice: Double?,
                     var sellPrince: Double?,
@@ -89,7 +89,7 @@ data class Property(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) val 
                     var buildTime: Int,
                     var bathroom: Int,
                     var parking: Int,
-                    var admon: Double? = null,
+                    var admon: Double,
                     var floor: Int? = null,
                     @ManyToMany(cascade = [CascadeType.ALL], targetEntity = Additional::class)
                     @JoinTable(name = "ADDITIONAL_PROPERTY", joinColumns = [JoinColumn(name = "property_id")]

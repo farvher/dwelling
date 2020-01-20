@@ -33,8 +33,8 @@ class PropertyService {
         return propertyRepository.findById(id).orElse(null)
     }
 
-    fun saveProperty(property: Property) {
-        propertyRepository.save(property)
+    fun saveProperty(property: PropertyDto, visitor: Visitor) {
+        propertyRepository.save(PropertyDto.toDomain(property,visitor))
     }
 
     fun updateProperty(property: Property) {

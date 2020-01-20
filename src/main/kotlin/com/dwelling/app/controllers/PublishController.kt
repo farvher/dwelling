@@ -1,23 +1,45 @@
 package com.dwelling.app.controllers
 
 import com.dwelling.app.domain.Property
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.ResponseBody
-import org.springframework.web.bind.annotation.RestController
+import com.dwelling.app.dto.PropertyDto
+import com.dwelling.app.services.AzureBlobStorageService
+import com.dwelling.app.services.PropertyService
+import com.dwelling.app.services.StorageService
+import com.dwelling.app.services.VisitorService
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
+import javax.servlet.http.HttpServletRequest
 
 
 @RestController
 class PublishController {
 
+    val logger: Logger = LoggerFactory.getLogger(PublishController::class.java)
 
-    @PostMapping("/create-post")
-    fun postProperty(@RequestBody property: Property) {
+    @Autowired
+    private lateinit var visitorService: VisitorService
 
-        val neighborhood = property.neighborhood
-        val visitor = property.visitor
-        print("$visitor $neighborhood")
+    @Autowired
+    private lateinit var propertyService: PropertyService
 
+    @Autowired
+    @Qualifier("azureBlobStorageService")
+    private lateinit var azureBlobStorageService: StorageService
+
+
+
+    @PostMapping("/create-property")
+    fun postProperty(@RequestBody property: PropertyDto,
+                     @RequestParam multipartFile: MultipartFile,
+                     request: HttpServletRequest) {
+        val visitor = visitorService.getVisitor(request)
+        val visitorId = visitorService.getVisitor(idVisitor = visitor.id!!)
+        propertyService.saveProperty(property,visitorId)
+        azureBlobStorageService.storage(multipartFile,"")
 
 
     }
