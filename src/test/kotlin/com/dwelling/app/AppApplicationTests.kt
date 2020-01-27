@@ -15,6 +15,8 @@ import com.google.gson.reflect.TypeToken
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
@@ -22,7 +24,6 @@ import org.springframework.test.context.TestPropertySource
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.web.reactive.function.client.WebClient
-import org.springframework.web.reactive.function.client.bodyToMono
 import java.nio.file.Files
 import java.nio.file.Path
 import java.util.*
@@ -33,7 +34,13 @@ import java.util.*
 @TestPropertySource("classpath:test.properties")
 class AppApplicationTests {
 
+
+
+    val logger: Logger = LoggerFactory.getLogger(AppApplicationTests::class.java)
+
     private val credentials = mapOf("username" to "admin", "password" to "admin")
+
+
 
     @Autowired
     private lateinit var visitorRepository: VisitorRepository
@@ -130,9 +137,8 @@ class AppApplicationTests {
 
     @Test
     fun getOneDetail(){
-        webClient.post()
+        webClient.get()
                 .uri("/property/detail/1")
-                .bodyValue(credentials)
                 .retrieve()
                 .bodyToMono(Property::class.java)
                 .subscribe{ println(it)}

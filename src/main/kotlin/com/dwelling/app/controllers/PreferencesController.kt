@@ -71,13 +71,12 @@ class PreferencesController {
 
     @GetMapping("/preferences")
     fun getPreferences( request: HttpServletRequest)
-            : Mono<ResponseEntity<VisitorPreferencesDto?>> {
+            : Mono<VisitorPreferencesDto> {
         var visitorPreferencesDto: VisitorPreferencesDto? = null
         val visitor = visitorService.getVisitor(request)
 
         TODO("obtener preferencias del visitor")
 
-        return Mono.fromCallable { ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(visitorPreferencesDto) }
     }
 
 

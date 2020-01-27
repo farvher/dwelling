@@ -10,9 +10,12 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RestController
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-import reactor.core.publisher.toMono
 
 
 @RestController
@@ -30,12 +33,12 @@ class ResultsController {
 
 
     @PostMapping("/search")
-    fun searchByFilter(@RequestBody filters: List<FilterDto>): Mono<ResponseEntity<List<Property>>> {
+    fun searchByFilter(@RequestBody filters: List<FilterDto>): Flux<Property> {
         logger.info("[searchByFilter] ${filters.size} filters ")
         filters.forEach { logger.info("${it.filterKey} => ${it.filterValue} - ${it.filterRange} | ${it.filterType}") }
         val results = dwellingsSearch.findByFilters(filters)
         logger.info("${results.size} properties found")
-        return Mono.fromCallable { ResponseEntity.ok().body(results)}
+        return Flux.fromIterable(results)
     }
 
 
