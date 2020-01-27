@@ -27,9 +27,9 @@ data class Visitor(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) val i
 )
 @Entity
 data class  VisitorFavorite(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long = -1,
-                             @OneToOne(cascade = [CascadeType.ALL],fetch = FetchType.LAZY)
+                             @OneToOne(cascade = [CascadeType.REFRESH],fetch = FetchType.LAZY)
                              var property: Property,
-                             @OneToOne(cascade = [CascadeType.ALL],fetch = FetchType.LAZY)
+                             @OneToOne(cascade = [CascadeType.REFRESH],fetch = FetchType.LAZY)
                              var visitor: Visitor
                              )
 
@@ -103,6 +103,9 @@ data class Property(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) val 
 ) {
     override fun hashCode(): Int = super.hashCode()
     override fun equals(other: Any?): Boolean = super.equals(other)
+    override fun toString(): String {
+        return "Property [${this.id}]"
+    }
 }
 
 @Entity

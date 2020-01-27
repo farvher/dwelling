@@ -43,17 +43,17 @@ class DetailController {
     @GetMapping(path = ["/property/detail/{id}"])
     fun propertyDetail(@PathVariable id: Long,
                        httpServletRequest: HttpServletRequest,
-                       httpServletResponse: HttpServletResponse): Mono<ResponseEntity<Property?>> {
+                       httpServletResponse: HttpServletResponse): Mono<Property> {
         logger.info("[propertyDetail] detail by id $id")
         val property = propertyService.findPropertyById(id)
         logger.info("[propertyDetail] found $property")
-        return Mono.fromCallable { (ResponseEntity.ok().body(property))}
+        return Mono.just(property!!)
     }
 
     @GetMapping(path = ["/property/index/{id}"])
     fun propertyDetailInIndex(@PathVariable id: Long,
                        httpServletRequest: HttpServletRequest,
-                       httpServletResponse: HttpServletResponse): Mono<ResponseEntity<Property?>> {
+                       httpServletResponse: HttpServletResponse): Mono<Property> {
         logger.info("[propertyDetailInIndex] detail by id $id")
         val properties =  dwellingsSearch.findByFilters(listOf(FilterDto(EFilter.ID,id, filterType = FilterType.KEYWORD)))
         val property = when(properties.isNotEmpty()){
@@ -61,6 +61,6 @@ class DetailController {
             else -> null
         }
         logger.info("[propertyDetailInIndex] found $property")
-        return Mono.fromCallable { ResponseEntity.ok().body(property)}
+        return Mono.just(property!!)
     }
 }
