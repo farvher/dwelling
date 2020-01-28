@@ -105,9 +105,9 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter(false) {
                 // Un-secure H2 Database
                 .antMatchers("/h2-console/**/**").permitAll()
                 .antMatchers("auth/**/**").permitAll()
-                .antMatchers("/actuator/**").permitAll()
                 .antMatchers(URLConstants.TEST).permitAll()
                 .antMatchers(URLConstants.RESULT_URL).permitAll()
+                .antMatchers(URLConstants.DETAIL).permitAll()
                 .antMatchers(URLConstants.SEARCH).permitAll()
                 .anyRequest().authenticated()
 

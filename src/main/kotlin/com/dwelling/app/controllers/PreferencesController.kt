@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest
  * RestController handle user preferences
  * @author fsanmiguel
  * */
-@RestController("/preferences")
+@RestController("/my-preferences")
 class PreferencesController {
 
     val logger: Logger = LoggerFactory.getLogger(PreferencesController::class.java)

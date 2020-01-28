@@ -6,6 +6,7 @@ interface URLConstants {
 
         const val RESULT_URL = "/property/**"
         const val SEARCH = "/search/**";
+        const val DETAIL = "/property/detail/**"
         const val TEST = "/test/**"
 
     }

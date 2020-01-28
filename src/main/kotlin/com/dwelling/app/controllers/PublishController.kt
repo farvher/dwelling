@@ -38,8 +38,9 @@ class PublishController {
                      request: HttpServletRequest) {
         val visitor = visitorService.getVisitor(request)
         val visitorId = visitorService.getVisitor(idVisitor = visitor.id!!)
-        propertyService.saveProperty(property,visitorId)
-        azureBlobStorageService.storage(multipartFile,"")
+       val property =  propertyService.saveProperty(property,visitorId)
+        val path = "${visitorId.id}/${property.id}/image001.png"
+        azureBlobStorageService.storage(multipartFile,path)
 
 
     }

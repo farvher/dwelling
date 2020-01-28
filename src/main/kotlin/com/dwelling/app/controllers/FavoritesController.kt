@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest
  * RestController handle visitor properties favorites
  * @author fsanmiguel
  * */
-@RestController("/favorites")
+@RestController
 class FavoritesController {
 
     val logger: Logger = LoggerFactory.getLogger(FavoritesController::class.java)
@@ -29,7 +29,7 @@ class FavoritesController {
     private lateinit var propertyService: PropertyService
 
 
-    @PostMapping
+    @PostMapping("/my-favorites/save")
     fun saveFavorite(@RequestParam idProperty: Long, request: HttpServletRequest) {
         val visitor = visitorService.getVisitor(request)
         Mono.just(visitor)
@@ -37,15 +37,15 @@ class FavoritesController {
                 .doOnNext { propertyService.saveFavorite(visitor.id!!, idProperty) }
     }
 
-    @GetMapping
+    @GetMapping("/my-favorites")
     fun getFavorites(request: HttpServletRequest): Flux<PropertyDto> {
-        var properties: List<PropertyDto> = emptyList();
+        var properties: List<PropertyDto>
         val visitor = visitorService.getVisitor(request)
         properties = propertyService.getFavorites(visitor.id!!)
         return Flux.fromIterable(properties)
     }
 
-    @DeleteMapping
+    @PostMapping("/my-favorites/delete")
     fun deleteFavorite(@RequestParam idProperty: Long, request: HttpServletRequest) {
         Mono.just(idProperty).publishOn(Schedulers.elastic()).doOnNext {
             propertyService.deleteFavorite(idFavorite = idProperty)
