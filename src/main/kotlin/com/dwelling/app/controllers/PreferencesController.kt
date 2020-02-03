@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest
  * RestController handle user preferences
  * @author fsanmiguel
  * */
-@RestController("/my-preferences")
+@RestController()
 class PreferencesController {
 
     val logger: Logger = LoggerFactory.getLogger(PreferencesController::class.java)
@@ -35,7 +35,7 @@ class PreferencesController {
     private lateinit var visitorService: VisitorService
 
 
-    @PostMapping
+    @PostMapping("/preferences/save")
     fun savePreferences(@RequestBody preferences: VisitorPreferencesDto, request: HttpServletRequest) {
             var visitorjWt = visitorService.getVisitor(request)
             var visitor = visitorService.getVisitor(visitorjWt.id!!)
@@ -63,7 +63,7 @@ class PreferencesController {
 
     }
 
-    @GetMapping
+    @GetMapping("/preferences")
     fun getPreferences( request: HttpServletRequest)
             : Mono<VisitorPreferencesDto> {
         var visitorPreferencesDto: VisitorPreferencesDto? = null
