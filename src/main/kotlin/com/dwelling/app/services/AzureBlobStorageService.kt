@@ -56,7 +56,7 @@ class AzureBlobStorageService : StorageService {
                 .buildClient()
         blobContainerClient = blobServiceClient.getBlobContainerClient(azureContainer)
 
-        if (!Files.exists(Paths.get(localTmpFolder))) {
+        if (!Files.exists(Paths.get(localTmpFolder)) && Files.isReadable(Paths.get(localTmpFolder))) {
             Files.createDirectory(Paths.get(localTmpFolder))
         }
 
