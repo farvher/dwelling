@@ -8,6 +8,7 @@ interface URLConstants {
         const val SEARCH = "/search/**";
         const val DETAIL = "/property/detail/**"
         const val TEST = "/test/**"
+        const val FILTER = "/filters/**"
 
     }
 }
