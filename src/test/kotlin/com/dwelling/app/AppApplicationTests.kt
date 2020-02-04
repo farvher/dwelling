@@ -34,12 +34,9 @@ import java.util.*
 @TestPropertySource("classpath:test.properties")
 class AppApplicationTests {
 
-
-
     val logger: Logger = LoggerFactory.getLogger(AppApplicationTests::class.java)
 
     private val credentials = mapOf("username" to "admin", "password" to "admin")
-
 
 
     @Autowired
