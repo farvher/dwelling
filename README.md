@@ -1,4 +1,4 @@
-
+![Java CI](https://github.com/farvher/dwelling/workflows/Java%20CI/badge.svg?branch=master)
 
 # Backend for Dwelling
 
