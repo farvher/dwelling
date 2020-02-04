@@ -52,12 +52,14 @@ class AzureBlobStorageService : StorageService {
     @PostConstruct
     override fun init() {
         val azureSecret = System.getenv(azureConnectionString)
-        blobServiceClient = BlobServiceClientBuilder().connectionString(azureSecret)
-                .buildClient()
-        blobContainerClient = blobServiceClient.getBlobContainerClient(azureContainer)
+        if(azureSecret != null) {
+            blobServiceClient = BlobServiceClientBuilder().connectionString(azureSecret)
+                    .buildClient()
+            blobContainerClient = blobServiceClient.getBlobContainerClient(azureContainer)
 
-        if (!Files.exists(Paths.get(localTmpFolder))) {
-            Files.createDirectory(Paths.get(localTmpFolder))
+            if (!Files.exists(Paths.get(localTmpFolder))) {
+                Files.createDirectory(Paths.get(localTmpFolder))
+            }
         }
 
     }
