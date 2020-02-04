@@ -10,13 +10,11 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.Resource
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
-import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 import java.util.stream.Stream
-import javax.activation.MimetypesFileTypeMap
 import javax.annotation.PostConstruct
 
 /**
@@ -52,12 +50,12 @@ class AzureBlobStorageService : StorageService {
     @PostConstruct
     override fun init() {
         val azureSecret = System.getenv(azureConnectionString)
-        if(azureSecret != null) {
+        if (azureSecret != null) {
             blobServiceClient = BlobServiceClientBuilder().connectionString(azureSecret)
                     .buildClient()
             blobContainerClient = blobServiceClient.getBlobContainerClient(azureContainer)
 
-            if (!Files.exists(Paths.get(localTmpFolder))) {
+            if (!Files.exists(Paths.get(localTmpFolder)) && Files.isReadable(Paths.get(localTmpFolder))) {
                 Files.createDirectory(Paths.get(localTmpFolder))
             }
         }
@@ -78,7 +76,7 @@ class AzureBlobStorageService : StorageService {
 
     override fun count(filename: String): Int {
         val folder = "$azureContainer/$filename"
-        if(!blobContainerClient.getBlobClient(folder).exists()) return 0
+        if (!blobContainerClient.getBlobClient(folder).exists()) return 0
         return blobContainerClient.listBlobs().count()
     }
 
