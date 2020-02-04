@@ -1,10 +1,13 @@
 package com.dwelling.app.services
 
 
-import com.dwelling.app.domain.City
 import com.dwelling.app.domain.Location
 import com.dwelling.app.domain.Property
-import com.google.gson.*
+import com.dwelling.app.exceptions.SearchServiceException
+import com.google.gson.ExclusionStrategy
+import com.google.gson.FieldAttributes
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonParser
 import io.searchbox.client.JestClient
 import io.searchbox.core.Bulk
 import io.searchbox.core.Index
@@ -17,18 +20,12 @@ import org.elasticsearch.search.builder.SearchSourceBuilder
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import reactor.core.publisher.Flux
 import java.io.IOException
 import java.text.MessageFormat
-import com.google.gson.FieldAttributes
-import com.google.gson.ExclusionStrategy
-import io.searchbox.core.search.aggregation.GeoDistanceAggregation
-import org.elasticsearch.common.geo.GeoDistance
-import org.elasticsearch.search.aggregations.bucket.range.GeoDistanceAggregationBuilder
 
 
 @Component
-class SearchService<T>{
+class SearchService<T> {
 
 
     val logger = LoggerFactory.getLogger(SearchService::class.java)
@@ -118,15 +115,16 @@ class SearchService<T>{
                     if (field.declaringClass == Location::class.java && field.name == "id") {
                         return true
                     }
-                   return false
+                    return false
                 }
+
                 override fun shouldSkipClass(clazz: Class<*>): Boolean {
                     return false
                 }
             }
 
-            val json =  GsonBuilder().addSerializationExclusionStrategy(strategy).create().toJson(element)
-            val gson =  JsonParser.parseString(json)
+            val json = GsonBuilder().addSerializationExclusionStrategy(strategy).create().toJson(element)
+            val gson = JsonParser.parseString(json)
             createIndexIfNotExists(INDEX)
             val bulk = Bulk.Builder()
                     .addAction(Index.Builder(gson)
@@ -169,10 +167,10 @@ class SearchService<T>{
                 logger.info(result.sourceAsString)
 
             } else {
-                throw IllegalStateException("ERROR SEARCHING BY QUERY STRING")
+                throw SearchServiceException(result.errorMessage)
             }
 
-            return  result.getSourceAsObjectList(Property::class.java,false)
+            return result.getSourceAsObjectList(Property::class.java, false)
 
         } catch (e: IOException) {
             logger.error("SEARCH IO ERROR", e)
