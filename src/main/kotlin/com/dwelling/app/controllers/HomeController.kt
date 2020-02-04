@@ -13,6 +13,14 @@ import javax.sql.DataSource
 @Controller
 class HomeController {
 
+    @GetMapping("/")
+    fun home(): String {
+        return "index"
+    }
 
+    @GetMapping("/token")
+    fun token(): String {
+        return "home"
+    }
 
 }
