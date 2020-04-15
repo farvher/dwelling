@@ -23,6 +23,7 @@ import java.time.LocalDate
 import javax.sql.DataSource
 
 @RestController()
+@CrossOrigin("http://localhost:4200")
 class TestController {
     private var H2_CONSOLE = "jdbc:h2:mem:testdb"
     @Autowired
