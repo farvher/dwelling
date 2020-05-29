@@ -1,6 +1,7 @@
 package com.dwelling.app.controllers
 
 import com.dwelling.app.services.*
+import com.dwelling.app.services.multimedia.MultimediaStorageService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.web.bind.annotation.PostMapping

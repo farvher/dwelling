@@ -42,6 +42,7 @@ dependencies {
 	implementation ("io.jsonwebtoken:jjwt:0.9.1")
 	//implementation ("com.amazonaws:aws-java-sdk-s3:1.11.700")
 	implementation("com.azure:azure-storage-blob:12.1.0")
+	implementation ("io.projectreactor:reactor-core")
 	implementation("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("com.h2database:h2")
 	runtimeOnly("org.postgresql:postgresql")

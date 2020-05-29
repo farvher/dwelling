@@ -1,4 +1,4 @@
-package com.dwelling.app.services
+package com.dwelling.app.services.property
 
 import com.dwelling.app.domain.Property
 import com.dwelling.app.domain.Visitor

@@ -50,7 +50,7 @@ class SearchService<T> {
 
     }
 
-    private fun createIndexIfNotExists(index: String) {
+     fun createIndexIfNotExists(index: String) {
         logger.info("[createIndexIfNotExists]")
         val indicesExists = IndicesExists.Builder(index).build()
         try {
@@ -70,37 +70,6 @@ class SearchService<T> {
             }
         } catch (ex: IOException) {
             logger.error("ERROR CREATING INDEX", ex)
-        }
-
-    }
-
-    fun createProperty(property: Property) {
-
-        logger.info("[createProperty]")
-        try {
-
-            createIndexIfNotExists(INDEX)
-            val bulk = Bulk.Builder()
-                    .addAction(Index.Builder(property)
-                            .index(INDEX)
-                            .type(INDEX_TYPE).build())
-                    .build()
-
-
-            val result = jestClient.execute(bulk)
-            if (result.isSucceeded) {
-
-                logger.info("CREATED")
-            } else {
-                throw IllegalStateException("ERROR CREATING REGISTRY")
-            }
-
-            logger.info(result.jsonString)
-
-        } catch (e: IOException) {
-            logger.error("ERROR IO INDEXING", e)
-        } catch (e: Exception) {
-            logger.error("ERROR INDEXING", e)
         }
 
     }
@@ -125,7 +94,6 @@ class SearchService<T> {
 
             val json = GsonBuilder().addSerializationExclusionStrategy(strategy).create().toJson(element)
             val gson = JsonParser.parseString(json)
-            createIndexIfNotExists(INDEX)
             val bulk = Bulk.Builder()
                     .addAction(Index.Builder(gson)
                             .index(INDEX)
@@ -134,12 +102,10 @@ class SearchService<T> {
 
             val result = jestClient.execute(bulk)
             if (result.isSucceeded) {
-
                 logger.info("CREATED")
             } else {
-                throw IllegalStateException("ERROR CREATING REGISTRY")
+                throw IllegalStateException("ERROR CREATING INDEX")
             }
-
             logger.info(result.jsonString)
 
         } catch (e: IOException) {

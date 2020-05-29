@@ -1,10 +1,8 @@
 package com.dwelling.app.controllers
 
-import com.dwelling.app.domain.Property
 import com.dwelling.app.dto.PropertyDto
-import com.dwelling.app.services.AzureBlobStorageService
-import com.dwelling.app.services.PropertyService
-import com.dwelling.app.services.StorageService
+import com.dwelling.app.services.property.PropertyService
+import com.dwelling.app.services.multimedia.StorageService
 import com.dwelling.app.services.VisitorService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

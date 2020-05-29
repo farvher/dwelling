@@ -1,4 +1,4 @@
-package com.dwelling.app.services
+package com.dwelling.app.services.multimedia
 
 import org.springframework.core.io.Resource
 import org.springframework.web.multipart.MultipartFile

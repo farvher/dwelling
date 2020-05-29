@@ -1,13 +1,11 @@
 package com.dwelling.app.controllers
 
 import com.dwelling.app.dto.PropertyDto
-import com.dwelling.app.services.PropertyService
+import com.dwelling.app.services.property.PropertyService
 import com.dwelling.app.services.VisitorService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono

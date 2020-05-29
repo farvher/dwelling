@@ -1,4 +1,4 @@
-package com.dwelling.app.services
+package com.dwelling.app.services.multimedia
 
 import com.dwelling.app.exceptions.IsNotImageException
 import org.slf4j.Logger

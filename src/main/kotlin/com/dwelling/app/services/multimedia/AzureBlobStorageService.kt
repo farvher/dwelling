@@ -1,4 +1,4 @@
-package com.dwelling.app.services
+package com.dwelling.app.services.multimedia
 
 import com.azure.storage.blob.BlobClient
 import com.azure.storage.blob.BlobContainerClient
