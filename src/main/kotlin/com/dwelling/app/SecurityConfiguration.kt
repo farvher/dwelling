@@ -70,7 +70,7 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter(false) {
                 // Un-secure H2 Database (for testing purposes, H2 console shouldn't be unprotected in production)
                 .and()
                 .ignoring()
-                .antMatchers("/h2-console/**/**")
+                .antMatchers("/h2-console/**/**","/v3/api-docs/**/**")
     }
 
 

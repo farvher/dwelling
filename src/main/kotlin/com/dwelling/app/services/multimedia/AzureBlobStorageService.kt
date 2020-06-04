@@ -29,8 +29,8 @@ class AzureBlobStorageService : StorageService {
     val logger: Logger = LoggerFactory.getLogger(AzureBlobStorageService::class.java)
 
 
-    @Value("\${azure.connectionString}")
-    private lateinit var azureConnectionString: String
+    @Value("\${azure.connection}")
+    private lateinit var azureConnection: String
 
     @Value("\${azure.key}")
     private lateinit var azureKey: String
@@ -49,9 +49,8 @@ class AzureBlobStorageService : StorageService {
 
     @PostConstruct
     override fun init() {
-        val azureSecret = System.getenv(azureConnectionString)
-        if (azureSecret != null) {
-            blobServiceClient = BlobServiceClientBuilder().connectionString(azureSecret)
+        if (azureConnection != null) {
+            blobServiceClient = BlobServiceClientBuilder().connectionString(azureConnection)
                     .buildClient()
             blobContainerClient = blobServiceClient.getBlobContainerClient(azureContainer)
 
