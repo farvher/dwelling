@@ -22,21 +22,24 @@ class LocationsTests {
     private lateinit var locationsService: LocationsService
 
     @Test
-    fun shouldFindCity(){
-        val city = locationsService.findCityByName("Cali")
-        assert(city!=null)
+    fun shouldFindCity() {
+        val name = "Cali"
+        val city = locationsService.findCityByName(name)
+        assert(city.name == name)
     }
 
     @Test
-    fun shouldFindNeighborhood(){
-        val neighborhood = locationsService.findNeighborhoodByName("Rosales")
-        assert(neighborhood!=null)
+    fun shouldFindNeighborhood() {
+        val name = "Rosales"
+        val neighborhood = locationsService.findNeighborhoodByName(name)
+        assert(neighborhood.name == name)
     }
 
     @Test
-    fun shouldFindCZone(){
-        val zone = locationsService.findZoneByName("Zona Centro, Bogotá D.C.")
-        assert(zone!=null)
+    fun shouldFindCZone() {
+        val name = "Zona Centro, Bogotá D.C."
+        val zone = locationsService.findZoneByName(name)
+        assert(zone.name == name)
     }
 
 }

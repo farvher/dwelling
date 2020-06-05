@@ -62,7 +62,6 @@ class AppApplicationTests {
 
     private lateinit var webClient: WebClient
 
-    private lateinit var token: String
 
     @Before
     fun webTestClient() {
