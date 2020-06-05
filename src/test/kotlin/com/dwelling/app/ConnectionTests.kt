@@ -75,7 +75,7 @@ class ConnectionTests {
         sourceBuilder.size(5)
         sourceBuilder.timeout(TimeValue(60, TimeUnit.SECONDS))
         val searchBuilder = sourceBuilder.query(QueryBuilders.matchAllQuery())
-        val search = Search.Builder(sourceBuilder.toString())
+        val search = Search.Builder(searchBuilder.toString())
                 .addType(IDwellingsSeach.TYPE_PROPERTY)
                 .addIndex(IDwellingsSeach.INDEX_PROPERTY)
                 .build()

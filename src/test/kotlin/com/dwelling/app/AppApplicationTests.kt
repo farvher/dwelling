@@ -62,7 +62,7 @@ class AppApplicationTests {
 
     private lateinit var webClient: WebClient
 
-    private lateinit var token : String
+    private lateinit var token: String
 
     @Before
     fun webTestClient() {
@@ -81,6 +81,7 @@ class AppApplicationTests {
                 }
                 return false
             }
+
             override fun shouldSkipClass(clazz: Class<*>): Boolean {
                 return false
             }
@@ -97,23 +98,12 @@ class AppApplicationTests {
         assert(userRepository.findAll().size == 3)
     }
 
-    @Test
-    fun homeShouldBeSecured() {
-        webTestClient.post().uri("/")
-                .exchange()
-                .expectStatus()
-                .isUnauthorized()
-    }
 
-    /**
-     * Un usuario puede crear favoritos , pero al eliminar estos favoritos no deberia eliminarse sus datos child
-     * */
     @Test
     fun shouldNOTDeleteCities() {
 
         val property = propertyRepository.findById(1)
         val visitor = visitorRepository.findById(1);
-        val city = property.get().neighborhood.zone.city
         val totalCities = cityRepository.count()
         favoritesRepository.save(VisitorFavorite(-1, property.get(), visitor.get()))
         assert(favoritesRepository.count() == 1L)
@@ -134,12 +124,12 @@ class AppApplicationTests {
     }
 
     @Test
-    fun getOneDetail(){
+    fun getOneDetail() {
         webClient.get()
                 .uri("/property/detail/1")
                 .retrieve()
                 .bodyToMono(Property::class.java)
-                .subscribe{ println(it)}
+                .subscribe { println(it) }
 
     }
 

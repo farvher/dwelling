@@ -119,8 +119,8 @@ class PublishTest {
                 123123131.3123,
                 123123123.13213
         )
-
-       val response = webClient.post().uri("/publish")
+        
+        webClient.post().uri("/publish")
                 .header(HttpHeaders.AUTHORIZATION,"Bearer $token")
                 .body(BodyInserters.fromValue(property))
                 .exchange()
