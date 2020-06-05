@@ -23,21 +23,21 @@ class LocationsTests {
 
     @Test
     fun shouldFindCity() {
-        val name = "Cali"
+        val name = "Bogotá D.C."
         val city = locationsService.findCityByName(name)
         assert(city.name == name)
     }
 
     @Test
     fun shouldFindNeighborhood() {
-        val name = "Rosales"
+        val name = "Lomas"
         val neighborhood = locationsService.findNeighborhoodByName(name)
         assert(neighborhood.name == name)
     }
 
     @Test
     fun shouldFindCZone() {
-        val name = "Zona Centro, Bogotá D.C."
+        val name = "Norte"
         val zone = locationsService.findZoneByName(name)
         assert(zone.name == name)
     }

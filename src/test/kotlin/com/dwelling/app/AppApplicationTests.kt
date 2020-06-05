@@ -37,23 +37,8 @@ class AppApplicationTests {
 
     private val credentials = mapOf("username" to "admin", "password" to "admin")
 
-
-    @Autowired
-    private lateinit var visitorRepository: VisitorRepository
-
-    @Autowired
-    private lateinit var favoritesRepository: FavoritesRepository
-
-
-    @Autowired
-    private lateinit var cityRepository: CityRepository
-
-    @Autowired
-    private lateinit var propertyRepository: PropertyRepository
-
     @Autowired
     private lateinit var userRepository: UserRepository
-
 
     @LocalServerPort
     var randomServerPort = 0
@@ -71,25 +56,7 @@ class AppApplicationTests {
         webClient = WebClient.builder()
                 .baseUrl("http://localhost:$randomServerPort")
                 .build()
-        val mockdata = Files.readString(Path.of("./data_json.json"), Charsets.UTF_8)
-        val listType = object : TypeToken<ArrayList<Property?>?>() {}.type
-        val strategy = object : ExclusionStrategy {
-            override fun shouldSkipField(field: FieldAttributes): Boolean {
-                if (field.declaringClass == Visitor::class.java && field.name == "creationDate") {
-                    return true
-                }
-                return false
-            }
 
-            override fun shouldSkipClass(clazz: Class<*>): Boolean {
-                return false
-            }
-        }
-        val gson = GsonBuilder().addDeserializationExclusionStrategy(strategy).create()
-        val properties: List<Property> = gson.fromJson("$mockdata", listType)
-        properties.forEach {
-            propertyRepository.save(it)
-        }
     }
 
     @Test
@@ -97,19 +64,6 @@ class AppApplicationTests {
         assert(userRepository.findAll().size == 3)
     }
 
-
-    @Test
-    fun shouldNOTDeleteCities() {
-
-        val property = propertyRepository.findById(1)
-        val visitor = visitorRepository.findById(1);
-        val totalCities = cityRepository.count()
-        favoritesRepository.save(VisitorFavorite(-1, property.get(), visitor.get()))
-        assert(favoritesRepository.count() == 1L)
-        favoritesRepository.deleteById(1)
-        assert(totalCities == cityRepository.count())
-
-    }
 
     @Test
     fun shouldLogin() {
@@ -123,12 +77,14 @@ class AppApplicationTests {
     }
 
     @Test
-    fun getOneDetail() {
-        webClient.get()
-                .uri("/property/detail/1")
+    fun shouldFindElastic() {
+        val property = webClient.get()
+                .uri("/property/index/1")
                 .retrieve()
                 .bodyToMono(Property::class.java)
-                .subscribe { println(it) }
+                .block()
+        assert(property!!.id==1L)
+
 
     }
 
