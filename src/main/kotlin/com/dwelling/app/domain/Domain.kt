@@ -37,17 +37,17 @@ data class  VisitorFavorite(@Id @GeneratedValue(strategy = GenerationType.IDENTI
 data class VisitorPreferences(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long = -1,
                               var favoritePropertyType: PropertyTypeEnum,
                               var favoriteBusinessType: BusinessTypeEnum,
-                              @OneToOne(cascade = [CascadeType.ALL],fetch = FetchType.LAZY)
+                              @OneToOne(cascade = [CascadeType.REFRESH],fetch = FetchType.LAZY)
                               var favoriteCity : City,
-                              @OneToOne(cascade = [CascadeType.ALL],fetch = FetchType.LAZY)
+                              @OneToOne(cascade = [CascadeType.REFRESH],fetch = FetchType.LAZY)
                               var favoriteZone: Zone,
-                              @OneToOne(cascade = [CascadeType.ALL],fetch = FetchType.LAZY)
+                              @OneToOne(cascade = [CascadeType.REFRESH],fetch = FetchType.LAZY)
                               var favoriteCountry: Country,
                               var nearToMe : Boolean,
                               var favoriteLocation : String,
                               var incomeValue: Double,
                               var outcomeValue: Double,
-                              @OneToOne(cascade = [CascadeType.ALL])
+                              @OneToOne(cascade = [CascadeType.REFRESH])
                               var visitor: Visitor,
                               var withParkings : Boolean,
                               var withPets : Boolean,
@@ -72,7 +72,7 @@ data class Property(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) val 
                     var propertyType: PropertyTypeEnum,
                     var businessType : BusinessTypeEnum,
                     var title: String,
-                    @OneToOne(cascade = [CascadeType.ALL])
+                    @OneToOne(cascade = [CascadeType.REFRESH])
                     var neighborhood: Neighborhood,
                     var description: String,
                     var imageCount: Int?,

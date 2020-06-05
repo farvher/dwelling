@@ -2,7 +2,7 @@ package com.dwelling.app.controllers
 
 import com.dwelling.app.domain.VisitorPreferences
 import com.dwelling.app.dto.VisitorPreferencesDto
-import com.dwelling.app.services.LocationsService
+import com.dwelling.app.services.locations.LocationsService
 import com.dwelling.app.services.PreferencesService
 import com.dwelling.app.services.property.PropertyService
 import com.dwelling.app.services.VisitorService

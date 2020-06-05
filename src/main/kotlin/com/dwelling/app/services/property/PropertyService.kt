@@ -1,5 +1,6 @@
 package com.dwelling.app.services.property
 
+import com.dwelling.app.domain.Neighborhood
 import com.dwelling.app.domain.Property
 import com.dwelling.app.domain.Visitor
 import com.dwelling.app.domain.VisitorFavorite
@@ -33,9 +34,9 @@ class PropertyService {
         return propertyRepository.findById(id).orElse(null)
     }
 
-    fun saveProperty(property: PropertyDto, visitor: Visitor) :PropertyDto{
-        return PropertyDto.toDto(propertyRepository.save(PropertyDto.toDomain(property,visitor)))
-
+    fun saveProperty(property: PropertyDto, visitor: Visitor, neighborhood: Neighborhood){
+        val property = PropertyDto.toDomain(property, visitor, neighborhood)
+        propertyRepository.save(property)
     }
 
     fun updateProperty(property: Property) {

@@ -3,6 +3,7 @@ package com.dwelling.app
 import com.dwelling.app.domain.Property
 import com.dwelling.app.domain.Visitor
 import com.dwelling.app.domain.VisitorFavorite
+import com.dwelling.app.repository.CityRepository
 import com.dwelling.app.repository.FavoritesRepository
 import com.dwelling.app.repository.PropertyRepository
 import com.dwelling.app.repository.VisitorRepository
@@ -45,7 +46,7 @@ class AppApplicationTests {
 
 
     @Autowired
-    private lateinit var searchService: SearchService<Property>
+    private lateinit var cityRepository: CityRepository
 
     @Autowired
     private lateinit var propertyRepository: PropertyRepository
@@ -113,9 +114,11 @@ class AppApplicationTests {
         val property = propertyRepository.findById(1)
         val visitor = visitorRepository.findById(1);
         val city = property.get().neighborhood.zone.city
+        val totalCities = cityRepository.count()
         favoritesRepository.save(VisitorFavorite(-1, property.get(), visitor.get()))
         assert(favoritesRepository.count() == 1L)
         favoritesRepository.deleteById(1)
+        assert(totalCities == cityRepository.count())
 
     }
 

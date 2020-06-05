@@ -1,9 +1,11 @@
 package com.dwelling.app.controllers
 
 import com.dwelling.app.dto.PropertyDto
+import com.dwelling.app.repository.PropertyRepository
 import com.dwelling.app.services.property.PropertyService
 import com.dwelling.app.services.multimedia.StorageService
 import com.dwelling.app.services.VisitorService
+import com.dwelling.app.services.locations.LocationsService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -25,9 +27,21 @@ class PublishController {
     private lateinit var propertyService: PropertyService
 
     @Autowired
+    private lateinit var locationsService: LocationsService
+
+    @Autowired
     @Qualifier("azureBlobStorageService")
     private lateinit var azureBlobStorageService: StorageService
 
+
+    @PostMapping("/publish")
+    fun createProperty(request: HttpServletRequest, @RequestBody property: PropertyDto) {
+
+        val jwtUser = visitorService.getVisitor(request)
+        val visitor = visitorService.getVisitor(jwtUser.id!!)
+        val neighborhood = locationsService.findNeighborhoodByName(property.neighborhood)
+        propertyService.saveProperty(property,visitor,neighborhood)
+    }
 
 
     @PostMapping("/create-property")
@@ -36,9 +50,9 @@ class PublishController {
                      request: HttpServletRequest) {
         val visitor = visitorService.getVisitor(request)
         val visitorId = visitorService.getVisitor(idVisitor = visitor.id!!)
-       val property =  propertyService.saveProperty(property,visitorId)
+       // val property = propertyService.saveProperty(property, visitorId)
         val path = "${visitorId.id}/${property.id}/image001.png"
-        azureBlobStorageService.storage(multipartFile,path)
+        azureBlobStorageService.storage(multipartFile, path)
 
 
     }

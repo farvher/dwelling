@@ -8,6 +8,7 @@ import io.searchbox.core.Search
 import org.elasticsearch.common.unit.TimeValue
 import org.elasticsearch.index.query.QueryBuilders
 import org.elasticsearch.search.builder.SearchSourceBuilder
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.slf4j.Logger
@@ -43,6 +44,7 @@ class ConnectionTests {
 
 
     @Test
+    @Ignore
     fun shouldConnectToAzure(): Unit {
         assert(!azureConnection.isNullOrBlank())
         val blobServiceClient = BlobServiceClientBuilder()
@@ -52,6 +54,7 @@ class ConnectionTests {
     }
 
     @Test
+    @Ignore
     fun shouldConnectToDatabase(): Unit {
         assert(!databaseConnection.isNullOrBlank())
         val connection = datasource.connection
@@ -59,6 +62,7 @@ class ConnectionTests {
     }
 
     @Test
+    @Ignore
     fun shouldConnectToElasticSearch(): Unit {
         assert(!elasticSearchConnection.isNullOrBlank())
         val factory = JestClientFactory()

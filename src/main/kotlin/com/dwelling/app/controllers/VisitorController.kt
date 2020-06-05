@@ -25,8 +25,6 @@ class VisitorController {
 
     @Autowired
     private lateinit var userRestController: UserRestController
-    @Autowired
-    private lateinit var visitorRepository: VisitorRepository
 
 
     @PostMapping("/visitor/update-preferences")

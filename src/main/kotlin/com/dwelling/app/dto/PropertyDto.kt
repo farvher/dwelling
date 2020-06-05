@@ -31,7 +31,7 @@ class PropertyDto(
         var admin: Double = 0.0,
         var floor: Int? = 0,
         var additional: List<Additional>? = null,
-        var visitorId: Long,
+        var visitorId: Long?,
         @NotNull
         var longitude: Double,
         @NotNull
@@ -71,15 +71,15 @@ class PropertyDto(
                 images = p.images!!.map { i -> i.url }
         )
 
-        fun toDomain(p: PropertyDto,v :Visitor) = Property(
+        fun toDomain(p: PropertyDto, v: Visitor, n: Neighborhood) = Property(
                 id = p.id!!,
                 propertyType = p.propertyType,
                 businessType = p.businessType,
                 title = p.title,
-                neighborhood = Neighborhood(-1, p.neighborhood,
-                        Zone(-1, p.zone,
-                                City(-1, p.city,
-                                        Country(-1, p.country)))),
+                neighborhood = Neighborhood(n.id, n.name,
+                        Zone(n.zone.id, n.zone.name,
+                                City(n.zone.city.id, n.zone.city.name,
+                                        Country(n.zone.city.country.id, n.zone.city.country.name)))),
 
                 description = p.description,
                 imageCount = p.imageCount,
@@ -98,7 +98,7 @@ class PropertyDto(
                 floor = p.floor,
                 additional = p.additional,
                 visitor = v,
-                location = Location (-1, p.longitude,p.latitude)
+                location = Location(-1, p.longitude, p.latitude)
 
         )
 
