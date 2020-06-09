@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*
 import java.util.*
 import javax.servlet.http.HttpServletRequest
 
+
 @RestController
 class AuthenticationRestController {
 
@@ -34,17 +35,15 @@ class AuthenticationRestController {
     @Qualifier("jwtUserDetailsService")
     private val userDetailsService: UserDetailsService? = null
 
-    @RequestMapping(value = ["/auth"], method = [RequestMethod.POST])
+
+    @PostMapping("/auth")
     @Throws(AuthenticationException::class)
     fun createAuthenticationToken(@RequestBody authenticationRequest: JwtAuthenticationRequest): ResponseEntity<*> {
 
         authenticate(authenticationRequest.username!!, authenticationRequest.password!!)
-
-        // Reload password post-security so we can generate the token
         val userDetails = userDetailsService!!.loadUserByUsername(authenticationRequest.username)
         val token = jwtTokenUtil.generateToken(userDetails)
 
-        // Return the token
         return ResponseEntity.ok<Any>(JwtAuthenticationResponse(token))
     }
 
@@ -71,7 +70,7 @@ class AuthenticationRestController {
     /**
      * Authenticates the user. If something is wrong, an [AuthenticationException] will be thrown
      */
-    private fun authenticate(username: String, password: String) {
+     fun authenticate(username: String, password: String) {
         Objects.requireNonNull(username)
         Objects.requireNonNull(password)
 

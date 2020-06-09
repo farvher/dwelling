@@ -13,7 +13,8 @@ class JwtUser(
         val firstname: String?,
         val lastname: String?,
         val email: String?,
-        private val password: String?, private val authorities: Collection<GrantedAuthority>,
+        private val password: String?,
+        private val authorities: Collection<GrantedAuthority>,
         private val enabled: Boolean,
         @get:JsonIgnore
         val lastPasswordResetDate: Date?

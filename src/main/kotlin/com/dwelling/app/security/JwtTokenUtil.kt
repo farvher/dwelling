@@ -1,19 +1,17 @@
 package com.dwelling.app.security
 
-import java.io.Serializable
-import java.util.Date
-import java.util.HashMap
-import java.util.function.Function
-
 
 import io.jsonwebtoken.Claims
-import io.jsonwebtoken.Clock
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.impl.DefaultClock
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Component
+import java.io.Serializable
+import java.util.*
+import java.util.function.Function
 
 @Component
 
@@ -71,16 +69,17 @@ class JwtTokenUtil : Serializable {
 
     fun generateToken(userDetails: UserDetails): String {
         val claims = HashMap<String, Any>()
-        return doGenerateToken(claims, userDetails.username)
+        claims["authorities"] = userDetails.authorities
+        return doGenerateToken(claims, userDetails)
     }
 
-    private fun doGenerateToken(claims: Map<String, Any>, subject: String): String {
+    private fun doGenerateToken(claims: Map<String, Any>, subject: UserDetails): String {
         val createdDate = clock.now()
         val expirationDate = calculateExpirationDate(createdDate)
 
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(subject)
+                .setSubject(subject.username)
                 .setIssuedAt(createdDate)
                 .setExpiration(expirationDate)
                 .signWith(SignatureAlgorithm.HS512, secret)
@@ -114,6 +113,13 @@ class JwtTokenUtil : Serializable {
         return (username == user.username
                 && !isTokenExpired(token)
                 && !isCreatedBeforeLastPasswordReset(created, user.lastPasswordResetDate))
+    }
+
+    fun validateToken(token: String): Boolean {
+        val username = getUsernameFromToken(token)
+        val created = getIssuedAtDateFromToken(token)
+        val expiration = getExpirationDateFromToken(token);
+        return !isTokenExpired(token)
     }
 
     private fun calculateExpirationDate(createdDate: Date): Date {

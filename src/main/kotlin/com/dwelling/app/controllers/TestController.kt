@@ -10,20 +10,26 @@ import com.dwelling.app.repository.FavoritesRepository
 import com.dwelling.app.repository.PropertyRepository
 import com.dwelling.app.repository.VisitorPreferencesRepository
 import com.dwelling.app.repository.VisitorRepository
+import com.dwelling.app.security.JwtAuthenticationRequest
+import com.dwelling.app.security.JwtTokenUtil
+import com.dwelling.app.security.controller.AuthenticationException
+import com.dwelling.app.security.controller.AuthenticationRestController
 import com.dwelling.app.security.controller.UserRestController
 import com.dwelling.app.security.model.User
 import com.dwelling.app.security.repository.UserRepository
+import com.dwelling.app.security.services.JwtAuthenticationResponse
+import com.dwelling.app.security.services.JwtUserDetailsService
 import com.dwelling.app.services.SearchService
 import org.apache.http.entity.ContentType
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
 import javax.sql.DataSource
 
 @RestController()
-@CrossOrigin("http://localhost:4200")
 class TestController {
     private var H2_CONSOLE = "jdbc:h2:mem:testdb"
     @Autowired
@@ -33,12 +39,6 @@ class TestController {
     private lateinit var visitorPreferencesRepository: VisitorPreferencesRepository
     @Autowired
     private lateinit var favoritesRepository: FavoritesRepository
-
-
-    @Autowired
-    private lateinit var dwellingsSearch: IDwellingsSeach
-    @Autowired
-    private lateinit var userRestController:UserRestController
 
     @Autowired
     private lateinit var propertyRepository: PropertyRepository
@@ -51,9 +51,6 @@ class TestController {
 
     @Autowired
     private lateinit var userRepository: UserRepository
-
-
-
 
 
     @GetMapping("/test/dummy")

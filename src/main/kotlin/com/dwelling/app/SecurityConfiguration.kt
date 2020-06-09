@@ -2,38 +2,42 @@ package com.dwelling.app
 
 
 import com.dwelling.app.constants.URLConstants
-import com.dwelling.app.security.JwtAuthenticationEntryPoint
 import com.dwelling.app.security.JwtAuthorizationTokenFilter
 import com.dwelling.app.security.services.JwtUserDetailsService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.web.servlet.FilterRegistrationBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.core.Ordered
 import org.springframework.http.HttpMethod
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.BeanIds
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
-import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.web.AuthenticationEntryPoint
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+import org.springframework.web.filter.CorsFilter
+import javax.servlet.http.HttpServletResponse
 
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
         prePostEnabled = true,
-        jsr250Enabled = true ,
+        jsr250Enabled = true,
         securedEnabled = true)
 class SecurityConfiguration : WebSecurityConfigurerAdapter(false) {
 
-    @Autowired
-    private lateinit var jwtAuthenticationEntryPoint: JwtAuthenticationEntryPoint
 
     @Autowired
     private lateinit var jwtAuthorizationTokenFilter: JwtAuthorizationTokenFilter
@@ -48,29 +52,37 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter(false) {
     @Value("\${jwt.route.authentication.path}")
     private lateinit var authenticationPath: String
 
+    @Bean
+    fun processCorsFilter(): FilterRegistrationBean<*> {
+        val source = UrlBasedCorsConfigurationSource()
+        val config = CorsConfiguration()
+        config.allowCredentials = true
+        config.addAllowedOrigin("*")
+        config.addAllowedHeader("*")
+        config.addAllowedMethod("*")
+        source.registerCorsConfiguration("/**", config)
+        val bean = FilterRegistrationBean(CorsFilter(source))
+        bean.order = Ordered.HIGHEST_PRECEDENCE
+        return bean
+    }
 
-    /*
-    * configuracion global que ignora paths de recursos y el login path post
-    * */
+
     override fun configure(web: WebSecurity) {
         web.ignoring()
-                .antMatchers(HttpMethod.POST,authenticationPath)
-                // allow anonymous resource requests
+                .antMatchers(HttpMethod.POST, authenticationPath)
                 .and()
                 .ignoring()
                 .antMatchers(
                         HttpMethod.GET,
                         "/",
-                        "/*.html",
                         "/favicon.ico",
                         "/**/*.html",
                         "/**/*.css",
                         "/**/*.js"
                 )
-                // Un-secure H2 Database (for testing purposes, H2 console shouldn't be unprotected in production)
                 .and()
                 .ignoring()
-                .antMatchers("/h2-console/**/**","/v3/api-docs/**/**")
+                .antMatchers("/h2-console/**/**", "/v3/api-docs/**/**")
     }
 
 
@@ -94,11 +106,14 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter(false) {
     @Throws(Exception::class)
     override fun configure(httpSecurity: HttpSecurity) {
 
+
         httpSecurity
-                // we don't need CSRF because our token is invulnerable
                 .csrf().disable()
-                //entry point
-                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
+                .exceptionHandling()
+                .authenticationEntryPoint(AuthenticationEntryPoint { request, response, authException ->
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized")
+                })
+                .and()
                 // don't create session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
@@ -118,7 +133,8 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter(false) {
         // disable page caching
         httpSecurity
                 .headers()
-                .frameOptions().sameOrigin()  // required to set for H2 else H2 Console will be blank.
+                .frameOptions()
+                .sameOrigin()  // required to set for H2 else H2 Console will be blank.
                 .cacheControl()
     }
 
