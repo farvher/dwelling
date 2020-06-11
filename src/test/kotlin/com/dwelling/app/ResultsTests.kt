@@ -29,6 +29,7 @@ class ResultsTests {
     @Autowired
     private lateinit var propertyRepository: PropertyRepository
 
+    @Test
     fun findByLocations(): Unit {
         
     }
