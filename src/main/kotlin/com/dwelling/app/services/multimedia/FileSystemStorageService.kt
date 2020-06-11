@@ -44,7 +44,7 @@ class FileSystemStorageService : StorageService {
 
     }
 
-    override fun storage(file: MultipartFile, path: String) {
+    override fun storage(file: MultipartFile, path: String) :String {
         val filename: String = StringUtils.cleanPath(file.originalFilename!!)
         logger.info("[saving file  $filename]")
         try {
@@ -61,6 +61,7 @@ class FileSystemStorageService : StorageService {
         } catch (e: IOException) {
             throw IOException("Failed to store file $filename", e)
         }
+        return ""
     }
 
     override fun loadAll(): Stream<Path> {

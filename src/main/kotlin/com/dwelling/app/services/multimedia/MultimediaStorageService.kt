@@ -1,12 +1,13 @@
 package com.dwelling.app.services.multimedia
 
+import com.dwelling.app.dto.ImageDto
 import org.springframework.core.io.Resource
 import org.springframework.web.multipart.MultipartFile
 import java.util.stream.Stream
 
 interface MultimediaStorageService {
 
-    fun store(userId : Long, folder : String, filename: String, file: MultipartFile)
+    fun store(imageDto: ImageDto)
 
     fun count(userId: Long, folder : String) : Int
 

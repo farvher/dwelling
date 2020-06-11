@@ -5,7 +5,7 @@ import java.time.LocalDate
 import javax.persistence.*
 import javax.validation.constraints.NotNull
 
-class PropertyDto(
+data class PropertyDto(
         val id: Long?,
         var propertyType: PropertyTypeEnum,
         var businessType: BusinessTypeEnum,

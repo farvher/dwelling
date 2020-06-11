@@ -1,5 +1,6 @@
 package com.dwelling.app.services.multimedia
 
+import com.dwelling.app.dto.ImageDto
 import com.dwelling.app.exceptions.IsNotImageException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -25,13 +26,14 @@ class ImageMultimediaStorageService : MultimediaStorageService {
     @Qualifier("azureBlobStorageService")
     private lateinit var azureBlobStorageService: StorageService
 
-    override fun store(userId: Long, folder: String, filename: String, file: MultipartFile) {
+    override fun store(imageDto: ImageDto) {
 
-        if(!isImage(file)) {
-            throw IsNotImageException("${file.originalFilename} is not a image!")
+        if(!isImage(imageDto.imageMultipartFile)) {
+            throw IsNotImageException("${imageDto.folder} ${imageDto.id} is not a image!")
         }
-        var filename : String = "$userId/$folder/$filename$imgExt"
-        azureBlobStorageService.storage(file,filename)
+        var path : String = "${imageDto.userId}/${imageDto.folder}/${imageDto.id}$imgExt"
+        val blobUrl = azureBlobStorageService.storage(imageDto.imageMultipartFile,path)
+        imageDto.url = blobUrl
     }
 
     override fun count(userId: Long, folder: String): Int {

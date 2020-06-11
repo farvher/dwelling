@@ -3,7 +3,7 @@ package com.dwelling.app.dto
 /**
  * dto for searchlybox queries
  * */
-class FilterDto(
+data class FilterDto(
         val filterKey: EFilter,
         val filterValue: Any,
         val filterRange: List<Any> = emptyList(),

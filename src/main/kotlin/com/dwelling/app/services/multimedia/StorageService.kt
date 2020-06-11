@@ -9,7 +9,7 @@ interface StorageService {
 
     fun init()
 
-    fun storage(file: MultipartFile, path : String)
+    fun storage(file: MultipartFile, path : String):String
 
     fun count(filename: String) : Int
 
