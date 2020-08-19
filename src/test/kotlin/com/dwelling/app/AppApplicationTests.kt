@@ -78,6 +78,7 @@ class AppApplicationTests {
     }
 
     @Test
+    @Ignore
     fun shouldFindElastic() {
         val property = webClient.get()
                 .uri("/property/index/1")

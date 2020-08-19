@@ -3,6 +3,8 @@ package com.dwelling.app.domain
 
 import com.fasterxml.jackson.annotation.*
 import com.google.gson.annotations.Expose
+import org.elasticsearch.common.geo.GeoPoint
+import org.springframework.data.elasticsearch.annotations.GeoPointField
 import java.time.LocalDate
 import javax.persistence.*
 import kotlin.jvm.Transient
@@ -98,7 +100,10 @@ data class Property(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) val 
                     @OneToOne(cascade = [CascadeType.ALL])
                     var visitor: Visitor,
                     @OneToOne(cascade = [CascadeType.ALL])
-                    var location : Location
+                    var location : Location,
+                    @Transient
+                    @GeoPointField
+                    var geolocation : GeoPoint? = null
 
 ) {
     override fun hashCode(): Int = super.hashCode()

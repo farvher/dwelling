@@ -2,6 +2,7 @@ package com.dwelling.app.controllers
 
 import com.dwelling.app.domain.Property
 import com.dwelling.app.dto.FilterDto
+import com.dwelling.app.dto.PropertyDto
 import com.dwelling.app.elasticsearch.ElasticIndexService
 import com.dwelling.app.elasticsearch.IDwellingsSeach
 import com.dwelling.app.repository.PropertyRepository
@@ -33,7 +34,7 @@ class ResultsController {
 
 
     @PostMapping("/search")
-    fun searchByFilter(@RequestBody filters: List<FilterDto>): Flux<Property> {
+    fun searchByFilter(@RequestBody filters: List<FilterDto>): Flux<PropertyDto> {
         logger.info("[searchByFilter] ${filters.size} filters ")
         filters.forEach { logger.info("${it.filterKey} => ${it.filterValue} - ${it.filterRange} | ${it.filterType}") }
         val results = dwellingsSearch.findByFilters(filters)

@@ -1,11 +1,17 @@
 package com.dwelling.app.dto
 
 import com.dwelling.app.domain.*
+import org.springframework.data.elasticsearch.annotations.Document
+import org.springframework.data.elasticsearch.annotations.GeoPointField
+import org.springframework.data.elasticsearch.core.geo.GeoPoint
 import java.time.LocalDate
 import javax.persistence.*
 import javax.validation.constraints.NotNull
 
+
+@Document(indexName = "property", type = "property")
 data class PropertyDto(
+       @Id
         val id: Long?,
         var propertyType: PropertyTypeEnum,
         var businessType: BusinessTypeEnum,
@@ -32,11 +38,7 @@ data class PropertyDto(
         var floor: Int? = 0,
         var additional: List<Additional>? = null,
         var visitorId: Long?,
-        @NotNull
-        var longitude: Double,
-        @NotNull
-        var latitude: Double
-
+        val location: GeoPoint
 
 ) {
 
@@ -61,8 +63,7 @@ data class PropertyDto(
                 buildTime = p.buildTime,
                 floor = p.floor,
                 imageCount = p.imageCount,
-                latitude = p.location.lat,
-                longitude = p.location.lon,
+                location = GeoPoint(p.location.lat,p.location.lon),
                 parking = p.parking,
                 rentPrice = p.rentPrice,
                 sellPrince = p.sellPrince,
@@ -98,7 +99,7 @@ data class PropertyDto(
                 floor = p.floor,
                 additional = p.additional,
                 visitor = v,
-                location = Location(-1, p.longitude, p.latitude)
+                location = Location(-1, p.location.lat,p.location.lon)
 
         )
 

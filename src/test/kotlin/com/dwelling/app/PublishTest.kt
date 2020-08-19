@@ -10,6 +10,7 @@ import com.dwelling.app.repository.VisitorRepository
 import com.dwelling.app.security.repository.UserRepository
 import com.dwelling.app.security.services.JwtAuthenticationResponse
 import com.dwelling.app.services.SearchService
+import org.elasticsearch.common.geo.GeoPoint
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -116,8 +117,8 @@ class PublishTest {
                 4,
                 null,
                 null,
-                123123131.3123,
-                123123123.13213
+                org.springframework.data.elasticsearch.core.geo.GeoPoint(123123131.3123,
+                123123123.13213)
         )
         
         webClient.post().uri("/publish")

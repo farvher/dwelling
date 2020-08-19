@@ -2,10 +2,11 @@ package com.dwelling.app.elasticsearch
 
 import com.dwelling.app.domain.Property
 import com.dwelling.app.dto.FilterDto
+import com.dwelling.app.dto.PropertyDto
 
 interface IDwellingsSeach {
 
-    fun findByFilters(filters: List<FilterDto>): List<Property>
+    fun findByFilters(filters: List<FilterDto>): List<PropertyDto>
 
     fun findByKeyword(keyword: String): String
 

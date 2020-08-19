@@ -4,6 +4,7 @@ import com.dwelling.app.domain.Property
 import com.dwelling.app.dto.EFilter
 import com.dwelling.app.dto.FilterDto
 import com.dwelling.app.dto.FilterType
+import com.dwelling.app.dto.PropertyDto
 import com.dwelling.app.elasticsearch.IDwellingsSeach
 import com.dwelling.app.services.property.PropertyService
 import org.slf4j.Logger
@@ -35,17 +36,17 @@ class DetailController {
     @GetMapping(path = ["/property/detail/{id}"])
     fun propertyDetail(@PathVariable id: Long,
                        httpServletRequest: HttpServletRequest,
-                       httpServletResponse: HttpServletResponse): Mono<Property> {
+                       httpServletResponse: HttpServletResponse): Mono<PropertyDto> {
         logger.info("[propertyDetail] detail by id $id")
         val property = propertyService.findPropertyById(id)
         logger.info("[propertyDetail] found $property")
-        return Mono.just(property!!)
+        return Mono.just(PropertyDto.toDto(property!!))
     }
 
     @GetMapping(path = ["/property/index/{id}"])
     fun propertyDetailInIndex(@PathVariable id: Long,
                        httpServletRequest: HttpServletRequest,
-                       httpServletResponse: HttpServletResponse): Mono<Property> {
+                       httpServletResponse: HttpServletResponse): Mono<PropertyDto> {
         logger.info("[propertyDetailInIndex] detail by id $id")
         val properties =  dwellingsSearch.findByFilters(listOf(FilterDto(EFilter.ID,id, filterType = FilterType.KEYWORD)))
         val property = when(properties.isNotEmpty()){

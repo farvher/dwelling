@@ -3,6 +3,7 @@ package com.dwelling.app.services
 
 import com.dwelling.app.domain.Location
 import com.dwelling.app.domain.Property
+import com.dwelling.app.dto.PropertyDto
 import com.dwelling.app.exceptions.SearchServiceException
 import com.google.gson.ExclusionStrategy
 import com.google.gson.FieldAttributes
@@ -15,6 +16,7 @@ import io.searchbox.core.Search
 import io.searchbox.indices.CreateIndex
 import io.searchbox.indices.DeleteIndex
 import io.searchbox.indices.IndicesExists
+import org.elasticsearch.common.geo.GeoPoint
 import org.elasticsearch.index.query.QueryBuilders
 import org.elasticsearch.search.builder.SearchSourceBuilder
 import org.slf4j.LoggerFactory
@@ -77,6 +79,7 @@ class SearchService<T> {
     fun create(element: T) {
 
         logger.info("[createElement]")
+
         try {
 
             val strategy = object : ExclusionStrategy {
@@ -116,7 +119,7 @@ class SearchService<T> {
 
     }
 
-    fun searchByQueryString(param: String): List<Property> {
+    fun searchByQueryString(param: String): List<PropertyDto> {
         logger.info("[searchArticles]")
         logger.info(param)
         try {
@@ -136,7 +139,7 @@ class SearchService<T> {
                 throw SearchServiceException(result.errorMessage)
             }
 
-            return result.getSourceAsObjectList(Property::class.java, false)
+            return result.getSourceAsObjectList(PropertyDto::class.java, false)
 
         } catch (e: IOException) {
             logger.error("SEARCH IO ERROR", e)

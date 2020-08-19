@@ -15,14 +15,18 @@ Aplicacion para busqueda y publicacion de inmuebles
 - Servicio rest para guardar, consultar preferencias de busqueda
 - Servicio rest para listado de Ubicaciones
 - Servicio rest para realizar busqueda de inmuebles por terminos clasicos y agregando filtros
+- Servicio rest para proceso de publicacion
+- Batch para indexar datos a ElasticSearch de BD
+- Servicio rest para cargar imagenes 
+- Test de consulta, autenticacion, publicacion y creacion de usuarios
+
 
 
 
 ## Pendientes
 - 
 - Pasarela de pago
-- Servicio rest para proceso de publicacion
-- Batch para indexar datos a ElasticSearch de BD
-- Servicio rest para cargar imagenes 
-- Test de consulta, autenticacion, publicacion y creacion de usuarios
-
+- Extraer data
+- Documentacion con formato
+- Integracion login
+- App flutter
