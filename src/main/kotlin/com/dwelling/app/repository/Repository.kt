@@ -1,6 +1,8 @@
 package com.dwelling.app.repository
 
 import com.dwelling.app.domain.*
+import com.dwelling.app.dto.PropertyDto
+import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 import java.util.*
@@ -56,6 +58,6 @@ interface CountryRepository : JpaRepository<Country,Long>{
     fun findByName(name:String) : Optional<Country>
 }
 
-
-
+@Repository
+interface ElasticPropertyRepository : ElasticsearchRepository<PropertyDto, Long>
 

@@ -2,6 +2,7 @@ package com.dwelling.app.security
 
 import io.jsonwebtoken.ExpiredJwtException
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -19,8 +20,17 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 @Component
-class JwtAuthorizationTokenFilter(@param:Qualifier("jwtUserDetailsService") private val userDetailsService: UserDetailsService, private val jwtTokenUtil: JwtTokenUtil, @param:Value("\${jwt.header}") private val tokenHeader: String) : OncePerRequestFilter() {
+class JwtAuthorizationTokenFilter  : OncePerRequestFilter() {
 
+    @Autowired
+    private lateinit var jwtTokenUtil: JwtTokenUtil
+
+    @Value("\${jwt.header}")
+    private lateinit var tokenHeader : String
+
+    @Autowired
+    @Qualifier("jwtUserDetailsService")
+    private lateinit var userDetailsService: UserDetailsService
 
     @Throws(ServletException::class, IOException::class)
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, chain: FilterChain) {
@@ -38,28 +48,12 @@ class JwtAuthorizationTokenFilter(@param:Qualifier("jwtUserDetailsService") priv
             } catch (e: ExpiredJwtException) {
                 logger.warn("the token is expired and not valid anymore", e)
             }
-
-        } else {
-            logger.warn("couldn't find bearer string, will ignore the header")
         }
 
         if (!username.isEmpty() && SecurityContextHolder.getContext().authentication == null) {
-
-
-            // It is not compelling necessary to load the use details from the database. You could also store the information
-            // in the token and read it from it. It's up to you ;)
-            val userDetails: UserDetails
-            try {
-                userDetails = userDetailsService.loadUserByUsername(username)
-            } catch (e: UsernameNotFoundException) {
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.message)
-                return
-            }
-
-
-            // For simple validation it is completely sufficient to just check the token integrity. You don't have to call
-            // the database compellingly. Again it's up to you ;)
-            if (jwtTokenUtil.validateToken(authToken, userDetails)) {
+            if (jwtTokenUtil.validateToken(authToken)) {
+                val username = jwtTokenUtil.getUsernameFromToken(authToken)
+                val userDetails = userDetailsService.loadUserByUsername(username)
                 val authentication = UsernamePasswordAuthenticationToken(userDetails, null, userDetails.authorities)
                 authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
                 SecurityContextHolder.getContext().authentication = authentication

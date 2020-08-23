@@ -1,9 +1,10 @@
-package com.dwelling.app.services
+package com.dwelling.app.services.multimedia
 
 import com.azure.storage.blob.BlobClient
 import com.azure.storage.blob.BlobContainerClient
 import com.azure.storage.blob.BlobServiceClient
 import com.azure.storage.blob.BlobServiceClientBuilder
+import com.azure.storage.blob.models.BlobHttpHeaders
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -29,8 +30,8 @@ class AzureBlobStorageService : StorageService {
     val logger: Logger = LoggerFactory.getLogger(AzureBlobStorageService::class.java)
 
 
-    @Value("\${azure.connectionString}")
-    private lateinit var azureConnectionString: String
+    @Value("\${azure.connection}")
+    private lateinit var azureConnection: String
 
     @Value("\${azure.key}")
     private lateinit var azureKey: String
@@ -47,14 +48,16 @@ class AzureBlobStorageService : StorageService {
 
     private lateinit var blobClient: BlobClient
 
+    private lateinit var blobHttpHeaders: BlobHttpHeaders;
+
     @PostConstruct
     override fun init() {
-        val azureSecret = System.getenv(azureConnectionString)
-        if (azureSecret != null) {
-            blobServiceClient = BlobServiceClientBuilder().connectionString(azureSecret)
+        if (azureConnection != null) {
+            blobHttpHeaders = BlobHttpHeaders()
+            blobHttpHeaders.contentType = "image/jpeg"
+            blobServiceClient = BlobServiceClientBuilder().connectionString(azureConnection)
                     .buildClient()
             blobContainerClient = blobServiceClient.getBlobContainerClient(azureContainer)
-
             if (!Files.exists(Paths.get(localTmpFolder)) && Files.isReadable(Paths.get(localTmpFolder))) {
                 Files.createDirectory(Paths.get(localTmpFolder))
             }
@@ -62,7 +65,7 @@ class AzureBlobStorageService : StorageService {
 
     }
 
-    override fun storage(file: MultipartFile, path: String) {
+    override fun storage(file: MultipartFile, path: String) :String {
         val absolutePath = Paths.get(localTmpFolder).resolve(path)
         logger.info("[storage] $absolutePath")
         if (!Files.exists(absolutePath.parent)) {
@@ -71,7 +74,10 @@ class AzureBlobStorageService : StorageService {
         Files.copy(file.inputStream, absolutePath, StandardCopyOption.REPLACE_EXISTING)
         var blobClient = blobContainerClient.getBlobClient(path)
         blobClient.uploadFromFile(absolutePath.toString(), true)
+        blobClient.setHttpHeaders(blobHttpHeaders)
         Files.deleteIfExists(absolutePath)
+        logger.info("[storage] ${blobClient.blobUrl}")
+        return blobClient.blobUrl
     }
 
     override fun count(filename: String): Int {

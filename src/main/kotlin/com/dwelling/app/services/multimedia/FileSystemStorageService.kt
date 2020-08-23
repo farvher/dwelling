@@ -1,4 +1,4 @@
-package com.dwelling.app.services
+package com.dwelling.app.services.multimedia
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -11,7 +11,6 @@ import org.springframework.util.StringUtils
 import org.springframework.web.multipart.MultipartFile
 import java.io.FileNotFoundException
 import java.io.IOException
-import java.net.MalformedURLException
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -45,7 +44,7 @@ class FileSystemStorageService : StorageService {
 
     }
 
-    override fun storage(file: MultipartFile, path: String) {
+    override fun storage(file: MultipartFile, path: String) :String {
         val filename: String = StringUtils.cleanPath(file.originalFilename!!)
         logger.info("[saving file  $filename]")
         try {
@@ -62,6 +61,7 @@ class FileSystemStorageService : StorageService {
         } catch (e: IOException) {
             throw IOException("Failed to store file $filename", e)
         }
+        return ""
     }
 
     override fun loadAll(): Stream<Path> {

@@ -3,6 +3,8 @@ package com.dwelling.app.domain
 
 import com.fasterxml.jackson.annotation.*
 import com.google.gson.annotations.Expose
+import org.elasticsearch.common.geo.GeoPoint
+import org.springframework.data.elasticsearch.annotations.GeoPointField
 import java.time.LocalDate
 import javax.persistence.*
 import kotlin.jvm.Transient
@@ -37,17 +39,17 @@ data class  VisitorFavorite(@Id @GeneratedValue(strategy = GenerationType.IDENTI
 data class VisitorPreferences(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long = -1,
                               var favoritePropertyType: PropertyTypeEnum,
                               var favoriteBusinessType: BusinessTypeEnum,
-                              @OneToOne(cascade = [CascadeType.ALL],fetch = FetchType.LAZY)
+                              @OneToOne(cascade = [CascadeType.REFRESH],fetch = FetchType.LAZY)
                               var favoriteCity : City,
-                              @OneToOne(cascade = [CascadeType.ALL],fetch = FetchType.LAZY)
+                              @OneToOne(cascade = [CascadeType.REFRESH],fetch = FetchType.LAZY)
                               var favoriteZone: Zone,
-                              @OneToOne(cascade = [CascadeType.ALL],fetch = FetchType.LAZY)
+                              @OneToOne(cascade = [CascadeType.REFRESH],fetch = FetchType.LAZY)
                               var favoriteCountry: Country,
                               var nearToMe : Boolean,
                               var favoriteLocation : String,
                               var incomeValue: Double,
                               var outcomeValue: Double,
-                              @OneToOne(cascade = [CascadeType.ALL])
+                              @OneToOne(cascade = [CascadeType.REFRESH])
                               var visitor: Visitor,
                               var withParkings : Boolean,
                               var withPets : Boolean,
@@ -72,7 +74,7 @@ data class Property(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) val 
                     var propertyType: PropertyTypeEnum,
                     var businessType : BusinessTypeEnum,
                     var title: String,
-                    @OneToOne(cascade = [CascadeType.ALL])
+                    @OneToOne(cascade = [CascadeType.REFRESH])
                     var neighborhood: Neighborhood,
                     var description: String,
                     var imageCount: Int?,
@@ -98,7 +100,10 @@ data class Property(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) val 
                     @OneToOne(cascade = [CascadeType.ALL])
                     var visitor: Visitor,
                     @OneToOne(cascade = [CascadeType.ALL])
-                    var location : Location
+                    var location : Location,
+                    @Transient
+                    @GeoPointField
+                    var geolocation : GeoPoint? = null
 
 ) {
     override fun hashCode(): Int = super.hashCode()

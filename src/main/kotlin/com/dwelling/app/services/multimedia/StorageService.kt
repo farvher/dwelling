@@ -1,4 +1,4 @@
-package com.dwelling.app.services
+package com.dwelling.app.services.multimedia
 
 import org.springframework.core.io.Resource
 import org.springframework.web.multipart.MultipartFile
@@ -9,7 +9,7 @@ interface StorageService {
 
     fun init()
 
-    fun storage(file: MultipartFile, path : String)
+    fun storage(file: MultipartFile, path : String):String
 
     fun count(filename: String) : Int
 

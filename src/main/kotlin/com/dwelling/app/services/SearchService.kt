@@ -3,6 +3,7 @@ package com.dwelling.app.services
 
 import com.dwelling.app.domain.Location
 import com.dwelling.app.domain.Property
+import com.dwelling.app.dto.PropertyDto
 import com.dwelling.app.exceptions.SearchServiceException
 import com.google.gson.ExclusionStrategy
 import com.google.gson.FieldAttributes
@@ -15,6 +16,7 @@ import io.searchbox.core.Search
 import io.searchbox.indices.CreateIndex
 import io.searchbox.indices.DeleteIndex
 import io.searchbox.indices.IndicesExists
+import org.elasticsearch.common.geo.GeoPoint
 import org.elasticsearch.index.query.QueryBuilders
 import org.elasticsearch.search.builder.SearchSourceBuilder
 import org.slf4j.LoggerFactory
@@ -50,7 +52,7 @@ class SearchService<T> {
 
     }
 
-    private fun createIndexIfNotExists(index: String) {
+     fun createIndexIfNotExists(index: String) {
         logger.info("[createIndexIfNotExists]")
         val indicesExists = IndicesExists.Builder(index).build()
         try {
@@ -74,40 +76,10 @@ class SearchService<T> {
 
     }
 
-    fun createProperty(property: Property) {
-
-        logger.info("[createProperty]")
-        try {
-
-            createIndexIfNotExists(INDEX)
-            val bulk = Bulk.Builder()
-                    .addAction(Index.Builder(property)
-                            .index(INDEX)
-                            .type(INDEX_TYPE).build())
-                    .build()
-
-
-            val result = jestClient.execute(bulk)
-            if (result.isSucceeded) {
-
-                logger.info("CREATED")
-            } else {
-                throw IllegalStateException("ERROR CREATING REGISTRY")
-            }
-
-            logger.info(result.jsonString)
-
-        } catch (e: IOException) {
-            logger.error("ERROR IO INDEXING", e)
-        } catch (e: Exception) {
-            logger.error("ERROR INDEXING", e)
-        }
-
-    }
-
     fun create(element: T) {
 
         logger.info("[createElement]")
+
         try {
 
             val strategy = object : ExclusionStrategy {
@@ -125,7 +97,6 @@ class SearchService<T> {
 
             val json = GsonBuilder().addSerializationExclusionStrategy(strategy).create().toJson(element)
             val gson = JsonParser.parseString(json)
-            createIndexIfNotExists(INDEX)
             val bulk = Bulk.Builder()
                     .addAction(Index.Builder(gson)
                             .index(INDEX)
@@ -134,12 +105,10 @@ class SearchService<T> {
 
             val result = jestClient.execute(bulk)
             if (result.isSucceeded) {
-
                 logger.info("CREATED")
             } else {
-                throw IllegalStateException("ERROR CREATING REGISTRY")
+                throw IllegalStateException("ERROR CREATING INDEX")
             }
-
             logger.info(result.jsonString)
 
         } catch (e: IOException) {
@@ -150,7 +119,7 @@ class SearchService<T> {
 
     }
 
-    fun searchByQueryString(param: String): List<Property> {
+    fun searchByQueryString(param: String): List<PropertyDto> {
         logger.info("[searchArticles]")
         logger.info(param)
         try {
@@ -170,7 +139,7 @@ class SearchService<T> {
                 throw SearchServiceException(result.errorMessage)
             }
 
-            return result.getSourceAsObjectList(Property::class.java, false)
+            return result.getSourceAsObjectList(PropertyDto::class.java, false)
 
         } catch (e: IOException) {
             logger.error("SEARCH IO ERROR", e)

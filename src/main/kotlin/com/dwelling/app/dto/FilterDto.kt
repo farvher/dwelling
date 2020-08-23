@@ -1,13 +1,15 @@
 package com.dwelling.app.dto
 
+import java.io.Serializable
+
 /**
  * dto for searchlybox queries
  * */
-class FilterDto(
+data class FilterDto (
         val filterKey: EFilter,
         val filterValue: Any,
         val filterRange: List<Any> = emptyList(),
-        val filterType: FilterType = FilterType.KEYWORD)
+        val filterType: FilterType = FilterType.KEYWORD): Serializable
 
 /**
  * range : area,rooms,buildtime,bathrooms,parking,admon,floor,rentPrice,sellPrice,stratrum
@@ -41,5 +43,6 @@ enum class EFilter(val key:String) {
     TITLE("title"),
     LATITUDE("latitude"),
     LONGITUDE("longitude"),
+    LOCATION("location"),
     NEIGHBORHOOD("neighborhood.name")
 }

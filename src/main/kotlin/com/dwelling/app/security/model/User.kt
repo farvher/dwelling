@@ -51,5 +51,7 @@ class User(@Id
            var lastPasswordResetDate: Date,
 
            @ManyToMany(fetch = FetchType.EAGER)
-           @JoinTable(name = "USER_AUTHORITY", joinColumns = [JoinColumn(name = "USER_ID", referencedColumnName = "ID")], inverseJoinColumns = [JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID")])
+           @JoinTable(name = "USER_AUTHORITY",
+                   joinColumns = [JoinColumn(name = "USER_ID", referencedColumnName = "ID")],
+                   inverseJoinColumns = [JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID")])
            var authorities: List<Authority>)

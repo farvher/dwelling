@@ -19,7 +19,7 @@ repositories {
 	mavenCentral()
 	maven { url = uri("https://repo.spring.io/snapshot") }
 	maven { url = uri("https://repo.spring.io/milestone") }
-	//maven { url = uri("https://mvnrepository.com/artifact")}
+	maven { url = uri("https://mvnrepository.com/artifact")}
 	jcenter()
 	mavenCentral()
 	gradlePluginPortal()
@@ -30,18 +30,21 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-	implementation("org.springframework.boot:spring-boot-starter-data-rest")
+	//implementation("org.springframework.boot:spring-boot-starter-data-rest")
 	implementation("org.springframework.boot:spring-boot-starter-security")
-	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+	//implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
+	implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation ("io.searchbox:jest")
 	implementation ("io.jsonwebtoken:jjwt:0.9.1")
+	implementation("org.springdoc:springdoc-openapi-ui:1.3.9")
 	//implementation ("com.amazonaws:aws-java-sdk-s3:1.11.700")
 	implementation("com.azure:azure-storage-blob:12.1.0")
+	implementation ("io.projectreactor:reactor-core")
 	implementation("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("com.h2database:h2")
 	runtimeOnly("org.postgresql:postgresql")
