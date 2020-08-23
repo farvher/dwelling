@@ -133,6 +133,8 @@ class TestController {
     @PostMapping("/test/elastic")
     fun loadElastic(@RequestBody body : String): String {
 
+        searchService.createIndexIfNotExists("ptest")
+
         val mockdata = body
         val listType = object : TypeToken<ArrayList<Property?>?>() {}.type
         val strategy = object : ExclusionStrategy {
@@ -147,7 +149,7 @@ class TestController {
             }
         }
         val gson = GsonBuilder().addDeserializationExclusionStrategy(strategy).create()
-        val properties: List<Property> = gson.fromJson("$mockdata", listType)
+        var properties: List<Property> = gson.fromJson("$mockdata", listType)
         properties.forEach {
             elasticPropertyRepository.save(PropertyDto.toDto(it))
         }

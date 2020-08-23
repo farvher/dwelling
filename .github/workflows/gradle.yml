@@ -30,4 +30,7 @@ jobs:
         DATABASE_URL2: ${{ secrets.DATABASE_URL2 }} 
         DATABASE_USER: ${{ secrets.DATABASE_USER }} 
         DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-        SEARCHBOX_URL: ${{ secrets.SEARCHBOX_URL }} 
+        SEARCHBOX_URL: ${{ secrets.SEARCHBOX_URL }}
+        SEARCHBOX_HOST: ${{ secrets.SEARCHBOX_HOST }}
+        SEARCHBOX_USERNAME: ${{ secrets.SEARCHBOX_USERNAME }}
+        SEARCHBOX_PASSWORD: ${{ secrets.SEARCHBOX_PASSWORD }}

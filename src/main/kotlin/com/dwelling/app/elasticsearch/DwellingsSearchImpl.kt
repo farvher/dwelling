@@ -27,6 +27,10 @@ class DwellingsSearchImpl : IDwellingsSeach {
     @Value("\${elasticsearch.distance.value}")
     private lateinit var geoDistanceValue : String
 
+    @Value("\${elasticsearch.indexname.property}")
+    private lateinit var index : String
+
+
     val logger: Logger = LoggerFactory.getLogger(DwellingsSearchImpl::class.java)
 
     @Autowired
@@ -51,7 +55,7 @@ class DwellingsSearchImpl : IDwellingsSeach {
         logger.info(searchSourceBuilder.toString())
         val search = Search.Builder(searchSourceBuilder.toString())
                 .addType(IDwellingsSeach.TYPE_PROPERTY)
-                .addIndex(IDwellingsSeach.INDEX_PROPERTY)
+                .addIndex(index)
                 .build()
         val result = jestClient.execute(search)
         return if (result.isSucceeded) {
@@ -85,9 +89,9 @@ class DwellingsSearchImpl : IDwellingsSeach {
     }
 
     private fun addGeoFilter(filter: FilterDto, queryBuilder: BoolQueryBuilder){
-        var lat = filter.filterRange[0] as Double
-        var lon = filter.filterRange[1] as Double
-        queryBuilder.filter(QueryBuilders.geoDistanceQuery("location")
+        var lat = filter.filterRange[0].toString().toDouble()
+        var lon = filter.filterRange[1].toString().toDouble()
+        queryBuilder.filter(QueryBuilders.geoDistanceQuery(filter.filterKey.key)
                 .point(lat,lon)
                 .distance(geoDistanceValue,DistanceUnit.KILOMETERS))
     }
