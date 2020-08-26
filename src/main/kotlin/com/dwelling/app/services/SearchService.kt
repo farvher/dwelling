@@ -21,6 +21,7 @@ import org.elasticsearch.index.query.QueryBuilders
 import org.elasticsearch.search.builder.SearchSourceBuilder
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.io.IOException
 import java.text.MessageFormat
@@ -32,7 +33,8 @@ class SearchService<T> {
 
     val logger = LoggerFactory.getLogger(SearchService::class.java)
 
-    private val INDEX = "property"
+    @Value("\${elasticsearch.indexname.property}")
+    private lateinit var INDEX : String
 
     private val INDEX_TYPE = "property"
 

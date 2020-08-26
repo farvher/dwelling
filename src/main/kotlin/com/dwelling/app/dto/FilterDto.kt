@@ -7,7 +7,7 @@ import java.io.Serializable
  * */
 data class FilterDto (
         val filterKey: EFilter,
-        val filterValue: Any,
+        val filterValue: Any? = null,
         val filterRange: List<Any> = emptyList(),
         val filterType: FilterType = FilterType.KEYWORD): Serializable
 
@@ -29,7 +29,7 @@ enum class EFilter(val key:String) {
     BUILD_TIME("buildTime"),
     BATHROOMS("bathroom"),
     PARKING("parking"),
-    ADMIN("admon"),
+    ADMIN("admin"),
     FLOOR("floor"),
     RENT_PRICE("rentPrice"),
     SELL_PRICE("sellPrice"),
@@ -37,12 +37,16 @@ enum class EFilter(val key:String) {
     IMAGE_COUNT("imageCount"),
     PROPERTY_TYPE("propertyType"),
     BUSINESS_TYPE("businessType"),
-    CITY("neighborhood.zone.city.id"),
+    CITY("city"),
+    ZONE("zone"),
+    COUNTRY("country"),
     DESCRIPTION("description"),
-    ADDITIONAL("additional.name"),
+    ADDITIONAL("additional"),
     TITLE("title"),
     LATITUDE("latitude"),
     LONGITUDE("longitude"),
     LOCATION("location"),
-    NEIGHBORHOOD("neighborhood.name")
+    NEIGHBORHOOD("neighborhood")
+
+
 }

@@ -88,10 +88,6 @@ class ElasticIndexService<T> {
 
     }
 
-    fun findElementByName(e : T ){
-
-
-    }
 
 
 }

@@ -59,6 +59,8 @@ class DwellingsSearchImpl : IDwellingsSeach {
                 .build()
         val result = jestClient.execute(search)
         return if (result.isSucceeded) {
+            logger.debug("[result.isSucceeded]")
+            logger.debug("[properties found : ${result.total}]")
             result.getSourceAsObjectList(PropertyDto::class.java,true)
         } else {
             logger.error(result.errorMessage)
@@ -69,9 +71,9 @@ class DwellingsSearchImpl : IDwellingsSeach {
     private fun addRangeFilter(filter: FilterDto,queryBuilder: BoolQueryBuilder) {
         if(filter.filterRange.isNotEmpty()){
             if(filter.filterRange.size>1) {
-                queryBuilder.must(QueryBuilders.rangeQuery(filter.filterKey.key).from(filter.filterRange[0]).to(filter.filterRange[1]))
+                queryBuilder.filter(QueryBuilders.rangeQuery(filter.filterKey.key).from(filter.filterRange[0]).to(filter.filterRange[1]))
             }else{
-                queryBuilder.must(QueryBuilders.rangeQuery(filter.filterKey.key).gt(filter.filterRange[0]))
+                queryBuilder.filter(QueryBuilders.rangeQuery(filter.filterKey.key).gt(filter.filterRange[0]))
             }
         }
     }
@@ -82,13 +84,18 @@ class DwellingsSearchImpl : IDwellingsSeach {
 
     private fun addKeywordFilters(filter: FilterDto, queryBuilder: BoolQueryBuilder) {
         if (filter.filterRange.isNotEmpty()) {
-            queryBuilder.filter(QueryBuilders.termsQuery(filter.filterKey.key, filter.filterRange))
+            queryBuilder.must(QueryBuilders.termsQuery(filter.filterKey.key, filter.filterRange))
         } else {
-            queryBuilder.filter(QueryBuilders.termQuery(filter.filterKey.key, filter.filterValue))
+            queryBuilder.must(QueryBuilders.termQuery("""${filter.filterKey.key}.keyword""",
+                    filter.filterValue))
         }
     }
 
     private fun addGeoFilter(filter: FilterDto, queryBuilder: BoolQueryBuilder){
+
+        if (filter.filterValue!=null)
+            geoDistanceValue = filter.filterValue.toString()
+
         var lat = filter.filterRange[0].toString().toDouble()
         var lon = filter.filterRange[1].toString().toDouble()
         queryBuilder.filter(QueryBuilders.geoDistanceQuery(filter.filterKey.key)
