@@ -2,62 +2,42 @@ package com.dwelling.app.repository
 
 import com.dwelling.app.domain.*
 import com.dwelling.app.dto.PropertyDto
-import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
-import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.elasticsearch.repository.ReactiveElasticsearchRepository
+import org.springframework.data.r2dbc.repository.Query
+import org.springframework.data.repository.reactive.ReactiveCrudRepository
 import org.springframework.stereotype.Repository
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 import java.util.*
 
 
 @Repository
-interface VisitorRepository : JpaRepository<Visitor,Long> {
+interface VisitorRepository : ReactiveCrudRepository<Visitor, Long> {
 
-    fun findVisitorByUsername(username:String?) : Optional<Visitor>
+    fun findVisitorByUsername(username: String?): Optional<Visitor>
 }
 
 @Repository
-interface  VisitorPreferencesRepository : JpaRepository<VisitorPreferences,Long>{
-    fun findByVisitor(idVisitor : Long) : Optional<VisitorPreferences>
+interface RealStateRepository : ReactiveCrudRepository<RealState, Long>
+
+@Repository
+interface BuilderRepository : ReactiveCrudRepository<Builder, Long>
+
+
+@Repository
+interface UserRepository : ReactiveCrudRepository<User, Long> {
+
+    fun findByUsername(username: String): Mono<User>
+
+    @Query(
+        "SELECT a.* FROM Authority a " +
+                "INNER JOIN user_authority ua on a.id = ua.authority_id " +
+                "INNER JOIN user_app u on ua.user_id = u.id WHERE u.username = :username"
+    )
+    fun findAuthorities(username: String): Flux<Authority>
 }
 
 
 @Repository
-interface PropertyRepository : JpaRepository<Property,Long>
-
-@Repository
-interface RealStateRepository  : JpaRepository<RealState,Long>
-
-@Repository
-interface BuilderRepository : JpaRepository<Builder,Long>
-
-@Repository
-interface AdditionalRepository : JpaRepository<Additional,Long>
-
-
-@Repository
-interface FavoritesRepository : JpaRepository<VisitorFavorite,Long>{
-    fun findByVisitor(visitor: Visitor) : Optional<List<VisitorFavorite>>
-}
-
-@Repository
-interface CityRepository : JpaRepository<City,Long>{
-    fun findByName(name: String) : Optional<City>
-}
-
-@Repository
-interface ZoneRepository : JpaRepository<Zone,Long>{
-    fun findByName(name : String) : Optional<Zone>
-}
-
-@Repository
-interface NeighborhoodRepository : JpaRepository<Neighborhood,Long>{
-    fun findByName(name:String) : Optional<Neighborhood>
-}
-
-@Repository
-interface CountryRepository : JpaRepository<Country,Long>{
-    fun findByName(name:String) : Optional<Country>
-}
-
-@Repository
-interface ElasticPropertyRepository : ElasticsearchRepository<PropertyDto, Long>
+interface ElasticPropertyRepository : ReactiveElasticsearchRepository<PropertyDto, Long>
 

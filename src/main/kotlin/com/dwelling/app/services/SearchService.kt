@@ -1,12 +1,8 @@
 package com.dwelling.app.services
 
 
-import com.dwelling.app.domain.Location
-import com.dwelling.app.domain.Property
 import com.dwelling.app.dto.PropertyDto
 import com.dwelling.app.exceptions.SearchServiceException
-import com.google.gson.ExclusionStrategy
-import com.google.gson.FieldAttributes
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
 import io.searchbox.client.JestClient
@@ -16,7 +12,6 @@ import io.searchbox.core.Search
 import io.searchbox.indices.CreateIndex
 import io.searchbox.indices.DeleteIndex
 import io.searchbox.indices.IndicesExists
-import org.elasticsearch.common.geo.GeoPoint
 import org.elasticsearch.index.query.QueryBuilders
 import org.elasticsearch.search.builder.SearchSourceBuilder
 import org.slf4j.LoggerFactory
@@ -32,7 +27,7 @@ class SearchService<T> {
 
     val logger = LoggerFactory.getLogger(SearchService::class.java)
 
-    private val INDEX = "property"
+    private val INDEX = "ptest"
 
     private val INDEX_TYPE = "property"
 
@@ -52,7 +47,7 @@ class SearchService<T> {
 
     }
 
-     fun createIndexIfNotExists(index: String) {
+    fun createIndexIfNotExists(index: String) {
         logger.info("[createIndexIfNotExists]")
         val indicesExists = IndicesExists.Builder(index).build()
         try {
@@ -81,27 +76,15 @@ class SearchService<T> {
         logger.info("[createElement]")
 
         try {
-
-            val strategy = object : ExclusionStrategy {
-                override fun shouldSkipField(field: FieldAttributes): Boolean {
-                    if (field.declaringClass == Location::class.java && field.name == "id") {
-                        return true
-                    }
-                    return false
-                }
-
-                override fun shouldSkipClass(clazz: Class<*>): Boolean {
-                    return false
-                }
-            }
-
-            val json = GsonBuilder().addSerializationExclusionStrategy(strategy).create().toJson(element)
+            val json = GsonBuilder().create().toJson(element)
             val gson = JsonParser.parseString(json)
             val bulk = Bulk.Builder()
-                    .addAction(Index.Builder(gson)
-                            .index(INDEX)
-                            .type(INDEX_TYPE).build())
-                    .build()
+                .addAction(
+                    Index.Builder(gson)
+                        .index(INDEX)
+                        .type(INDEX_TYPE).build()
+                )
+                .build()
 
             val result = jestClient.execute(bulk)
             if (result.isSucceeded) {
@@ -129,7 +112,7 @@ class SearchService<T> {
 
             logger.info(searchSourceBuilder.toString())
             val search = Search.Builder(searchSourceBuilder.toString()).addIndex(INDEX).addType(INDEX_TYPE)
-                    .build()
+                .build()
 
             val result = jestClient.execute(search)
             if (result.isSucceeded) {

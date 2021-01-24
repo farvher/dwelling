@@ -1,27 +1,20 @@
 package com.dwelling.app
 
 import com.azure.storage.blob.BlobServiceClientBuilder
-import com.dwelling.app.elasticsearch.IDwellingsSeach
 import io.searchbox.client.JestClientFactory
 import io.searchbox.client.config.HttpClientConfig
 import io.searchbox.core.Search
 import org.elasticsearch.common.unit.TimeValue
 import org.elasticsearch.index.query.QueryBuilders
 import org.elasticsearch.search.builder.SearchSourceBuilder
-import org.junit.Ignore
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 import java.util.concurrent.TimeUnit
-import javax.sql.DataSource
 
 
-@RunWith(SpringJUnit4ClassRunner::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ConnectionTests {
 
@@ -39,43 +32,45 @@ class ConnectionTests {
     @Value("\${elastic.connection}")
     private lateinit var elasticSearchConnection: String
 
-    @Autowired
-    private lateinit var datasource: DataSource
+    //@Autowired
+    //  private lateinit var datasource: DataSource
 
 
     @Test
     fun shouldConnectToAzure(): Unit {
         assert(!azureConnection.isNullOrBlank())
         val blobServiceClient = BlobServiceClientBuilder()
-                .connectionString(azureConnection)
-                .buildClient()
+            .connectionString(azureConnection)
+            .buildClient()
         assert(blobServiceClient.accountName == "dwellingpics")
     }
 
     @Test
     fun shouldConnectToDatabase(): Unit {
-        assert(!databaseConnection.isNullOrBlank())
-        val connection = datasource.connection
-        connection.use { logger.info("Database connection : $it.catalog") }
+        // assert(!databaseConnection.isNullOrBlank())
+        //    val connection = datasource.connection
+        //  connection.use { logger.info("Database connection : $it.catalog") }
     }
 
     @Test
     fun shouldConnectToElasticSearch(): Unit {
         assert(!elasticSearchConnection.isNullOrBlank())
         val factory = JestClientFactory()
-        factory.setHttpClientConfig(HttpClientConfig
+        factory.setHttpClientConfig(
+            HttpClientConfig
                 .Builder(elasticSearchConnection)
                 .multiThreaded(true)
-                .build())
+                .build()
+        )
         val sourceBuilder = SearchSourceBuilder()
         sourceBuilder.from(0)
         sourceBuilder.size(5)
         sourceBuilder.timeout(TimeValue(60, TimeUnit.SECONDS))
         val searchBuilder = sourceBuilder.query(QueryBuilders.matchAllQuery())
         val search = Search.Builder(searchBuilder.toString())
-                .addType(IDwellingsSeach.TYPE_PROPERTY)
-                .addIndex(IDwellingsSeach.INDEX_PROPERTY)
-                .build()
+            .addType("property")
+            .addIndex("ptest")
+            .build()
         val result = factory.getObject().execute(search)
         assert(result.isSucceeded)
     }
