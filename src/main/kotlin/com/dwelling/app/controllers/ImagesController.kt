@@ -16,16 +16,16 @@ import org.springframework.web.multipart.MultipartFile
 
 
 @RestController
-class ImagesController {
+class ImagesController(
+    @Qualifier("imageMultimediaStorageService")
+    private val imageMultimediaStorageService: MultimediaStorageService,
+    private val visitorService: VisitorService
+
+) {
 
     val logger: Logger = LoggerFactory.getLogger(ImagesController::class.java)
 
     @Autowired
-    @Qualifier("imageMultimediaStorageService")
-    private lateinit var imageMultimediaStorageService: MultimediaStorageService
-
-    @Autowired
-    private lateinit var visitorService: VisitorService
 
 
     @PostMapping("/images/upload")

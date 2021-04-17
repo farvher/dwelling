@@ -4,27 +4,18 @@ import com.dwelling.app.domain.*
 import com.dwelling.app.dto.EFilter
 import com.dwelling.app.dto.FilterDto
 import com.dwelling.app.dto.FilterType
-import com.dwelling.app.dto.PropertyDto
-import com.dwelling.app.elasticsearch.IDwellingsSearch
+import com.dwelling.app.elasticsearch.DwellingSearch
 import com.dwelling.app.repository.*
 import com.dwelling.app.repository.UserRepository
-import com.dwelling.app.services.SearchService
-import com.google.gson.ExclusionStrategy
-import com.google.gson.FieldAttributes
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux
-import reactor.core.publisher.Mono
-import java.time.LocalDate
-import javax.sql.DataSource
 
 @RestController()
 class TestController {
 
     @Autowired
-    private lateinit var dwellingsSearch: IDwellingsSearch
+    private lateinit var dwellingsSearch: DwellingSearch
 
 
     @Autowired

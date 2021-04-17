@@ -19,14 +19,14 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 @Repository
-class DwellingsSearchImpl(
+class DwellingSearchImpl(
     private val elasticPropertyRepository: ElasticPropertyRepository,
     private val jestClient: JestClient,
     private val searchService: SearchService<PropertyDto>
 
-) : IDwellingsSearch {
+) : DwellingSearch {
 
-    val logger: Logger = LoggerFactory.getLogger(DwellingsSearchImpl::class.java)
+    val logger: Logger = LoggerFactory.getLogger(DwellingSearchImpl::class.java)
 
     @Value("\${elasticsearch.distance.value}")
     private lateinit var geoDistanceValue: String

@@ -2,7 +2,7 @@ package com.dwelling.app.controllers
 
 import com.dwelling.app.dto.FilterDto
 import com.dwelling.app.dto.PropertyDto
-import com.dwelling.app.elasticsearch.IDwellingsSearch
+import com.dwelling.app.elasticsearch.DwellingSearch
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.PathVariable
@@ -14,7 +14,7 @@ import reactor.core.publisher.Flux
 
 @RestController
 class ResultsController(
-    private val dwellingsSearch: IDwellingsSearch
+    private val dwellingsSearch: DwellingSearch
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(ResultsController::class.java)

@@ -17,11 +17,6 @@ class JestClientConfiguration {
     @Value("\${elastic.connection}")
     private lateinit var elasticSearchConnection: String
 
-    @Value("\${spring.data.elasticsearch.client.reactive.username}")
-    private lateinit var elasticSearchUser: String
-
-    @Value("\${spring.data.elasticsearch.client.reactive.password}")
-    private lateinit var elasticSearchPassword: String
 
 
     @Bean

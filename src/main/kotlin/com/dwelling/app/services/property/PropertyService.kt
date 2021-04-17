@@ -2,7 +2,7 @@ package com.dwelling.app.services.property
 
 import com.dwelling.app.domain.Visitor
 import com.dwelling.app.dto.PropertyDto
-import com.dwelling.app.elasticsearch.IDwellingsSearch
+import com.dwelling.app.elasticsearch.DwellingSearch
 import com.dwelling.app.repository.VisitorRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -16,7 +16,7 @@ import reactor.core.publisher.Mono
 @Service
 class PropertyService(
     private val visitorRepository: VisitorRepository,
-    private val dwellingsSearch: IDwellingsSearch
+    private val dwellingsSearch: DwellingSearch
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(PropertyService::class.java)

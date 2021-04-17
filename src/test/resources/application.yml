@@ -1,0 +1,43 @@
+azure:
+  connection: ${AZURE_CONNECTION}
+  container: dwelling
+  key: ${AZURE_KEY}
+database:
+  connection: ${DATABASE_URL2}
+elastic:
+  connection: ${SEARCHBOX_URL}
+elasticsearch:
+  distance:
+    value: 1
+  indexname:
+    property: ptest
+filesystem:
+  image:
+    tmp: /images
+image:
+  ext: .png
+jwt:
+  expiration: 604800
+  header: Authorization
+  route:
+    authentication:
+      path: /auth
+      refresh: /refresh
+  secret: mySecret
+management:
+  health:
+    elasticsearch:
+      enabled: false
+server:
+  port: 8080
+spring:
+  elasticsearch:
+    rest:
+      password: ${SEARCHBOX_PASSWORD}
+      uris: ${SEARCHBOX_HOST}
+      username: ${SEARCHBOX_USERNAME}
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+

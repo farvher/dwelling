@@ -5,7 +5,7 @@ import com.dwelling.app.dto.PropertyDto
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
-interface IDwellingsSearch {
+interface DwellingSearch {
 
     fun findByFilters(filters: List<FilterDto>): Flux<PropertyDto>
 
